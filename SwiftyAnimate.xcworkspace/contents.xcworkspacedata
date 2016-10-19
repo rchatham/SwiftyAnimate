@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/Reid/Developer/Animate/SwiftyAnimate.playground">
+   </FileRef>
+   <FileRef
+      location = "container:/Users/Reid/Developer/Animate/SwiftyAnimate.xcodeproj">
+   </FileRef>
+</Workspace>

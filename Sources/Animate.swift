@@ -1,6 +1,6 @@
 //
 //  Animate.swift
-//  VogueStore
+//  SwiftyAnimate
 //
 //  Created by Reid Chatham on 10/17/16.
 //  Copyright © 2016 Reid Chatham. All rights reserved.
@@ -215,19 +215,23 @@ open class Animate {
                 self.perform()
             }
         case .wait(let timeout, let callback):
-            var timedout = false
+            timedout = false
             callback {
-                if !timedout {
-                    timedout = true
+                if !self.timedout {
+                    self.timedout = true
                     self.perform()
                 }
             }
             guard let timeout = timeout else { return }
-            Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { timer in
-                if !timedout {
-                    timedout = true
-                    self.perform()
+            if #available(iOS 10.0, *) {
+                Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { timer in
+                    if !self.timedout {
+                        self.timedout = true
+                        self.perform()
+                    }
                 }
+            } else {
+                Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.block(_:)), userInfo: nil, repeats: false)
             }
         case .do(let callback):
             callback()
@@ -262,5 +266,17 @@ open class Animate {
     open func destroy() {
         guard animations.dequeue() != nil else { return }
         destroy()
+    }
+    
+    
+    // Below needed thanks to backwards compatibility. ;(
+    /// :nodoc:
+    private var timedout = false
+    /// :nodoc:
+    @objc internal func block(_ sender: Timer) {
+        if !timedout {
+            timedout = true
+            self.perform()
+        }
     }
 }
