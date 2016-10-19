@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/Reid/Developer/Animate/SwiftyAnimate.playground">
+      location = "group:SwiftyAnimate.playground">
    </FileRef>
    <FileRef
-      location = "container:/Users/Reid/Developer/Animate/SwiftyAnimate.xcodeproj">
+      location = "group:SwiftyAnimate.xcodeproj">
    </FileRef>
 </Workspace>
