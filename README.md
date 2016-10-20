@@ -1,4 +1,4 @@
-# Animate
+# SwiftyAnimate
 Swift animation
 
 ## Escape the Pyramid of Doom!
