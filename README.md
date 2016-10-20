@@ -1,6 +1,13 @@
 # SwiftyAnimate
 Swift animation
 
+## Installation
+
+### Cocoapods
+```ruby
+pod 'SwiftyAnimate'
+```
+
 ## Escape the Pyramid of Doom!
 
 ```swift
