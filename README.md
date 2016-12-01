@@ -8,10 +8,10 @@ Swift animation
 pod 'SwiftyAnimate'
 ```
 
-## Escape the Pyramid of Doom!
+## This!
 
 ```swift
-// This!
+// Escape the Pyramid of Doom!
 Animate(duration: time) {
     // animation
 }.do { [unowned self] in
@@ -29,9 +29,11 @@ Animate(duration: time) {
 }.then(duration: time) {
     // animation
 }.perform()
+```
 
+## Not this!
 
-// Not this!
+```swift
 UIView.animate(withDuration: time, animations: { 
     // animation
 }) { success in
