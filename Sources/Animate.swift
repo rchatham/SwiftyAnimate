@@ -184,7 +184,7 @@ open class Animate {
     }
     
     /**
-     Block in which to perform things that you may want to pause an ongoing flow of animations for.
+     Method call to start or perform animations. Takes a closure that gets called after the last animation.
      ```
      //syntax:
      
@@ -207,35 +207,42 @@ open class Animate {
      
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      */
-    open func perform(completion: (Void)->Void = {_ in}) {
+    open func perform(_ completion: @escaping (Void)->Void = {_ in}) {
+        
         guard let operation = animations.dequeue() else { return completion() }
+        
         switch operation {
         case .animation(let duration, let animation):
+            
             UIView.animate(withDuration: duration, animations: animation) { success in
-                self.perform()
+                self.perform(completion)
             }
-        case .wait(let timeout, let callback):
-            timedout = false
-            callback {
-                if !self.timedout {
-                    self.timedout = true
-                    self.perform()
-                }
+            
+        case .wait(let timeout, let waitBlock):
+            
+            resumeBlock = {
+                self.perform(completion)
+                self.resumeBlock = nil
             }
+            // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
+            waitBlock({ [weak self] in
+                self?.resumeBlock?()
+            })
+            
+            // If a timeout was passed in setup a timer.
             guard let timeout = timeout else { return }
             if #available(iOS 10.0, *) {
-                Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { timer in
-                    if !self.timedout {
-                        self.timedout = true
-                        self.perform()
-                    }
-                }
+                Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { _ in self.resumeBlock?() }
             } else {
-                Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.block(_:)), userInfo: nil, repeats: false)
+                
+                Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.resumeBlock(_:)), userInfo: nil, repeats: false)
             }
-        case .do(let callback):
-            callback()
-            perform()
+            
+        case .do(let doBlock):
+            
+            doBlock()
+            perform(completion)
+            
         }
     }
     
@@ -271,12 +278,9 @@ open class Animate {
     
     // Below needed thanks to backwards compatibility. ;(
     /// :nodoc:
-    private var timedout = false
+    private var resumeBlock: Resume? = {_ in}
     /// :nodoc:
-    @objc internal func block(_ sender: Timer) {
-        if !timedout {
-            timedout = true
-            self.perform()
-        }
+    @objc internal func resumeBlock(_ sender: Timer) {
+        resumeBlock?()
     }
 }

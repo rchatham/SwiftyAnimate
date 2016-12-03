@@ -18,12 +18,12 @@ class View: UIViewController {
             // animation
         }.do { [unowned self] in
             // non-animation function
-            self.function {}
+            self.nonAnimationFunction()
         }.then(duration: time) {
             // animation
         }.wait { [unowned self] resume in
             // function that takes time
-            self.function {
+            self.functionThatTakesTime {
                 resume()
             }
         }.then(duration: time) {
@@ -38,12 +38,12 @@ class View: UIViewController {
             // animation
         }) { success in
             // non-animation function
-            self.function {}
+            self.nonAnimationFunction()
             UIView.animate(withDuration: time, animations: {
                 // animation
             }) { [unowned self]  success in
                 // function that takes time
-                self.function {
+                self.functionThatTakesTime {
                     UIView.animate(withDuration: time, animations: {
                         // animation
                     }) { success in
@@ -56,7 +56,13 @@ class View: UIViewController {
         }
     }
     
-    func function(callback: (Void)->Void) {
+    func nonAnimationFunction() {}
+    
+    func functionThatTakesTime(callback: ()->Void) {
         callback()
+    }
+    
+    func animation() {
+        
     }
 }
