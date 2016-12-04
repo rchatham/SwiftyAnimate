@@ -51,8 +51,6 @@ public enum Operation {
  */
 open class Animate {
     
-    private var animations = Queue<Operation>()
-    
     /**
      Creates an animation instance
      
@@ -276,7 +274,12 @@ open class Animate {
     }
     
     
-    // Below needed thanks to backwards compatibility. ;(
+    // MARK: - Private
+    
+    /// :nodoc:
+    private var animations = Queue<Operation>()
+    
+    // Below needed for backwards compatibility.
     /// :nodoc:
     private var resumeBlock: Resume? = {_ in}
     /// :nodoc:

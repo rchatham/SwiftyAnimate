@@ -7,4 +7,7 @@
    <FileRef
       location = "group:SwiftyAnimate.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:SwiftyAnimateDemo/SwiftyAnimateDemo.xcodeproj">
+   </FileRef>
 </Workspace>

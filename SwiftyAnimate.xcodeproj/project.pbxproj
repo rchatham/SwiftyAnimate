@@ -10,7 +10,19 @@
 		3002F9A21DB7F29B00FF2E53 /* SwiftyAnimate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3002F99E1DB7F29B00FF2E53 /* SwiftyAnimate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3002F9A31DB7F29B00FF2E53 /* Animate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3002F99F1DB7F29B00FF2E53 /* Animate.swift */; };
 		3002F9A41DB7F29B00FF2E53 /* DataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */; };
+		3054A8231DF445CE0071EBBE /* SwiftyAnimateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3054A8221DF445CE0071EBBE /* SwiftyAnimateTests.swift */; };
+		3054A8251DF445CE0071EBBE /* SwiftyAnimate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3002F98D1DB720C600FF2E53 /* SwiftyAnimate.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3054A8261DF445CE0071EBBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3002F9841DB720C600FF2E53 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3002F98C1DB720C600FF2E53;
+			remoteInfo = SwiftyAnimate;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		3002F98D1DB720C600FF2E53 /* SwiftyAnimate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyAnimate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -18,6 +30,9 @@
 		3002F99F1DB7F29B00FF2E53 /* Animate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Animate.swift; path = Sources/Animate.swift; sourceTree = "<group>"; };
 		3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStructures.swift; path = Sources/DataStructures.swift; sourceTree = "<group>"; };
 		3002F9A11DB7F29B00FF2E53 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = "<group>"; };
+		3054A8201DF445CE0071EBBE /* SwiftyAnimateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyAnimateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3054A8221DF445CE0071EBBE /* SwiftyAnimateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyAnimateTests.swift; sourceTree = "<group>"; };
+		3054A8241DF445CE0071EBBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +43,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3054A81D1DF445CE0071EBBE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3054A8251DF445CE0071EBBE /* SwiftyAnimate.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -35,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				3002F99D1DB7F28D00FF2E53 /* Sources */,
+				3054A8211DF445CE0071EBBE /* SwiftyAnimateTests */,
 				3002F98E1DB720C600FF2E53 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				3002F98D1DB720C600FF2E53 /* SwiftyAnimate.framework */,
+				3054A8201DF445CE0071EBBE /* SwiftyAnimateTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -56,6 +81,15 @@
 				3002F9A11DB7F29B00FF2E53 /* Info.plist */,
 			);
 			name = Sources;
+			sourceTree = "<group>";
+		};
+		3054A8211DF445CE0071EBBE /* SwiftyAnimateTests */ = {
+			isa = PBXGroup;
+			children = (
+				3054A8221DF445CE0071EBBE /* SwiftyAnimateTests.swift */,
+				3054A8241DF445CE0071EBBE /* Info.plist */,
+			);
+			path = SwiftyAnimateTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -90,12 +124,31 @@
 			productReference = 3002F98D1DB720C600FF2E53 /* SwiftyAnimate.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		3054A81F1DF445CE0071EBBE /* SwiftyAnimateTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3054A8281DF445CE0071EBBE /* Build configuration list for PBXNativeTarget "SwiftyAnimateTests" */;
+			buildPhases = (
+				3054A81C1DF445CE0071EBBE /* Sources */,
+				3054A81D1DF445CE0071EBBE /* Frameworks */,
+				3054A81E1DF445CE0071EBBE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3054A8271DF445CE0071EBBE /* PBXTargetDependency */,
+			);
+			name = SwiftyAnimateTests;
+			productName = SwiftyAnimateTests;
+			productReference = 3054A8201DF445CE0071EBBE /* SwiftyAnimateTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		3002F9841DB720C600FF2E53 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Reid Chatham";
 				TargetAttributes = {
@@ -103,6 +156,11 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = NT7FFBVKUP;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+					};
+					3054A81F1DF445CE0071EBBE = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = NT7FFBVKUP;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -120,12 +178,20 @@
 			projectRoot = "";
 			targets = (
 				3002F98C1DB720C600FF2E53 /* SwiftyAnimate */,
+				3054A81F1DF445CE0071EBBE /* SwiftyAnimateTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3002F98B1DB720C600FF2E53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3054A81E1DF445CE0071EBBE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -144,7 +210,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3054A81C1DF445CE0071EBBE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3054A8231DF445CE0071EBBE /* SwiftyAnimateTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3054A8271DF445CE0071EBBE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3002F98C1DB720C600FF2E53 /* SwiftyAnimate */;
+			targetProxy = 3054A8261DF445CE0071EBBE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3002F9931DB720C600FF2E53 /* Debug */ = {
@@ -294,6 +376,32 @@
 			};
 			name = Release;
 		};
+		3054A8291DF445CE0071EBBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NT7FFBVKUP;
+				INFOPLIST_FILE = SwiftyAnimateTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rchatham.SwiftyAnimateTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		3054A82A1DF445CE0071EBBE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NT7FFBVKUP;
+				INFOPLIST_FILE = SwiftyAnimateTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rchatham.SwiftyAnimateTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -314,6 +422,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		3054A8281DF445CE0071EBBE /* Build configuration list for PBXNativeTarget "SwiftyAnimateTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3054A8291DF445CE0071EBBE /* Debug */,
+				3054A82A1DF445CE0071EBBE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
