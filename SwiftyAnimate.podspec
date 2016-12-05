@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "SwiftyAnimate"
-  spec.version      = "0.0.3"
+  spec.version      = "0.1.0"
   spec.license      = "MIT" 
   spec.homepage     = "https://github.com/rchatham/SwiftyAnimate"
   spec.authors      = { "Reid Chatham" => "reid.chatham@gmail.com" }

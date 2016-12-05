@@ -6,3 +6,4 @@
 
 * **0.0.3** Fixed an issue where perform was not passing it's completion closure correctly.
 
+* **0.1.0** Added testing, SPM, Travis CI
