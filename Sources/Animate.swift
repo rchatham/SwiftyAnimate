@@ -23,9 +23,12 @@ public enum Operation {
      Animation operation.
      
      - parameter _: `TimeInterval` to animate over.
+     - parameter _: `TimeInterval` to delay the animation.
+     - parameter _: `UIViewAnimationOptions` to apply to the animation.
      - parameter _: `Animation` block to perform.
      */
-    case animation(TimeInterval, Animation)
+    case animation(TimeInterval, TimeInterval, UIViewAnimationOptions, Animation)
+    
     /**
      Wait operation.
      
@@ -79,8 +82,8 @@ open class Animate {
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      
      */
-    public init(duration: TimeInterval, _ callback: @escaping Animation) {
-        animations.enqueue(data: .animation(duration,callback))
+    public init(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) {
+        animations.enqueue(data: .animation(duration,delay,options,callback))
     }
     
     /**
@@ -100,6 +103,8 @@ open class Animate {
      }.perform()
      ```
      - parameter duration: The duration that the animation should take.
+     - parameter delay: Takes a time interval to delay the animation.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
      - parameter callback: `Animation` callback to perform over the duration passed in.
      
      - returns: The current animation instance.
@@ -107,8 +112,8 @@ open class Animate {
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      
      */
-    open func then(duration: TimeInterval, _ callback: @escaping Animation) -> Animate {
-        animations.enqueue(data: .animation(duration,callback))
+    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) -> Animate {
+        animations.enqueue(data: .animation(duration,delay,options,callback))
         return self
     }
     
@@ -210,9 +215,9 @@ open class Animate {
         guard let operation = animations.dequeue() else { return completion() }
         
         switch operation {
-        case .animation(let duration, let animation):
+        case .animation(let duration, let delay, let options, let animations):
             
-            UIView.animate(withDuration: duration, animations: animation) { success in
+            UIView.animate(withDuration: duration, delay: delay, options: options, animations: animations) { success in
                 self.perform(completion)
             }
             
@@ -256,17 +261,19 @@ open class Animate {
      }
      ```
      - parameter duration: The duration that the animation should take.
+     - parameter delay: Takes a time interval to delay the animation.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
      - parameter callback: `Animation` callback to perform over the duration passed in.
      
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      */
-    open func finish(duration: TimeInterval, _ callback: @escaping Animation) {
-        animations.enqueue(data: .animation(duration, callback))
+    open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) {
+        animations.enqueue(data: .animation(duration,delay,options,callback))
         perform()
     }
     
     /**
-     Destroys an animation instance without performing any of the remaining animations.
+     Dequeues the animation instance without performing any of the remaining animations.
      */
     open func decay() {
         guard animations.dequeue() != nil else { return }
@@ -281,7 +288,7 @@ open class Animate {
     
     // Below needed for backwards compatibility.
     /// :nodoc:
-    private var resumeBlock: Resume? = {_ in}
+    private var resumeBlock: Resume?
     /// :nodoc:
     @objc internal func resumeBlock(_ sender: Timer) {
         resumeBlock?()
