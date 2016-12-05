@@ -67,8 +67,6 @@ class ViewController: UIViewController {
             self.pyramidOfDoom()
         }
         
-        
-        
     }
     
     func pyramidOfDoom() {

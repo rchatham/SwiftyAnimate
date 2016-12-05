@@ -62,7 +62,7 @@ class View: UIViewController {
         callback()
     }
     
-    func animation() {
+    func animationFunction() {
         
     }
 }
