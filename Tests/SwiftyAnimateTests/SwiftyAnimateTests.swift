@@ -157,7 +157,6 @@ class SwiftyAnimateTests: XCTestCase {
             }
             
             if #available(iOS 10.0, *) {
-                
                 Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] timer in
                     self?.resumeBlock?()
                 }
@@ -275,7 +274,6 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssertFalse(performedThenAnimation)
         XCTAssertFalse(performedWithCompletion)
         
-        
         let expect = expectation(description: "Performed then animation with completion")
         
         animation.perform {
@@ -308,6 +306,38 @@ class SwiftyAnimateTests: XCTestCase {
         animation.perform()
         
         XCTAssertFalse(performedDoBlock)
+        
+    }
+    
+    // Feels like this should include a check that the then block was not called before 2.0 seconds but currently a Timer find that it gets called already.
+    func test_Animation_DidDelay() {
+        
+        var performedAnimation = false
+        var performedThenAnimation = false
+        
+        let animation = Animate(duration: 0.5, delay: 2.0, options: []) {
+            performedAnimation = true
+        }.then(duration: 0.5) {
+            performedThenAnimation = true
+        }
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        let expect = expectation(description: "Performed then animation with delay")
+        
+        animation.perform {
+            XCTAssertTrue(performedAnimation)
+            XCTAssertTrue(performedThenAnimation)
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        waitForExpectations(timeout: 3.5) { error in
+            if error != nil { print(error!.localizedDescription) }
+        }
         
     }
     
