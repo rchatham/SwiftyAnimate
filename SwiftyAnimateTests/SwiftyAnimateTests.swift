@@ -21,36 +21,180 @@ class SwiftyAnimateTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testEmptyAnimateObject() {
+    func test_Animate_Performed() {
         
-        let animation = Animate()
+        var performedAnimation = false
         
-        var didDo = false
-        
-        animation.then(duration: 0.5) {
-            //do nothing
-        }.do {
-            didDo = true
+        let animation = Animate(duration: 0.5) {
+            performedAnimation = true
         }
         
-        XCTAssert(didDo == false, "Animation not performed")
+        XCTAssertFalse(performedAnimation)
         
         animation.perform()
         
-        expectation(description: "Animation performed")
-        
-        waitForExpectations(timeout: 1.0, handler: <#T##XCWaitCompletionHandler?##XCWaitCompletionHandler?##(Error?) -> Void#>)
+        XCTAssertTrue(performedAnimation)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func test_Animate_PerformedWithCompletion() {
+        
+        var performedAnimation = false
+        var performedWithCompletion = false
+        
+        let animation = Animate(duration: 0.5) {
+            performedAnimation = true
+        }
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedWithCompletion)
+        
+        let expect = expectation(description: "Performed animation with completion")
+        
+        animation.perform {
+            performedWithCompletion = true
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        
+        waitForExpectations(timeout: 1.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+            XCTAssertTrue(performedWithCompletion)
+        }
+    }
+    
+    func test_EmptyAnimate_Performed() {
+        
+        let animation = Animate()
+        
+        let expect = expectation(description: "Performed empty animation with completion")
+        
+        animation.perform {
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+        }
+        
+    }
+    
+    func test_EmptyAnimate_PerformedWithCompletion() {
+        
+        var performedWithCompletion = false
+        
+        let animation = Animate()
+        
+        XCTAssertFalse(performedWithCompletion)
+        
+        animation.perform {
+            performedWithCompletion = true
+        }
+        
+        XCTAssertTrue(performedWithCompletion)
+    }
+    
+    func test_EmptyAnimate_PerformedDoBlock() {
+        
+        var performedDoBlock = false
+        
+        let animation = Animate().do {
+            performedDoBlock = true
+        }
+        
+        XCTAssertFalse(performedDoBlock)
+        
+        animation.perform()
+        
+        XCTAssertTrue(performedDoBlock)
+    }
+    
+    func test_EmptyAnimate_PerformedWaitBlock() {
+        
+        var performedWaitBlock = false
+        
+        let animation = Animate().wait { resume in
+            
+            Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { timer in
+                
+                XCTAssertFalse(performedWaitBlock)
+                performedWaitBlock = true
+                
+                resume()
+            }
+        }
+        
+        XCTAssertFalse(performedWaitBlock)
+        
+        let expect = expectation(description: "Performed empty animation with completion")
+        
+        animation.perform {
+            XCTAssertTrue(performedWaitBlock)
+            expect.fulfill()
+        }
+        
+        XCTAssertFalse(performedWaitBlock)
+        
+        waitForExpectations(timeout: 6.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+        }
+    }
+    
+    func test_EmptyAnimate_Finished() {
+        
+        var finishedAnimation = false
+        
+        let animation = Animate()
+        
+        XCTAssertFalse(finishedAnimation)
+        
+        animation.finish(duration: 0.5) {
+            finishedAnimation = true
+        }
+        
+        XCTAssertTrue(finishedAnimation)
+    }
+    
+    func test_EmptyAnimate_PerformedThenAnimation() {
+        
+        var performedThenAnimation = false
+        
+        let animation = Animate().then(duration: 0.5) {
+            performedThenAnimation = true
+        }
+        
+        XCTAssertFalse(performedThenAnimation)
+        
+        animation.perform()
+        
+        XCTAssertTrue(performedThenAnimation)
+    }
+    
+    func test_EmptyAnimate_PerformedThenAnimationWithCompletion() {
+        
+        var performedThenAnimation = false
+        var performedWithCompletion = false
+        
+        let animation = Animate().then(duration: 0.5) {
+            performedThenAnimation = true
+        }
+        
+        XCTAssertFalse(performedThenAnimation)
+        XCTAssertFalse(performedWithCompletion)
+        
+        
+        let expect = expectation(description: "Performed then animation with completion")
+        
+        animation.perform {
+            performedWithCompletion = true
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedThenAnimation)
+        
+        waitForExpectations(timeout: 1.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+            XCTAssertTrue(performedWithCompletion)
         }
     }
     
