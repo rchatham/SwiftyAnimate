@@ -37,10 +37,7 @@ Animate(duration: time) { [unowned self] in
 }.then(duration: time) { [unowned self] in
     // animation
     self.animationFunction()
-}.perform { [unowned self] in
-    
-    self.pyramidOfDoom()
-}
+}.perform()
 ```
 
 ## Not this!
