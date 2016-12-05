@@ -6,4 +6,7 @@ script: xcodebuild
   -sdk iphonesimulator
   -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1'
   -destination 'platform=iOS Simulator,name=iPhone 6,OS=9.3'
+  -enableCodeCoverage YES 
   test
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
