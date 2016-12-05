@@ -78,7 +78,7 @@ UIView.animate(withDuration: time, animations: { [unowned self] in
 The easiest way to get started is to use [CocoaPods](http://cocoapods.org/). Just add the following line to your Podfile:
 
 ```ruby
-pod 'SwiftyAnimate', '~> 0.1.0'
+pod 'SwiftyAnimate', '~> 0.1.1'
 ```
 
 #### Carthage
