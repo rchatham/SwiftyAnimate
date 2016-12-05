@@ -268,9 +268,9 @@ open class Animate {
     /**
      Destroys an animation instance without performing any of the remaining animations.
      */
-    open func destroy() {
+    open func decay() {
         guard animations.dequeue() != nil else { return }
-        destroy()
+        decay()
     }
     
     

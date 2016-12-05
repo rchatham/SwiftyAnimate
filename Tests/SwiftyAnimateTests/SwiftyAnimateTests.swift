@@ -67,6 +67,35 @@ class SwiftyAnimateTests: XCTestCase {
         }
     }
     
+    func test_Animate_PerformedThenAnimation() {
+        
+        var performedAnimation = false
+        var performedThenAnimation = false
+        
+        let animation = Animate(duration: 0.5) {
+            performedAnimation = true
+        }.then(duration: 0.5) {
+            performedThenAnimation = true
+        }
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        let expect = expectation(description: "Performed then animation with completion")
+        
+        animation.perform {
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        waitForExpectations(timeout: 1.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+            XCTAssertTrue(performedThenAnimation)
+        }
+    }
+    
     func test_EmptyAnimate_Performed() {
         
         let animation = Animate()
@@ -119,13 +148,23 @@ class SwiftyAnimateTests: XCTestCase {
         
         let animation = Animate().wait { resume in
             
-            Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { timer in
-                
+            self.resumeBlock = {
                 XCTAssertFalse(performedWaitBlock)
                 performedWaitBlock = true
                 
                 resume()
+                self.resumeBlock = nil
             }
+            
+            if #available(iOS 10.0, *) {
+                
+                Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] timer in
+                    self?.resumeBlock?()
+                }
+            } else {
+                Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(SwiftyAnimateTests.resume(_:)), userInfo: nil, repeats: false)
+            }
+            
         }
         
         XCTAssertFalse(performedWaitBlock)
@@ -141,6 +180,56 @@ class SwiftyAnimateTests: XCTestCase {
         
         waitForExpectations(timeout: 6.0) { error in
             if error != nil { print(error!.localizedDescription) }
+        }
+    }
+    
+    func test_EmptyAnimate_PerformedWaitBlock_WithTimeout() {
+        
+        var performedWaitBlock = false
+        var performedDoBlock = false
+        
+        let animation = Animate().wait(timeout: 1.0) { resume in
+            
+            self.resumeBlock = {
+                XCTAssertFalse(performedWaitBlock)
+                performedWaitBlock = true
+                
+                resume()
+                self.resumeBlock = nil
+            }
+            
+            if #available(iOS 10.0, *) {
+                
+                Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] timer in
+                    self?.resumeBlock?()
+                }
+            } else {
+                Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(SwiftyAnimateTests.resume(_:)), userInfo: nil, repeats: false)
+            }
+            
+        }.do {
+            performedDoBlock = true
+        }
+        
+        XCTAssertFalse(performedWaitBlock)
+        XCTAssertFalse(performedDoBlock)
+        
+        let expect = expectation(description: "Performed empty animation with completion")
+        
+        animation.perform {
+            XCTAssertFalse(performedWaitBlock)
+            XCTAssertTrue(performedDoBlock)
+            expect.fulfill()
+        }
+        
+        XCTAssertFalse(performedWaitBlock)
+        XCTAssertFalse(performedDoBlock)
+        
+        waitForExpectations(timeout: 2.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+            
+            XCTAssertFalse(performedWaitBlock)
+            XCTAssertTrue(performedDoBlock)
         }
     }
     
@@ -202,4 +291,29 @@ class SwiftyAnimateTests: XCTestCase {
         }
     }
     
+    func test_EmptyAnimate_DidDecay() {
+        
+        var performedDoBlock = false
+        
+        let animation = Animate().do {
+            performedDoBlock = true
+        }
+        
+        XCTAssertFalse(performedDoBlock)
+        
+        animation.decay()
+        
+        XCTAssertFalse(performedDoBlock)
+        
+        animation.perform()
+        
+        XCTAssertFalse(performedDoBlock)
+        
+    }
+    
+    private var resumeBlock: Resume?
+    
+    internal func resume(_ sender: Timer) {
+        resumeBlock?()
+    }
 }
