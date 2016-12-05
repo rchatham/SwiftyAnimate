@@ -10,8 +10,8 @@
 		3002F9A21DB7F29B00FF2E53 /* SwiftyAnimate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3002F99E1DB7F29B00FF2E53 /* SwiftyAnimate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3002F9A31DB7F29B00FF2E53 /* Animate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3002F99F1DB7F29B00FF2E53 /* Animate.swift */; };
 		3002F9A41DB7F29B00FF2E53 /* DataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */; };
-		3054A8231DF445CE0071EBBE /* SwiftyAnimateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3054A8221DF445CE0071EBBE /* SwiftyAnimateTests.swift */; };
 		3054A8251DF445CE0071EBBE /* SwiftyAnimate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3002F98D1DB720C600FF2E53 /* SwiftyAnimate.framework */; };
+		30D4C4461DF51C48007DFC81 /* SwiftyAnimateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4C4421DF51C27007DFC81 /* SwiftyAnimateTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,8 +31,8 @@
 		3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStructures.swift; path = Sources/DataStructures.swift; sourceTree = "<group>"; };
 		3002F9A11DB7F29B00FF2E53 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = "<group>"; };
 		3054A8201DF445CE0071EBBE /* SwiftyAnimateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyAnimateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3054A8221DF445CE0071EBBE /* SwiftyAnimateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyAnimateTests.swift; sourceTree = "<group>"; };
-		3054A8241DF445CE0071EBBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30D4C4411DF51C27007DFC81 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30D4C4421DF51C27007DFC81 /* SwiftyAnimateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyAnimateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				3002F99D1DB7F28D00FF2E53 /* Sources */,
-				3054A8211DF445CE0071EBBE /* SwiftyAnimateTests */,
+				30D4C4401DF51C27007DFC81 /* SwiftyAnimateTests */,
 				3002F98E1DB720C600FF2E53 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -83,13 +83,14 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
-		3054A8211DF445CE0071EBBE /* SwiftyAnimateTests */ = {
+		30D4C4401DF51C27007DFC81 /* SwiftyAnimateTests */ = {
 			isa = PBXGroup;
 			children = (
-				3054A8221DF445CE0071EBBE /* SwiftyAnimateTests.swift */,
-				3054A8241DF445CE0071EBBE /* Info.plist */,
+				30D4C4411DF51C27007DFC81 /* Info.plist */,
+				30D4C4421DF51C27007DFC81 /* SwiftyAnimateTests.swift */,
 			);
-			path = SwiftyAnimateTests;
+			name = SwiftyAnimateTests;
+			path = Tests/SwiftyAnimateTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,7 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3054A8231DF445CE0071EBBE /* SwiftyAnimateTests.swift in Sources */,
+				30D4C4461DF51C48007DFC81 /* SwiftyAnimateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,7 +381,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = NT7FFBVKUP;
-				INFOPLIST_FILE = SwiftyAnimateTests/Info.plist;
+				INFOPLIST_FILE = Tests/SwiftyAnimateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rchatham.SwiftyAnimateTests;
@@ -393,7 +394,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = NT7FFBVKUP;
-				INFOPLIST_FILE = SwiftyAnimateTests/Info.plist;
+				INFOPLIST_FILE = Tests/SwiftyAnimateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rchatham.SwiftyAnimateTests;
@@ -430,6 +431,7 @@
 				3054A82A1DF445CE0071EBBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

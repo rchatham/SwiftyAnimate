@@ -7,18 +7,22 @@
 //
 
 import XCTest
-import SwiftyAnimate
+@testable import SwiftyAnimate
 
 class SwiftyAnimateTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    static var allTests : [(String, (SwiftyAnimateTests) -> () throws -> Void)] {
+        return [
+            ("test_Animate_Performed", test_Animate_Performed),
+            ("test_Animate_PerformedWithCompletion", test_Animate_PerformedWithCompletion),
+            ("test_EmptyAnimate_Performed", test_EmptyAnimate_Performed),
+            ("test_EmptyAnimate_PerformedWithCompletion", test_EmptyAnimate_PerformedWithCompletion),
+            ("test_EmptyAnimate_PerformedDoBlock", test_EmptyAnimate_PerformedDoBlock),
+            ("test_EmptyAnimate_PerformedWaitBlock", test_EmptyAnimate_PerformedWaitBlock),
+            ("test_EmptyAnimate_Finished", test_EmptyAnimate_Finished),
+            ("test_EmptyAnimate_PerformedThenAnimation", test_EmptyAnimate_PerformedThenAnimation),
+            ("test_EmptyAnimate_PerformedThenAnimationWithCompletion", test_EmptyAnimate_PerformedThenAnimationWithCompletion),
+        ]
     }
     
     func test_Animate_Performed() {
