@@ -1,0 +1,4 @@
+osx_image: xcode8.2
+language: objective-c
+xcode_workspace: SwiftyAnimate.xcworkspace
+xcode_scheme: SwiftyAnimateTests
