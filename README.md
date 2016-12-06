@@ -12,7 +12,6 @@
 [![Travis](https://img.shields.io/travis/rchatham/SwiftyAnimate.svg)](https://travis-ci.org/rchatham/SwiftyAnimate)
 ![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)
 
-
 ## This!
 
 ```swift
@@ -109,3 +108,4 @@ let package = Package(
 )
 ```
 
+## [Blog](https://goo.gl/EHT54H)
