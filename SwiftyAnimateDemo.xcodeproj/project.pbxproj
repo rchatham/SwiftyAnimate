@@ -12,8 +12,7 @@
 		304C68621DF42A13003B3710 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 304C68601DF42A13003B3710 /* Main.storyboard */; };
 		304C68641DF42A13003B3710 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304C68631DF42A13003B3710 /* Assets.xcassets */; };
 		304C68671DF42A13003B3710 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 304C68651DF42A13003B3710 /* LaunchScreen.storyboard */; };
-		3054A8191DF434C90071EBBE /* SwiftyAnimate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3054A8181DF434C90071EBBE /* SwiftyAnimate.framework */; };
-		3054A81A1DF434C90071EBBE /* SwiftyAnimate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3054A8181DF434C90071EBBE /* SwiftyAnimate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		739C634B680C19B24D5E262B /* Pods_SwiftyAnimateDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6D34875EB5E207E27E850E7 /* Pods_SwiftyAnimateDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,7 +22,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3054A81A1DF434C90071EBBE /* SwiftyAnimate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -31,6 +29,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03226FEC0CC2D177D6D5C745 /* Pods-SwiftyAnimateDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyAnimateDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftyAnimateDemo/Pods-SwiftyAnimateDemo.release.xcconfig"; sourceTree = "<group>"; };
 		304C68591DF42A13003B3710 /* SwiftyAnimateDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftyAnimateDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304C685C1DF42A13003B3710 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		304C685E1DF42A13003B3710 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,7 +37,8 @@
 		304C68631DF42A13003B3710 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304C68661DF42A13003B3710 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		304C68681DF42A13003B3710 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3054A8181DF434C90071EBBE /* SwiftyAnimate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyAnimate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D3EA4BC150C66B02614F28A /* Pods-SwiftyAnimateDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyAnimateDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftyAnimateDemo/Pods-SwiftyAnimateDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		F6D34875EB5E207E27E850E7 /* Pods_SwiftyAnimateDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftyAnimateDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3054A8191DF434C90071EBBE /* SwiftyAnimate.framework in Frameworks */,
+				739C634B680C19B24D5E262B /* Pods_SwiftyAnimateDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,9 +56,10 @@
 		304C68501DF42A13003B3710 = {
 			isa = PBXGroup;
 			children = (
-				3054A8181DF434C90071EBBE /* SwiftyAnimate.framework */,
 				304C685B1DF42A13003B3710 /* SwiftyAnimateDemo */,
 				304C685A1DF42A13003B3710 /* Products */,
+				D9F961DD44E30A072349E731 /* Pods */,
+				9CAACD1549183C9A6A492AE2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +84,23 @@
 			path = SwiftyAnimateDemo;
 			sourceTree = "<group>";
 		};
+		9CAACD1549183C9A6A492AE2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F6D34875EB5E207E27E850E7 /* Pods_SwiftyAnimateDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D9F961DD44E30A072349E731 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5D3EA4BC150C66B02614F28A /* Pods-SwiftyAnimateDemo.debug.xcconfig */,
+				03226FEC0CC2D177D6D5C745 /* Pods-SwiftyAnimateDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -90,10 +108,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 304C686B1DF42A13003B3710 /* Build configuration list for PBXNativeTarget "SwiftyAnimateDemo" */;
 			buildPhases = (
+				A818653DE8CAB03C1FD9F50D /* [CP] Check Pods Manifest.lock */,
 				304C68551DF42A13003B3710 /* Sources */,
 				304C68561DF42A13003B3710 /* Frameworks */,
 				304C68571DF42A13003B3710 /* Resources */,
 				304C68731DF42A5B003B3710 /* Embed Frameworks */,
+				9383D850E439620014E945FD /* [CP] Embed Pods Frameworks */,
+				39F41487A6944C3D8A1342BF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -151,6 +172,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		39F41487A6944C3D8A1342BF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftyAnimateDemo/Pods-SwiftyAnimateDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9383D850E439620014E945FD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftyAnimateDemo/Pods-SwiftyAnimateDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A818653DE8CAB03C1FD9F50D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		304C68551DF42A13003B3710 /* Sources */ = {
@@ -279,6 +348,7 @@
 		};
 		304C686C1DF42A13003B3710 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D3EA4BC150C66B02614F28A /* Pods-SwiftyAnimateDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = NT7FFBVKUP;
@@ -296,6 +366,7 @@
 		};
 		304C686D1DF42A13003B3710 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03226FEC0CC2D177D6D5C745 /* Pods-SwiftyAnimateDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = NT7FFBVKUP;
