@@ -1,6 +1,7 @@
 # SwiftyAnimate
 
-### Syntax sugar for animations in Swift. Escape the Pyramid of DOOM!!!
+### Syntax sugar for animations in Swift. Escape the Pyramid of DOOM!!! [Blog](https://goo.gl/EHT54H)
+
 
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Language: Swift 3](https://img.shields.io/badge/language-swift3-f48041.svg?style=flat)](https://developer.apple.com/swift)
@@ -11,6 +12,47 @@
 [![Codecov](https://img.shields.io/codecov/c/github/rchatham/SwiftyAnimate.svg)]()
 [![Travis](https://img.shields.io/travis/rchatham/SwiftyAnimate.svg)](https://travis-ci.org/rchatham/SwiftyAnimate)
 ![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)
+
+
+
+## Installation
+
+#### Cocoapods
+
+The easiest way to get started is to use [CocoaPods](http://cocoapods.org/). Just add the following line to your Podfile:
+
+```ruby
+pod 'SwiftyAnimate', '~> 0.1.1'
+```
+
+#### Carthage
+
+```ruby
+github "rchatham/SwiftyAnimate"
+```
+
+#### Swift Package Manager
+
+Add the following line 
+
+```swift
+.Package(url: "https://github.com/rchatham/SwiftyAnimate.git", majorVersion: 0) 
+```
+
+to your Package.swift file as illustrated below. 
+
+```swift
+import PackageDescription
+
+let package = Package(
+    name: "YourAppName",
+    targets: [],
+    dependencies: [
+        .Package(url: "https://github.com/rchatham/SwiftyAnimate.git", majorVersion: 0),
+        ]
+)
+```
+
 
 ## This!
 
@@ -68,44 +110,3 @@ UIView.animate(withDuration: time, animations: { [unowned self] in
     }
 }
 ```
-
-
-## Installation
-
-#### Cocoapods
-
-The easiest way to get started is to use [CocoaPods](http://cocoapods.org/). Just add the following line to your Podfile:
-
-```ruby
-pod 'SwiftyAnimate', '~> 0.1.1'
-```
-
-#### Carthage
-
-```ruby
-github "rchatham/SwiftyAnimate"
-```
-
-#### Swift Package Manager
-
-Add the following line 
-
-```swift
-.Package(url: "https://github.com/rchatham/SwiftyAnimate.git", majorVersion: 0) 
-```
-
-to your Package.swift file as illustrated below. 
-
-```swift
-import PackageDescription
-
-let package = Package(
-    name: "YourAppName",
-    targets: [],
-    dependencies: [
-        .Package(url: "https://github.com/rchatham/SwiftyAnimate.git", majorVersion: 0),
-        ]
-)
-```
-
-## [Blog](https://goo.gl/EHT54H)
