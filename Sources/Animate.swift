@@ -30,6 +30,18 @@ public enum Operation {
     case animation(TimeInterval, TimeInterval, UIViewAnimationOptions, Animation)
     
     /**
+     Animation operation.
+     
+     - parameter _: `TimeInterval` to animate over.
+     - parameter _: `TimeInterval` to delay the animation.
+     - parameter _: Spring damping to apply to the animation.
+     - parameter _: Initial Velocity for the UIView to animate with.
+     - parameter _: `UIViewAnimationOptions` to apply to the animation.
+     - parameter _: `Animation` block to perform.
+     */
+    case spring(TimeInterval, TimeInterval, CGFloat, CGFloat, UIViewAnimationOptions, Animation)
+    
+    /**
      Wait operation.
      
      - parameter _: `TimeInterval?` to to resume by if resume is not called by the `Wait` block. Pass in `nil` to disable timeout.
@@ -75,6 +87,8 @@ open class Animate {
      animation.perform()
      ```
      - parameter duration: The duration that the animation should take.
+     - parameter delay: Takes a time interval to delay the animation.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
      - parameter callback: `Animation` callback to perform over the duration passed in.
      
      - returns: An animation instance.
@@ -82,8 +96,37 @@ open class Animate {
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      
      */
-    public init(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) {
-        animations.enqueue(data: .animation(duration,delay,options,callback))
+    public init(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animations: @escaping Animation) {
+        self.animations.enqueue(data: .animation(duration,delay,options,animations))
+    }
+    
+    /**
+     Creates an animation instance with an initial spring animation.
+     ```
+     //syntax:
+     
+     let time = 0.5
+     
+     let animation = Animate(duration: time) {
+     // Stuff to animate
+     }
+     
+     animation.perform()
+     ```
+     - parameter duration: The duration that the animation should take.
+     - parameter delay: Takes a time interval to delay the animation.
+     - parameter springDamping: Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.
+     - parameter initialVelocity: The initial velocity for the view as a ratio of it's distance to it's final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
+     - parameter callback: `Animation` callback to perform over the duration passed in.
+     
+     - returns: An animation instance.
+     
+     - warning: Not calling finish or perform on an animation will result in a memory leak!
+     
+     */
+    public init(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat = 1.0, initialVelocity: CGFloat = 0.5, options: UIViewAnimationOptions = [], animations: @escaping Animation) {
+        self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
     }
     
     /**
@@ -112,11 +155,43 @@ open class Animate {
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      
      */
-    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) -> Animate {
-        animations.enqueue(data: .animation(duration,delay,options,callback))
+    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
+        self.animations.enqueue(data: .animation(duration,delay,options,animations))
         return self
     }
     
+    /**
+     Perform linked spring animations here.
+     ```
+     //syntax:
+     
+     Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+     // Initial animation
+     
+     }.then(duration: time) {
+     // Animation begining upon completion of the initial animation.
+     
+     }.then(duration: time, delay: 1.0, options: [.curveEaseInOut]) {
+     // Animation following the previous animation.
+     
+     }.perform()
+     ```
+     - parameter duration: The duration that the animation should take.
+     - parameter delay: Takes a time interval to delay the animation.
+     - parameter springDamping: Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.
+     - parameter initialVelocity: The initial velocity for the view as a ratio of it's distance to it's final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
+     - parameter callback: `Animation` callback to perform over the duration passed in.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling finish or perform on an animation will result in a memory leak!
+     
+     */
+    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat = 1.0, initialVelocity: CGFloat = 0.5, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
+        self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
+        return self
+    }
     
     /**
      Block in which to perform things that you may want to pause an ongoing flow of animations for.
@@ -153,7 +228,7 @@ open class Animate {
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      
      */
-    open func wait(timeout: TimeInterval? = nil, _ callback: @escaping Wait) -> Animate {
+    open func wait(timeout: TimeInterval? = nil, callback: @escaping Wait) -> Animate {
         animations.enqueue(data: .wait(timeout, callback))
         return self
     }
@@ -181,7 +256,7 @@ open class Animate {
      
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      */
-    open func `do`(_ callback: @escaping Do) -> Animate {
+    open func `do`(callback: @escaping Do) -> Animate {
         animations.enqueue(data: .do(callback))
         return self
     }
@@ -210,7 +285,7 @@ open class Animate {
      
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      */
-    open func perform(_ completion: @escaping (Void)->Void = {_ in}) {
+    open func perform(completion: @escaping (Void)->Void = {_ in}) {
         
         guard let operation = animations.dequeue() else { return completion() }
         
@@ -218,13 +293,19 @@ open class Animate {
         case .animation(let duration, let delay, let options, let animations):
             
             UIView.animate(withDuration: duration, delay: delay, options: options, animations: animations) { success in
-                self.perform(completion)
+                self.perform(completion: completion)
+            }
+            
+        case .spring(let duration, let delay, let damping, let velocity, let options, let animations):
+            
+            UIView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: damping, initialSpringVelocity: velocity, options: options, animations: animations) { success in
+                self.perform(completion: completion)
             }
             
         case .wait(let timeout, let waitBlock):
             
             resumeBlock = {
-                self.perform(completion)
+                self.perform(completion: completion)
                 self.resumeBlock = nil
             }
             // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
@@ -244,7 +325,7 @@ open class Animate {
         case .do(let doBlock):
             
             doBlock()
-            perform(completion)
+            perform(completion: completion)
             
         }
     }
