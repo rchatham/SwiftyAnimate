@@ -125,7 +125,7 @@ open class Animate {
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      
      */
-    public init(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat = 1.0, initialVelocity: CGFloat = 0.5, options: UIViewAnimationOptions = [], animations: @escaping Animation) {
+    public init(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animations: @escaping Animation) {
         self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
     }
     
@@ -188,7 +188,7 @@ open class Animate {
      - warning: Not calling finish or perform on an animation will result in a memory leak!
      
      */
-    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat = 1.0, initialVelocity: CGFloat = 0.5, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
+    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
         self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
         return self
     }
