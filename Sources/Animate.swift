@@ -18,7 +18,7 @@ public typealias Wait = (_ resume: @escaping Resume)->Void
 public typealias Do = (Void)->Void
 
 /// `enum` of supported animation operations.
-public enum Operation {
+public enum AnimateOperation {
     /** 
      Animation operation.
      
@@ -30,7 +30,7 @@ public enum Operation {
     case animation(TimeInterval, TimeInterval, UIViewAnimationOptions, Animation)
     
     /**
-     Animation operation.
+     Spring animation operation.
      
      - parameter _: `TimeInterval` to animate over.
      - parameter _: `TimeInterval` to delay the animation.
@@ -78,8 +78,6 @@ open class Animate {
      ```
      //syntax:
      
-     let time = 0.5
-     
      let animation = Animate(duration: time) {
         // Stuff to animate
      }
@@ -93,7 +91,7 @@ open class Animate {
      
      - returns: An animation instance.
      
-     - warning: Not calling finish or perform on an animation will result in a memory leak!
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      
      */
     public init(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animations: @escaping Animation) {
@@ -105,10 +103,8 @@ open class Animate {
      ```
      //syntax:
      
-     let time = 0.5
-     
-     let animation = Animate(duration: time) {
-     // Stuff to animate
+     let animation = Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+         // spring animation
      }
      
      animation.perform()
@@ -122,8 +118,7 @@ open class Animate {
      
      - returns: An animation instance.
      
-     - warning: Not calling finish or perform on an animation will result in a memory leak!
-     
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      */
     public init(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animations: @escaping Animation) {
         self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
@@ -152,8 +147,7 @@ open class Animate {
      
      - returns: The current animation instance.
      
-     - warning: Not calling finish or perform on an animation will result in a memory leak!
-     
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      */
     open func then(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
         self.animations.enqueue(data: .animation(duration,delay,options,animations))
@@ -165,14 +159,14 @@ open class Animate {
      ```
      //syntax:
      
-     Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
-     // Initial animation
+     Animate(duration: time) {
+         // Animation begining upon completion of the initial animation.
      
-     }.then(duration: time) {
-     // Animation begining upon completion of the initial animation.
+     }.then(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+         // spring animation
      
      }.then(duration: time, delay: 1.0, options: [.curveEaseInOut]) {
-     // Animation following the previous animation.
+         // Animation following the previous animation.
      
      }.perform()
      ```
@@ -185,11 +179,35 @@ open class Animate {
      
      - returns: The current animation instance.
      
-     - warning: Not calling finish or perform on an animation will result in a memory leak!
-     
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      */
     open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
         self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
+        return self
+    }
+    
+    /**
+     Appends the passed `Animate` instance to the current animation.
+     ```
+     //syntax:
+     
+     let animation = Animate(duration: time) {
+         // animation code
+     }
+     
+     Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+         // initial animation
+     }.then(animation: animation).perform()
+     ```
+     
+     - parameter animation: `Animate` instance to append.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
+     */
+    open func then(animation: Animate) -> Animate {
+        animations.append(animation.animations)
         return self
     }
     
@@ -224,9 +242,8 @@ open class Animate {
      
      - returns: The current animation instance.
      
-     - warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in a memory leak!
-     - warning: Not calling finish or perform on an animation will result in a memory leak!
-     
+     - warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in the nimation instance not being deallocated properly!
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      */
     open func wait(timeout: TimeInterval? = nil, callback: @escaping Wait) -> Animate {
         animations.enqueue(data: .wait(timeout, callback))
@@ -246,7 +263,7 @@ open class Animate {
      }.then(duration: time) {
         // more animations
      }.do {
-     // more non-animation code
+        // more non-animation code
      }.perform()
      ```
      
@@ -254,7 +271,7 @@ open class Animate {
      
      - returns: The current animation instance.
      
-     - warning: Not calling finish or perform on an animation will result in a memory leak!
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      */
     open func `do`(callback: @escaping Do) -> Animate {
         animations.enqueue(data: .do(callback))
@@ -283,7 +300,7 @@ open class Animate {
      ```
      - parameter completion: Called after the final animation completes.
      
-     - warning: Not calling finish or perform on an animation will result in a memory leak!
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      */
     open func perform(completion: @escaping (Void)->Void = {_ in}) {
         
@@ -304,7 +321,18 @@ open class Animate {
             
         case .wait(let timeout, let waitBlock):
             
+            // If a timeout was passed in setup a timer.
+            var timer: Timer?
+            if let timeout = timeout {
+                if #available(iOS 10.0, *) {
+                    timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { _ in self.resumeBlock?() }
+                } else {
+                    timer = Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.resumeBlock(_:)), userInfo: nil, repeats: false)
+                }
+            }
+            
             resumeBlock = {
+                timer?.invalidate()
                 self.perform(completion: completion)
                 self.resumeBlock = nil
             }
@@ -313,14 +341,6 @@ open class Animate {
                 self?.resumeBlock?()
             })
             
-            // If a timeout was passed in setup a timer.
-            guard let timeout = timeout else { return }
-            if #available(iOS 10.0, *) {
-                Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { _ in self.resumeBlock?() }
-            } else {
-                
-                Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.resumeBlock(_:)), userInfo: nil, repeats: false)
-            }
             
         case .do(let doBlock):
             
@@ -346,7 +366,7 @@ open class Animate {
      - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
      - parameter callback: `Animation` callback to perform over the duration passed in.
      
-     - warning: Not calling finish or perform on an animation will result in a memory leak!
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      */
     open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) {
         animations.enqueue(data: .animation(duration,delay,options,callback))
@@ -355,17 +375,20 @@ open class Animate {
     
     /**
      Dequeues the animation instance without performing any of the remaining animations.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in the nimation instance not being deallocated properly!
      */
     open func decay() {
         guard animations.dequeue() != nil else { return }
         decay()
     }
     
-    
-    // MARK: - Private
+    // MARK: - Fileprivate
     
     /// :nodoc:
-    private var animations = Queue<Operation>()
+    fileprivate var animations = Queue<AnimateOperation>()
+    
+    // MARK: - Private
     
     // Below needed for backwards compatibility.
     /// :nodoc:
@@ -373,5 +396,22 @@ open class Animate {
     /// :nodoc:
     @objc internal func resumeBlock(_ sender: Timer) {
         resumeBlock?()
+    }
+}
+
+extension Animate: NSCopying {
+    
+    /// Copies the current Animate instance.
+    /// - returns: A new instance with the same animations as the original.
+    open func copy(with zone: NSZone? = nil) -> Any {
+        let animation = Animate()
+        animation.animations = animations
+        return animation
+    }
+    
+    /// Copy of the current instance.
+    /// - returns: A new `Animate` instance with matching animations.
+    open var copy: Animate {
+        return copy() as! Animate
     }
 }

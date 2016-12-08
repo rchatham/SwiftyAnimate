@@ -15,136 +15,135 @@ class ViewController: UIViewController {
         static let defaultAnimationTime = 0.5
     }
     
-    lazy var centerView: UIView = {
-        let view = UIView(
-            frame: CGRect(
-                x: 0.0,
-                y: 0.0,
-                width: 200.0,
-                height: 200.0
-            )
-        )
-        view.center = self.view.center
-        view.backgroundColor = .red
-        return view
-    }()
+    var liked: Bool = false {
+        didSet {
+            guard oldValue != liked else { return }
+            switch liked {
+            case true:
+                heartView.image = #imageLiteral(resourceName: "RedHeart")
+            case false:
+                heartView.image = #imageLiteral(resourceName: "Heart")
+            }
+        }
+    }
+    
+    @IBOutlet weak var heartView: UIImageView! {
+        didSet {
+            heartView.image = #imageLiteral(resourceName: "Heart")
+            let tap = UITapGestureRecognizer(target: self, action: #selector(ViewController.tappedHeart(_:)))
+            tap.numberOfTapsRequired = 1
+            tap.numberOfTouchesRequired = 1
+            heartView.addGestureRecognizer(tap)
+        }
+    }
+    
+    func tappedHeart(_ sender: UITapGestureRecognizer) {
+        liked = !liked
+        
+        switch liked {
+        case true:
+            Animate().bounce(view: heartView).perform()
+        default:
+            Animate().tilt(view: heartView, rotationAngle: -0.33).perform()
+        }
+    }
+    
+    
+    // MARK: -Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(centerView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+//        Animate()
+//            .tilt(view: heartView, rotationAngle: -0.33)
+//            .do { [unowned self] in
+//                self.liked = !self.liked
+//            }
+//            .bounce(view: heartView)
+//            .do { [unowned self] in
+//                self.liked = !self.liked
+//            }
+//            .tilt(view: heartView, rotationAngle: -0.33)
+//            .perform { [unowned self] in
+//                self.heartView.isUserInteractionEnabled = true
+//            }
         
-        let time = Constants.defaultAnimationTime
-        
-        // This!
-        Animate(duration: time) { [unowned self] in
-            // animation
-            self.animationFunction()
-        }.do { [unowned self] in
-            // non-animation function
-            self.nonAnimationFunction()
-        }.then(duration: time) { [unowned self] in
-            // animation
-            self.animationFunction()
-        }.wait { [unowned self] resume in
-            // function that takes time
-            self.functionThatTakesTime {
-                resume()
+        Animate()
+            .then(animation: heartView.tilt(rotationAngle: -0.33))
+            .do { [unowned self] in
+                self.liked = !self.liked
             }
-        }.then(duration: time) { [unowned self] in
-            // animation
-            self.animationFunction()
-        }.then(duration: time) { [unowned self] in
-            // animation
-            self.animationFunction()
-        }.perform { [unowned self] in
-            
-            self.pyramidOfDoom()
-        }
-        
-    }
-    
-    func pyramidOfDoom() {
-        
-        let time = Constants.defaultAnimationTime
-        
-        // Not this!
-        UIView.animate(withDuration: time, animations: { [unowned self] in
-            // animation
-            self.animationFunction()
-        }) {  [unowned self] success in
-            // non-animation function
-            self.nonAnimationFunction()
-            UIView.animate(withDuration: time, animations: {
-                // animation
-                self.animationFunction()
-            }) { success in
-                // function that takes time
-                self.functionThatTakesTime {
-                    UIView.animate(withDuration: time, animations: {
-                        // animation
-                        self.animationFunction()
-                    }) { success in
-                        UIView.animate(withDuration: time, animations: {
-                            // animation
-                            self.animationFunction()
-                        })
-                    }
-                }
+            .then(animation: heartView.bounce())
+            .do { [unowned self] in
+                self.liked = !self.liked
             }
-        }
+            .then(animation: heartView.tilt(rotationAngle: -0.33))
+            .perform { [unowned self] in
+                self.heartView.isUserInteractionEnabled = true
+            }
     }
     
-    func animationFunction() {
-        var newFrame = centerView.frame
-        newFrame.size.width += .random(max: 50) - 25.0
-        newFrame.size.height += .random(max: 50) - 25.0
-        centerView.frame = newFrame
-        centerView.center = view.center
-    }
-    
-    func nonAnimationFunction() {
-        if centerView.backgroundColor == .red {
-            centerView.backgroundColor = .blue
-        } else {
-            centerView.backgroundColor = .red
-        }
-    }
-    
-    func functionThatTakesTime(_ callback: @escaping ()->Void) {
-        let label = UILabel()
-        label.text = "3"
-        label.textColor = .black
-        label.font = label.font.withSize(48)
-        label.sizeToFit()
-        label.center = centerView.center
-        view.addSubview(label)
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
-            label.text = "2"
-            label.sizeToFit()
-        }
-        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { timer in
-            label.text = "1"
-            label.sizeToFit()
-        }
-        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { timer in
-            label.removeFromSuperview()
-            callback()
-        }
-    }
-    
-
 }
 
-extension CGFloat {
-    /// - Returns: A random number below the max.
-    static func random(max: UInt32) -> CGFloat {
-        return CGFloat(arc4random_uniform(max))
+protocol Bounceable {
+    func bounce() -> Animate
+}
+
+protocol Tiltable {
+    func tilt(rotationAngle: CGFloat) -> Animate
+}
+
+extension UIView: Bounceable {
+    func bounce() -> Animate {
+        return Animate(duration: 0.3) { [unowned self] in
+            self.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        }.then(duration: 0.3) { [unowned self] in
+            self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }.then(duration: 0.3) { [unowned self] in
+            self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }.then(duration: 0.3) { [unowned self] in
+            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
     }
 }
 
+extension UIView: Tiltable {
+    func tilt(rotationAngle: CGFloat) -> Animate {
+        return Animate(duration: 0.3) { [unowned self] in
+            self.transform = CGAffineTransform(rotationAngle: rotationAngle)
+        }.wait(timeout: 0.5) { _ in
+        }.then(duration: 0.3) { [unowned self] in
+            self.transform = CGAffineTransform(rotationAngle: 0.0)
+        }
+    }
+}
+
+// Writing custom animations is EASY!!!!!
+extension Animate {
+    
+    func bounce(view: UIView) -> Animate {
+        return then(duration: 0.3) {
+            view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        }.then(duration: 0.3) {
+            view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }.then(duration: 0.3) {
+            view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }.then(duration: 0.3) {
+            view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
+    }
+    
+    func tilt(view: UIView, rotationAngle: CGFloat) -> Animate {
+        return then(duration: 0.3) {
+            view.transform = CGAffineTransform(rotationAngle: rotationAngle)
+        }.wait(timeout: 0.5) { _ in
+        }.then(duration: 0.3) {
+            view.transform = CGAffineTransform(rotationAngle: 0.0)
+        }
+    }
+}

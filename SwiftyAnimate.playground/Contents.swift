@@ -54,6 +54,7 @@ class View: UIViewController {
                 }
             }
         }
+        
     }
     
     func nonAnimationFunction() {}

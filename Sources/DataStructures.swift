@@ -21,9 +21,11 @@ internal struct Queue<T> {
     var first, last: Node<T>?
     mutating func dequeue() -> T? {
         let pop = first?.data
-        first = first?.next
-        if first == nil {
+        if first === last {
+            first = nil
             last = nil
+        } else {
+            first = first?.next
         }
         return pop
     }
@@ -34,6 +36,18 @@ internal struct Queue<T> {
         } else {
             last?.next = Node(data: data)
             last = last?.next
+        }
+    }
+}
+
+extension Queue {
+    mutating func append(_ queue: Queue) {
+        if last != nil {
+            last?.next = queue.first
+            last = queue.last
+        } else {
+            first = queue.first
+            last = queue.last
         }
     }
 }
