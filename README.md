@@ -23,7 +23,7 @@
 The easiest way to get started is to use [CocoaPods](http://cocoapods.org/). Just add the following line to your Podfile:
 
 ```ruby
-pod 'SwiftyAnimate', '~> 0.1.1'
+pod 'SwiftyAnimate', '~> 1.0.0'
 ```
 
 #### Carthage
