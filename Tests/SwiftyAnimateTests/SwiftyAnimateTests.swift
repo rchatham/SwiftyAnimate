@@ -309,7 +309,7 @@ class SwiftyAnimateTests: XCTestCase {
         
     }
     
-    // Feels like this should include a check that the then block was not called before 2.0 seconds but currently a Timer find that it gets called already.
+    // Feels like this should include a check that the then block was not called before 2.0 seconds but currently a Timer finds that it gets called already? This is probably due to semantics of the UIView animation API.
     func test_Animation_DidDelay() {
         
         var performedAnimation = false
@@ -340,6 +340,159 @@ class SwiftyAnimateTests: XCTestCase {
         }
         
     }
+    
+    func test_Animate_ThenAnimation() {
+        
+        var performedAnimation = false
+        var performedThenAnimation = false
+        
+        let thenAnimation = Animate(duration: 1.0) {
+            performedThenAnimation = true
+        }
+        
+        let animation = Animate(duration: 1.0) {
+            performedAnimation = true
+        }.then(animation: thenAnimation)
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        let expect = expectation(description: "Performed then animation")
+        
+        animation.perform {
+            XCTAssertTrue(performedAnimation)
+            XCTAssertTrue(performedThenAnimation)
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        waitForExpectations(timeout: 2.5) { error in
+            if error != nil { print(error!.localizedDescription) }
+        }
+    }
+    
+    func test_EmptyAnimate_ThenAnimation() {
+        
+        var performedThenAnimation = false
+        
+        let thenAnimation = Animate(duration: 1.0) {
+            performedThenAnimation = true
+        }
+        
+        let animation = Animate().then(animation: thenAnimation)
+        
+        XCTAssertFalse(performedThenAnimation)
+        
+        animation.perform {
+            XCTAssertTrue(performedThenAnimation)
+        }
+        
+        XCTAssertTrue(performedThenAnimation)
+    }
+    
+    func test_SpringAnimation_Performed() {
+        
+        var performedAnimation = false
+        
+        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
+            performedAnimation = true
+        }
+        
+        XCTAssertFalse(performedAnimation)
+        
+        animation.perform()
+        
+        XCTAssertTrue(performedAnimation)
+    }
+    
+    
+    func test_SpringAnimation_PerformedWithCompletion() {
+        
+        var performedAnimation = false
+        var performedWithCompletion = false
+        
+        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
+            performedAnimation = true
+        }
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedWithCompletion)
+        
+        let expect = expectation(description: "Performed animation with completion")
+        
+        animation.perform {
+            performedWithCompletion = true
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        
+        waitForExpectations(timeout: 1.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+            XCTAssertTrue(performedWithCompletion)
+        }
+    }
+    
+    func test_SpringAnimation_PerformedThenAnimation() {
+        
+        var performedAnimation = false
+        var performedThenAnimation = false
+        
+        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
+            performedAnimation = true
+        }.then(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
+            performedThenAnimation = true
+        }
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        let expect = expectation(description: "Performed then animation with completion")
+        
+        animation.perform {
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        waitForExpectations(timeout: 1.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+            XCTAssertTrue(performedThenAnimation)
+        }
+    }
+    
+    func test_Animate_Copy() {
+        
+        var performedAnimation = false
+        var performedAnimationTwice = false
+        
+        let animation = Animate(duration: 0.5) {
+            if performedAnimation {
+                performedAnimationTwice = true
+            } else {
+                performedAnimation = true
+            }
+        }
+        
+        let copy = animation.copy
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedAnimationTwice)
+        
+        animation.perform()
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertFalse(performedAnimationTwice)
+        
+        copy.perform()
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertTrue(performedAnimationTwice)
+    }
+
     
     private var resumeBlock: Resume?
     
