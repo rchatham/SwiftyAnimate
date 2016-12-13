@@ -123,14 +123,12 @@ open class Animate {
      ```
      //syntax:
      
-     Animate(duration: time) {
-             // Animation begining upon completion of the initial animation.
-         }
+     Animate()
          .then(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
              // spring animation
          }
-         .then(duration: time, delay: 1.0, options: [.curveEaseInOut]) {
-             // Animation following the previous animation.
+         .then(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+             // spring animation
          }
          .perform()
      ```
@@ -174,7 +172,8 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(animation: Animate) -> Animate {
-        animations.append(&animation.animations)
+        animations.append(animation.animations)
+        animation.decay()
         return self
     }
     
@@ -398,7 +397,8 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(animation: Animate) {
-        animations.append(&animation.animations)
+        animations.append(animation.animations)
+        animation.decay()
         perform()
     }
     
