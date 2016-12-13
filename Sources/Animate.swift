@@ -152,7 +152,7 @@ open class Animate {
     }
     
     /**
-     Appends the passed `Animate` instance to the current animation.  The animation instance passed in is discarded to prevent memory leaks.
+     Appends the passed `Animate` instance to the current animation. The animation instance passed in is discarded to prevent memory leaks.
      ```
      //syntax:
      
@@ -174,8 +174,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(animation: Animate) -> Animate {
-        animations.append(animation.animations)
-        animation.decay()
+        animations.append(&animation.animations)
         return self
     }
     
@@ -279,9 +278,9 @@ open class Animate {
      
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func perform(completion: @escaping ((Void)->Void)? = nil) {
+    open func perform(completion: @escaping (()->Void) = {_ in}) {
         
-        guard let operation = animations.dequeue() else { return completion?() }
+        guard let operation = animations.dequeue() else { return completion() }
         
         switch operation {
         case .animation(let duration, let delay, let options, let animations):
@@ -399,8 +398,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(animation: Animate) {
-        animations.append(animation.animations)
-        animation.decay()
+        animations.append(&animation.animations)
         perform()
     }
     

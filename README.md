@@ -2,6 +2,7 @@
 
 ### Syntax sugar for animations in Swift. Escape the Pyramid of DOOM!!! [Blog](https://goo.gl/EHT54H)
 
+![In action!](http://reidchatham.com/src/SwiftyAnimate.gif)
 
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Language: Swift 3](https://img.shields.io/badge/language-swift3-f48041.svg?style=flat)](https://developer.apple.com/swift)
@@ -250,3 +251,8 @@ Animate()
     .perform()
 ```
 
+### Contributing
+
+I would love to see your ideas for improving this library! The best way to contribute is by submitting a pull request. I'll do my best to respond to your patch as soon as possible. You can also submit a [new GitHub issue](https://github.com/rchatham/SwiftyAnimate/issues/new) if you find bugs or have questions. 🙏
+
+Please make sure to follow our general coding style and add test coverage for new features!

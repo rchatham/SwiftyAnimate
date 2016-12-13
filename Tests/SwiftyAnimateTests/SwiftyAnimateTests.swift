@@ -247,6 +247,36 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssertTrue(finishedAnimation)
     }
     
+    func test_EmptyAnimate_Finished_Spring() {
+        
+        var finishedAnimation = false
+        
+        let animation = Animate()
+        
+        XCTAssertFalse(finishedAnimation)
+        
+        animation.finish(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
+            finishedAnimation = true
+        }
+        
+        XCTAssertTrue(finishedAnimation)
+    }
+    
+    func test_EmptyAnimate_Finished_Animation() {
+        
+        var finishedAnimation = false
+        
+        let animation = Animate(duration: 0.5) {
+            finishedAnimation = true
+        }
+        
+        XCTAssertFalse(finishedAnimation)
+        
+        Animate().finish(animation: animation)
+        
+        XCTAssertTrue(finishedAnimation)
+    }
+    
     func test_EmptyAnimate_PerformedThenAnimation() {
         
         var performedThenAnimation = false

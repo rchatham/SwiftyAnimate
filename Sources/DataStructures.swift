@@ -41,7 +41,7 @@ internal struct Queue<T> {
 }
 
 extension Queue {
-    mutating func append(_ queue: Queue) {
+    mutating func append(_ queue: inout Queue) {
         if last != nil {
             last?.next = queue.first
             last = queue.last
@@ -49,5 +49,7 @@ extension Queue {
             first = queue.first
             last = queue.last
         }
+        queue.first = nil
+        queue.last = nil
     }
 }
