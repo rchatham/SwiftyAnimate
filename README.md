@@ -2,8 +2,6 @@
 
 ### Syntax sugar for animations in Swift. Escape the Pyramid of DOOM!!! [Blog](https://goo.gl/EHT54H)
 
-![In action!](http://reidchatham.com/src/SwiftyAnimate.gif)
-
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Language: Swift 3](https://img.shields.io/badge/language-swift3-f48041.svg?style=flat)](https://developer.apple.com/swift)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -14,6 +12,7 @@
 [![Travis](https://img.shields.io/travis/rchatham/SwiftyAnimate.svg)](https://travis-ci.org/rchatham/SwiftyAnimate)
 ![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)
 
+<img src="http://reidchatham.com/src/SwiftyAnimate.gif" width="200">
 
 
 ## Installation
