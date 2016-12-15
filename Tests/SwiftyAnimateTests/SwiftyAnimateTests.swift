@@ -522,6 +522,22 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssertTrue(performedAnimation)
         XCTAssertTrue(performedAnimationTwice)
     }
+    
+    func test_Animate_DecayPerformance() {
+        
+        let animation = Animate()
+        
+        for _ in 0..<1000 {
+            animation.then(duration: 0.3) {
+                print("do something that takes time like writing to the terminal")
+            }
+        }
+        
+        measure {
+            animation.decay()
+        }
+        
+    }
 
     
     private var resumeBlock: Resume?

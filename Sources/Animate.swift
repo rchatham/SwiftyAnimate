@@ -408,8 +408,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func decay() {
-        guard animations.dequeue() != nil else { return }
-        decay()
+        animations.release()
     }
     
     // MARK: - Fileprivate

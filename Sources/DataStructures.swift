@@ -51,3 +51,11 @@ extension Queue {
         }
     }
 }
+
+extension Queue {
+    mutating func release() {
+        // nodes will be automatically released because of swift's automatic reference counting.
+        first = nil
+        last = nil
+    }
+}

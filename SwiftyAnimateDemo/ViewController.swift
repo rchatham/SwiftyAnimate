@@ -90,6 +90,15 @@ class ViewController: UIViewController {
     
 }
 
+/* 
+ Writing custom animations is EASY!!!!! 
+ 
+ There are two ways to write animations as extensions to help keep your code clean and readable using this framework.
+ */
+
+
+// Protocols and extenstions on your views that are performing them.
+
 protocol Bounceable {
     func bounce() -> Animate
 }
@@ -123,7 +132,8 @@ extension UIView: Tiltable {
     }
 }
 
-// Writing custom animations is EASY!!!!!
+// Protocols and extenstions to Animate take a view to perform them on.
+
 extension Animate {
     
     func bounce(view: UIView) -> Animate {
