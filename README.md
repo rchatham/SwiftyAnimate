@@ -49,7 +49,7 @@ let package = Package(
     targets: [],
     dependencies: [
         .Package(url: "https://github.com/rchatham/SwiftyAnimate.git", majorVersion: 0),
-        ]
+    ]
 )
 ```
 
@@ -170,7 +170,7 @@ Animate(duration: 1.0) {
 
 ### Performing Animations
 
-There are two ways to perform animations `finish` and `perform`. * Important: You must either call one of these two functions or `decay` on an animation instance or this will result in a memory leak! *
+There are two ways to perform animations `finish` and `perform`. **Important: You must either call one of these two functions or `decay` on an animation instance or this will result in a memory leak!**
 
 #### Perform
 
