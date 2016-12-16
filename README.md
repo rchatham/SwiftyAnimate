@@ -1,6 +1,6 @@
 # SwiftyAnimate
 
-### Syntax sugar for animations in Swift. Escape the Pyramid of DOOM!!! [Blog](https://goo.gl/EHT54H)
+### Composable animations in Swift. [Blog](https://goo.gl/EHT54H)
 
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Language: Swift 3](https://img.shields.io/badge/language-swift3-f48041.svg?style=flat)](https://developer.apple.com/swift)
