@@ -124,7 +124,7 @@ Compose animations and insert logic to the flow of animations using the `then`, 
 
 #### Then blocks
 
-Add animations to the current instance using one of the implementations for this function. There are implemetations for both standard nd spring animations as well as chaining animation instances.
+Add animations to the current instance using one of the implementations for this function. There are implemetations for both standard and spring animations as well as chaining animation instances.
 
 ```swift
 Animate(duration: 1.0) {
