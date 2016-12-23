@@ -1,4 +1,4 @@
-# SwiftyAnimate
+<img src="http://reidchatham.com/src/SwiftyAnimate.png">
 
 ### Composable animations in Swift. [Blog](https://goo.gl/EHT54H)
 
@@ -13,7 +13,7 @@
 [![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/SwiftyAnimate.svg)](http://cocoadocs.org/docsets/SwiftyAnimate)
 [![Codecov](https://img.shields.io/codecov/c/github/rchatham/SwiftyAnimate.svg)](https://codecov.io/gh/rchatham/SwiftyAnimate)
 [![Travis](https://img.shields.io/travis/rchatham/SwiftyAnimate.svg)](https://travis-ci.org/rchatham/SwiftyAnimate)
-
+[![Code Climate](https://codeclimate.com/github/rchatham/SwiftyAnimate/badges/gpa.svg)](https://codeclimate.com/github/rchatham/SwiftyAnimate)
 
 <img src="http://reidchatham.com/src/SwiftyAnimate.gif" width="200">
 
