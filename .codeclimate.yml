@@ -4,5 +4,5 @@ engines:
     enabled: true
 ratings:
   paths: 
-  - Sources/*.swift
+  - "Sources/*.swift"
 exclude_paths: []
