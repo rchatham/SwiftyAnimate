@@ -10,3 +10,6 @@ script: xcodebuild
   test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+addons:
+    code_climate:
+        repo_token: 76a6e27cd935beef371c1f8d5d0abbdafc4aa95e321851fc8d46cf11a0672433
