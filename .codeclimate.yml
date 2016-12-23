@@ -1,8 +1,7 @@
----
 engines:
-  fixme:
+  tailor:
     enabled: true
+
 ratings:
-  paths: 
-  - "Sources/*.swift"
-exclude_paths: []
+  paths:
+  - "**.swift"
