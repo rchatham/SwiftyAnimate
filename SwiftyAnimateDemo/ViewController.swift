@@ -40,12 +40,14 @@ class ViewController: UIViewController {
     func tappedHeart(_ sender: UITapGestureRecognizer) {
         liked = !liked
         
-        switch liked {
-        case true:
-            heartView.bounce().perform()
-        default:
-            heartView.tilt(angle: -0.33).perform()
-        }
+        heartView.goCrazy().perform()
+//        
+//        switch liked {
+//        case true:
+//            heartView.bounce().perform()
+//        default:
+//            heartView.tilt(angle: -0.33).perform()
+//        }
     }
     
     
@@ -60,6 +62,8 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         Animate()
+            .then(animation: heartView.move(duration: 0.3, x: 10, y: 10))
+            .then(animation: heartView.move(duration: 0.3, x: -10, y: -10))
             .then(animation: heartView.tilt(angle: -0.33))
             .do { [unowned self] in
                 self.liked = !self.liked
@@ -68,6 +72,8 @@ class ViewController: UIViewController {
             .do { [unowned self] in
                 self.liked = !self.liked
             }
+            .then(animation: heartView.move(duration: 0.3, x: 10, y: 10))
+            .then(animation: heartView.move(duration: 0.3, x: -10, y: -10))
             .then(animation: heartView.tilt(angle: -0.33))
             .perform { [unowned self] in
                 self.heartView.isUserInteractionEnabled = true
@@ -77,9 +83,7 @@ class ViewController: UIViewController {
 }
 
 /* 
- Writing custom animations is EASY!!!!! 
- 
- There are two ways to write animations as extensions to help keep your code clean and readable using this framework.
+ Writing custom animations is EASY!!!!!
  */
 
 
@@ -111,3 +115,41 @@ extension UIView: Tiltable {
             .then(animation: rotate(duration: 0.3, angle: 0))
     }
 }
+
+/*
+ Combine animations together!
+ */
+
+protocol GoCrazy {
+    func goCrazy() -> Animate
+}
+
+extension UIView: GoCrazy {
+    func goCrazy() -> Animate {
+        return Animate()
+            .then(duration: 1.0) { [weak self] in
+                self?.scale(x: .random(max: 2), y: .random(max: 2))
+                self?.rotate(angle: .random(max: 6))
+            }
+    }
+}
+
+
+
+extension CGFloat {
+    static func random(max: UInt32) -> CGFloat {
+        let rand = arc4random_uniform(70)
+        return CGFloat(max) * CGFloat(rand) / 70.0
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

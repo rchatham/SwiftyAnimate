@@ -528,7 +528,7 @@ class SwiftyAnimateTests: XCTestCase {
         let animation = Animate()
         
         for _ in 0..<1000 {
-            animation.then(duration: 0.3) {
+            _ = animation.then(duration: 0.3) {
                 print("do something that takes time like writing to the terminal")
             }
         }
@@ -536,6 +536,75 @@ class SwiftyAnimateTests: XCTestCase {
         measure {
             animation.decay()
         }
+        
+    }
+    
+    func test_Animate_Move() {
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        XCTAssert(view.frame.origin.x == 0)
+        XCTAssert(view.frame.origin.y == 0)
+        
+        view.move(duration: 0.3, x: 10, y: 10).perform()
+        
+        XCTAssert(view.frame.origin.x == 10)
+        XCTAssert(view.frame.origin.y == 10)
+        
+    }
+    
+    func test_Animate_Rotate() {
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        let transform = view.transform
+        
+        XCTAssert(transform == view.transform)
+        
+        view.rotate(duration: 0.3, angle: -0.33).perform()
+        
+        let rotatedTransform = CGAffineTransform(rotationAngle: -0.33)
+        
+        XCTAssert(rotatedTransform == view.transform)
+        
+    }
+    
+    func test_Animate_Scale() {
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        XCTAssert(view.frame.width == 10)
+        XCTAssert(view.frame.height == 10)
+        
+        view.scale(duration: 0.3, x: 2, y: 2).perform()
+        
+        XCTAssert(view.frame.width == 20)
+        XCTAssert(view.frame.height == 20)
+        
+    }
+    
+    func test_Animate_Corner() {
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        XCTAssert(view.layer.cornerRadius == 0)
+        
+        view.corner(duration: 0.3, radius: 5).perform()
+        
+        XCTAssert(view.layer.cornerRadius == 5)
+        
+    }
+    
+    func test_Animate_Color() {
+        
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        XCTAssert(view.backgroundColor == .white)
+        
+        view.color(duration: 0.3, value: .blue).perform()
+        
+        XCTAssert(view.backgroundColor == .blue)
         
     }
 
