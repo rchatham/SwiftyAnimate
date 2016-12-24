@@ -6,11 +6,12 @@
 //  Copyright © 2016 Reid Chatham. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 
 /// `enum` of supported animation operations.
 public enum AnimateOperation {
+    
     /**
      Animation operation.
      

@@ -42,9 +42,9 @@ class ViewController: UIViewController {
         
         switch liked {
         case true:
-            Animate().bounce(view: heartView).perform()
+            heartView.bounce().perform()
         default:
-            Animate().tilt(view: heartView, rotationAngle: -0.33).perform()
+            heartView.tilt(angle: -0.33).perform()
         }
     }
     
@@ -59,22 +59,8 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        Animate()
-//            .tilt(view: heartView, rotationAngle: -0.33)
-//            .do { [unowned self] in
-//                self.liked = !self.liked
-//            }
-//            .bounce(view: heartView)
-//            .do { [unowned self] in
-//                self.liked = !self.liked
-//            }
-//            .tilt(view: heartView, rotationAngle: -0.33)
-//            .perform { [unowned self] in
-//                self.heartView.isUserInteractionEnabled = true
-//            }
-        
         Animate()
-            .then(animation: heartView.tilt(rotationAngle: -0.33))
+            .then(animation: heartView.tilt(angle: -0.33))
             .do { [unowned self] in
                 self.liked = !self.liked
             }
@@ -82,7 +68,7 @@ class ViewController: UIViewController {
             .do { [unowned self] in
                 self.liked = !self.liked
             }
-            .then(animation: heartView.tilt(rotationAngle: -0.33))
+            .then(animation: heartView.tilt(angle: -0.33))
             .perform { [unowned self] in
                 self.heartView.isUserInteractionEnabled = true
             }
@@ -90,60 +76,38 @@ class ViewController: UIViewController {
     
 }
 
+/* 
+ Writing custom animations is EASY!!!!! 
+ 
+ There are two ways to write animations as extensions to help keep your code clean and readable using this framework.
+ */
+
+
+// Protocols and extenstions on your views that are performing them.
+
 protocol Bounceable {
     func bounce() -> Animate
 }
 
 protocol Tiltable {
-    func tilt(rotationAngle: CGFloat) -> Animate
+    func tilt(angle: CGFloat) -> Animate
 }
 
 extension UIView: Bounceable {
     func bounce() -> Animate {
-        return Animate(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-        }.then(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }.then(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-        }.then(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        }
+        return Animate()
+            .then(animation: scale(duration: 0.3, x: 1.3, y: 1.3))
+            .then(animation: scale(duration: 0.3, x: 0.8, y: 0.8))
+            .then(animation: scale(duration: 0.3, x: 1.1, y: 1.1))
+            .then(animation: scale(duration: 0.3, x: 1.0, y: 1.0))
     }
 }
 
 extension UIView: Tiltable {
-    func tilt(rotationAngle: CGFloat) -> Animate {
-        return Animate(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(rotationAngle: rotationAngle)
-        }.wait(timeout: 0.5) { _ in
-        }.then(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(rotationAngle: 0.0)
-        }
-    }
-}
-
-// Writing custom animations is EASY!!!!!
-extension Animate {
-    
-    func bounce(view: UIView) -> Animate {
-        return then(duration: 0.3) {
-            view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-        }.then(duration: 0.3) {
-            view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }.then(duration: 0.3) {
-            view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-        }.then(duration: 0.3) {
-            view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        }
-    }
-    
-    func tilt(view: UIView, rotationAngle: CGFloat) -> Animate {
-        return then(duration: 0.3) {
-            view.transform = CGAffineTransform(rotationAngle: rotationAngle)
-        }.wait(timeout: 0.5) { _ in
-        }.then(duration: 0.3) {
-            view.transform = CGAffineTransform(rotationAngle: 0.0)
-        }
+    func tilt(angle: CGFloat) -> Animate {
+        return Animate()
+            .then(animation: rotate(duration: 0.3, angle: angle))
+            .wait(timeout: 0.5)
+            .then(animation: rotate(duration: 0.3, angle: 0))
     }
 }

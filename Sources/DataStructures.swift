@@ -41,7 +41,7 @@ internal struct Queue<T> {
 }
 
 extension Queue {
-    mutating func append(_ queue: inout Queue) {
+    mutating func append(_ queue: Queue) {
         if last != nil {
             last?.next = queue.first
             last = queue.last
@@ -49,7 +49,13 @@ extension Queue {
             first = queue.first
             last = queue.last
         }
-        queue.first = nil
-        queue.last = nil
+    }
+}
+
+extension Queue {
+    mutating func release() {
+        // nodes will be automatically released because of swift's automatic reference counting.
+        first = nil
+        last = nil
     }
 }

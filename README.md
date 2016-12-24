@@ -1,19 +1,21 @@
-# SwiftyAnimate
+<img src="http://reidchatham.com/src/SwiftyAnimate.png">
 
-### Syntax sugar for animations in Swift. Escape the Pyramid of DOOM!!! [Blog](https://goo.gl/EHT54H)
-
-![In action!](http://reidchatham.com/src/SwiftyAnimate.gif)
+### Composable animations in Swift. [Blog](https://goo.gl/EHT54H)
 
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Language: Swift 3](https://img.shields.io/badge/language-swift3-f48041.svg?style=flat)](https://developer.apple.com/swift)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Cocoapods compatible](https://cocoapod-badges.herokuapp.com/v/SwiftyAnimate/badge.png)](https://cocoapods.org/pods/SwiftyAnimate)
-[![SPM compatible](https://img.shields.io/badge/spm-supported-orange.svg)](https://swift.org/package-manager/)
-[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/SwiftyAnimate.svg)](http://cocoadocs.org/docsets/SwiftyAnimate)
-[![Codecov](https://img.shields.io/codecov/c/github/rchatham/SwiftyAnimate.svg)]()
-[![Travis](https://img.shields.io/travis/rchatham/SwiftyAnimate.svg)](https://travis-ci.org/rchatham/SwiftyAnimate)
 ![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)
 
+[![Cocoapods compatible](https://cocoapod-badges.herokuapp.com/v/SwiftyAnimate/badge.png)](https://cocoapods.org/pods/SwiftyAnimate)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![SPM compatible](https://img.shields.io/badge/spm-supported-orange.svg)](https://swift.org/package-manager/)
+
+[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/SwiftyAnimate.svg)](http://cocoadocs.org/docsets/SwiftyAnimate)
+[![Codecov](https://img.shields.io/codecov/c/github/rchatham/SwiftyAnimate.svg)](https://codecov.io/gh/rchatham/SwiftyAnimate)
+[![Travis](https://img.shields.io/travis/rchatham/SwiftyAnimate.svg)](https://travis-ci.org/rchatham/SwiftyAnimate)
+[![Code Climate](https://codeclimate.com/github/rchatham/SwiftyAnimate/badges/gpa.svg)](https://codeclimate.com/github/rchatham/SwiftyAnimate)
+
+<img src="http://reidchatham.com/src/SwiftyAnimate.gif" width="200">
 
 
 ## Installation
@@ -23,7 +25,11 @@
 The easiest way to get started is to use [CocoaPods](http://cocoapods.org/). Just add the following line to your Podfile:
 
 ```ruby
+<<<<<<< HEAD
 pod 'SwiftyAnimate', '~> 1.0.0'
+=======
+pod 'SwiftyAnimate', '~> 1.0.1'
+>>>>>>> master
 ```
 
 #### Carthage
@@ -50,7 +56,7 @@ let package = Package(
     targets: [],
     dependencies: [
         .Package(url: "https://github.com/rchatham/SwiftyAnimate.git", majorVersion: 0),
-        ]
+    ]
 )
 ```
 
@@ -118,11 +124,11 @@ This library can be used to design simple to complex animations and keeps animat
 
 ### Composing Animations
 
-Compose animations and insert logic to the flow of animatinos using the `then`, `do`, and `wait` functions.
+Compose animations and insert logic to the flow of animations using the `then`, `do`, and `wait` functions.
 
 #### Then blocks
 
-Add animations to the current instance using one of the implementations for this function. There are implemetations for both standard nd spring animations as well as chaining animation instances.
+Add animations to the current instance using one of the implementations for this function. There are implemetations for both standard and spring animations as well as chaining animation instances.
 
 ```swift
 Animate(duration: 1.0) {
@@ -171,7 +177,7 @@ Animate(duration: 1.0) {
 
 ### Performing Animations
 
-There are two ways to perform animations `finish` and `perform`. * Important: You must either call one of these two functions or `decay` on an animation instance or this will result in a memory leak! *
+There are two ways to perform animations `finish` and `perform`. **Important: You must either call one of these two functions or** `decay` **on an animation instance or this will result in a memory leak!**
 
 #### Perform
 

@@ -1,6 +1,0 @@
-framework module Pods_SwiftyAnimateDemo {
-  umbrella header "Pods-SwiftyAnimateDemo-umbrella.h"
-
-  export *
-  module * { export * }
-}
