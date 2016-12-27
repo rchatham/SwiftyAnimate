@@ -36,95 +36,23 @@ github "rchatham/SwiftyAnimate"
 
 #### Swift Package Manager
 
-Add the following line 
+Add the following line to your Package.swift file. 
 
 ```swift
 .Package(url: "https://github.com/rchatham/SwiftyAnimate.git", majorVersion: 0) 
 ```
 
-to your Package.swift file as illustrated below. 
-
-```swift
-import PackageDescription
-
-let package = Package(
-    name: "YourAppName",
-    targets: [],
-    dependencies: [
-        .Package(url: "https://github.com/rchatham/SwiftyAnimate.git", majorVersion: 0),
-    ]
-)
-```
-
-
-## This!
-
-```swift
-// Escape the Pyramid of DOOM!
-Animate(duration: time) { [unowned self] in
-    // animation
-    self.animationFunction()
-}.do { [unowned self] in
-    // non-animation function
-    self.nonAnimationFunction()
-}.then(duration: time) { [unowned self] in
-    // animation
-    self.animationFunction()
-}.wait { [unowned self] resume in
-    // function that takes time
-    self.functionThatTakesTime {
-        resume()
-    }
-}.then(duration: time) { [unowned self] in
-    // animation
-    self.animationFunction()
-}.then(duration: time) { [unowned self] in
-    // animation
-    self.animationFunction()
-}.perform()
-```
-
-## Not this!
-
-```swift
-// Or... the Pyramid of DOOM!!!!
-UIView.animate(withDuration: time, animations: { [unowned self] in
-    // animation
-    self.animationFunction()
-}) {  [unowned self] success in
-    // non-animation function
-    self.nonAnimationFunction()
-    UIView.animate(withDuration: time, animations: {
-        // animation
-        self.animationFunction()
-    }) { success in
-        // function that takes time
-        self.functionThatTakesTime {
-            UIView.animate(withDuration: time, animations: {
-                // animation
-                self.animationFunction()
-            }) { success in
-                UIView.animate(withDuration: time, animations: {
-                    // animation
-                    self.animationFunction()
-                })
-            }
-        }
-    }
-}
-```
-
 ## Usage
 
-This library can be used to design simple to complex animations and keeps animation code readable and maintainable.
+This library can be used to design composable animations while keeping animation code readable and maintainable.
 
 ### Composing Animations
 
-Compose animations and insert logic to the flow of animations using the `then`, `do`, and `wait` functions.
+Compose animations and insert logic inbetween them using the `then`, `do`, and `wait` functions.
 
 #### Then blocks
 
-Add animations to the current instance using one of the implementations for this function. There are implemetations for both standard and spring animations as well as chaining animation instances.
+Add animations to the current instance using one of the implementations for this function. There are implemetations for spring and keyframe animations as well as chaining `Animate` objects together.
 
 ```swift
 Animate(duration: 1.0) {
@@ -212,6 +140,10 @@ let animation = Animate(duration: 1.0) {
 animation.decay()
 ```
 
+### UIView Extensions
+
+A number of animatable properties have extensions defined to make implementing them with this library even easier. Please check the docs!
+
 ### Best Practices
 
 The best way to take advantage of this library is define extensions for the views that you would like to animate. This compartmentailizes your code and keep all the animation logic tucked up within the view and out of your view controllers.
@@ -219,18 +151,11 @@ The best way to take advantage of this library is define extensions for the view
 ```swift
 extension AnimatingView {
     func bounceAnimation() -> Animate {
-        return Animate(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-        }
-        .then(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }
-        .then(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-        }
-        .then(duration: 0.3) { [unowned self] in
-            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        }
+        return Animate()
+            .then(animation: scale(duration: 0.3, x: 1.3, y: 1.3))
+            .then(animation: scale(duration: 0.3, x: 0.8, y: 0.8))
+            .then(animation: scale(duration: 0.3, x: 1.1, y: 1.1))
+            .then(animation: scale(duration: 0.3, x: 1.0, y: 1.0))
     }
 }
 ```
