@@ -13,3 +13,5 @@
 * **1.0.0** Our 1.0 Release!!!! Added a new .then(animation: Animate) for composing complex animations simply. Lots added to the README.md and updates to the docs. Code is broken down clearer in the repository.
 
 * **1.0.1** Minor bug fixes
+
+* **1.2.0** Adds keyframe animation support as well as a number of UIView extensions to make working with this repository even easier!
