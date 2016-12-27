@@ -277,6 +277,23 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssertTrue(finishedAnimation)
     }
     
+    func test_EmptyAnimate_Finished_Keyframe() {
+        
+        var finishedAnimation = false
+        
+        let animation = Animate()
+        
+        XCTAssertFalse(finishedAnimation)
+        
+        animation.finish(keyframes: [
+                Keyframe(duration: 1.0) {
+                    finishedAnimation = true
+                }
+            ])
+        
+        XCTAssertTrue(finishedAnimation)
+    }
+    
     func test_EmptyAnimate_PerformedThenAnimation() {
         
         var performedThenAnimation = false
@@ -494,6 +511,57 @@ class SwiftyAnimateTests: XCTestCase {
         }
     }
     
+    func test_KeyframeAnimation_Performed() {
+        
+        var performedAnimation = false
+        
+        let animation = Animate(keyframes: [
+                Keyframe(duration: 1.0) {
+                    performedAnimation = true
+                }
+            ])
+        
+        XCTAssertFalse(performedAnimation)
+        
+        animation.perform()
+        
+        XCTAssertTrue(performedAnimation)
+    }
+    
+    func test_KeyframeAnimation_PerformedThenAnimation() {
+        
+        var performedAnimation = false
+        var performedThenAnimation = false
+        
+        let animation = Animate(keyframes: [
+                Keyframe(duration: 1.0) {
+                    performedAnimation = true
+                }
+            ])
+            .then(keyframes: [
+                Keyframe(duration: 1.0) {
+                    performedThenAnimation = true
+                }
+            ])
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        let expect = expectation(description: "Performed then animation with completion")
+        
+        animation.perform {
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertFalse(performedThenAnimation)
+        
+        waitForExpectations(timeout: 1.0) { error in
+            if error != nil { print(error!.localizedDescription) }
+            XCTAssertTrue(performedThenAnimation)
+        }
+    }
+    
     func test_Animate_Copy() {
         
         var performedAnimation = false
@@ -561,9 +629,9 @@ class SwiftyAnimateTests: XCTestCase {
         
         XCTAssert(transform == view.transform)
         
-        view.rotate(duration: 0.3, angle: -0.33).perform()
+        view.rotate(duration: 0.3, angle: 30).perform()
         
-        let rotatedTransform = CGAffineTransform(rotationAngle: -0.33)
+        let rotatedTransform = CGAffineTransform(rotationAngle: 30 * CGFloat(M_PI / 180))
         
         XCTAssert(rotatedTransform == view.transform)
         
@@ -608,6 +676,28 @@ class SwiftyAnimateTests: XCTestCase {
         
     }
 
+    func test_Animate_Transformed() {
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        var transform = view.transform
+        
+        XCTAssert(transform == view.transform)
+        
+        view.transformed(duration: 0.3, transforms: [
+                .rotate(angle: 90),
+                .scale(x: 1.5, y: 1.5),
+                .move(x: -10, y: -10),
+            ])
+            .perform()
+        
+        transform = CGAffineTransform(rotationAngle: 90 * CGFloat(M_PI / 180))
+            .scaledBy(x: 1.5, y: 1.5)
+            .translatedBy(x: -10, y: -10)
+        
+        XCTAssert(transform == view.transform)
+        
+    }
     
     private var resumeBlock: Resume?
     

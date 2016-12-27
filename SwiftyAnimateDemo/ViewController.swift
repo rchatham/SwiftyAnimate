@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         liked = !liked
         
         heartView.goCrazy().perform()
-//        
+//
 //        switch liked {
 //        case true:
 //            heartView.bounce().perform()
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         Animate()
             .then(animation: heartView.move(duration: 0.3, x: 10, y: 10))
             .then(animation: heartView.move(duration: 0.3, x: -10, y: -10))
-            .then(animation: heartView.tilt(angle: -0.33))
+            .then(animation: heartView.tilt(angle: -30))
             .do { [unowned self] in
                 self.liked = !self.liked
             }
@@ -74,7 +74,7 @@ class ViewController: UIViewController {
             }
             .then(animation: heartView.move(duration: 0.3, x: 10, y: 10))
             .then(animation: heartView.move(duration: 0.3, x: -10, y: -10))
-            .then(animation: heartView.tilt(angle: -0.33))
+            .then(animation: heartView.tilt(angle: -30))
             .perform { [unowned self] in
                 self.heartView.isUserInteractionEnabled = true
             }
@@ -85,9 +85,6 @@ class ViewController: UIViewController {
 /* 
  Writing custom animations is EASY!!!!!
  */
-
-
-// Protocols and extenstions on your views that are performing them.
 
 protocol Bounceable {
     func bounce() -> Animate
@@ -127,29 +124,16 @@ protocol GoCrazy {
 extension UIView: GoCrazy {
     func goCrazy() -> Animate {
         return Animate()
-            .then(duration: 1.0) { [weak self] in
-                self?.scale(x: .random(max: 2), y: .random(max: 2))
-                self?.rotate(angle: .random(max: 6))
-            }
+            .then(animation: transformed(duration: 0.3, transforms: [
+                .rotate(angle: 180),
+                .scale(x: 1.5, y: 1.5),
+                .move(x: -10, y: -10),
+            ]))
+            .wait(timeout: 0.2)
+            .then(animation: transformed(duration: 0.3, transforms: [
+                .move(x: 10, y: 10),
+                .scale(x: 1.0, y: 1.0),
+                .rotate(angle: 0),
+            ]))
     }
 }
-
-
-
-extension CGFloat {
-    static func random(max: UInt32) -> CGFloat {
-        let rand = arc4random_uniform(70)
-        return CGFloat(max) * CGFloat(rand) / 70.0
-    }
-}
-
-
-
-
-
-
-
-
-
-
-

@@ -12,6 +12,7 @@
 		3002F9A41DB7F29B00FF2E53 /* DataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */; };
 		3054A8251DF445CE0071EBBE /* SwiftyAnimate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3002F98D1DB720C600FF2E53 /* SwiftyAnimate.framework */; };
 		30557FB31E0EC8EE00DDB9FB /* UIKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30557FB21E0EC8EE00DDB9FB /* UIKit+Extensions.swift */; };
+		30B282F01E11CFB50072E0A2 /* Keyframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B282EF1E11CFB50072E0A2 /* Keyframe.swift */; };
 		30C2EDDF1E000D100003F918 /* AnimateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C2EDDE1E000D100003F918 /* AnimateOperation.swift */; };
 		30D4C4461DF51C48007DFC81 /* SwiftyAnimateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4C4421DF51C27007DFC81 /* SwiftyAnimateTests.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +35,7 @@
 		3002F9A11DB7F29B00FF2E53 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = "<group>"; };
 		3054A8201DF445CE0071EBBE /* SwiftyAnimateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyAnimateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30557FB21E0EC8EE00DDB9FB /* UIKit+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+Extensions.swift"; sourceTree = "<group>"; };
+		30B282EF1E11CFB50072E0A2 /* Keyframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyframe.swift; sourceTree = "<group>"; };
 		30C2EDDE1E000D100003F918 /* AnimateOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimateOperation.swift; path = Sources/AnimateOperation.swift; sourceTree = "<group>"; };
 		30D4C4411DF51C27007DFC81 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30D4C4421DF51C27007DFC81 /* SwiftyAnimateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyAnimateTests.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				3002F99F1DB7F29B00FF2E53 /* Animate.swift */,
 				3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */,
 				30C2EDDE1E000D100003F918 /* AnimateOperation.swift */,
+				30B282EF1E11CFB50072E0A2 /* Keyframe.swift */,
 				30557FB21E0EC8EE00DDB9FB /* UIKit+Extensions.swift */,
 				3002F9A11DB7F29B00FF2E53 /* Info.plist */,
 			);
@@ -216,6 +219,7 @@
 				30C2EDDF1E000D100003F918 /* AnimateOperation.swift in Sources */,
 				30557FB31E0EC8EE00DDB9FB /* UIKit+Extensions.swift in Sources */,
 				3002F9A41DB7F29B00FF2E53 /* DataStructures.swift in Sources */,
+				30B282F01E11CFB50072E0A2 /* Keyframe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
