@@ -35,6 +35,14 @@ public enum AnimateOperation {
     case spring(TimeInterval, TimeInterval, CGFloat, CGFloat, UIViewAnimationOptions, Animation)
     
     /**
+     Keyframe animation operation.
+     
+     - parameter _: `UIViewKeyframeAnimationOptions` to apply to the animation.
+     - parameter _: Array of `Keyframe` objects to perform. 
+     */
+    case keyframe(UIViewKeyframeAnimationOptions, [Keyframe])
+    
+    /**
      Wait operation.
      
      - parameter _: `TimeInterval?` to to resume by if resume is not called by the `Wait` block. Pass in `nil` to disable timeout.

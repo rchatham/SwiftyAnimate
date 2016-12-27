@@ -88,7 +88,37 @@ open class Animate {
     }
     
     /**
-     Perform linked animations here.
+     Creates an animation instance with an initial keyFrame animation.
+     ```
+     //syntax:
+     
+     Animate(keyFrames: [
+             KeyFrame(duration: 1.0) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.0, delay: 0.5) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.5) {
+                 // key frame animation
+             }
+         ])
+        .perform()
+     ```
+     
+     - parameter options: Takes a set of `UIViewKeyframeAnimationOptions`.
+     - parameter keyframes: An array of Keyframe objects representing the keyframes to be animated.
+     
+     - returns: An animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    public init(options: UIViewKeyframeAnimationOptions = [], keyframes: [Keyframe]) {
+        animations.enqueue(data: .keyframe(options, keyframes))
+    }
+    
+    /**
+     Adds a standard animation to the instance.
      ```
      //syntax:
      
@@ -119,7 +149,7 @@ open class Animate {
     }
     
     /**
-     Perform linked spring animations here.
+     Adds a spring animation to the instance.
      ```
      //syntax:
      
@@ -146,6 +176,38 @@ open class Animate {
      */
     open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
         self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
+        return self
+    }
+    
+    /**
+     Adds a keyFrame animation to the instance.
+     ```
+     //syntax:
+     
+     Animate()
+         .then(keyFrames: [
+            KeyFrame(duration: 1.0) {
+                // key frame animation
+            },
+            KeyFrame(duration: 1.0, delay: 0.5) {
+                // key frame animation
+            },
+            KeyFrame(duration: 1.5) {
+                // key frame animation
+            }
+         ])
+         .perform()
+     ```
+     
+     - parameter options: Takes a set of `UIViewKeyframeAnimationOptions`.
+     - parameter keyframes: An array of Keyframe objects representing the keyframes to be animated.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func then(options: UIViewKeyframeAnimationOptions = [], keyframes: [Keyframe]) -> Animate {
+        animations.enqueue(data: .keyframe(options, keyframes))
         return self
     }
     
@@ -212,7 +274,7 @@ open class Animate {
      - warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in a memory leak!
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func wait(timeout: TimeInterval? = nil, _ callback: @escaping Wait) -> Animate {
+    open func wait(timeout: TimeInterval? = nil, _ callback: @escaping Wait = {_ in}) -> Animate {
         animations.enqueue(data: .wait(timeout, callback))
         return self
     }
@@ -291,6 +353,39 @@ open class Animate {
         case .spring(let duration, let delay, let damping, let velocity, let options, let animations):
             
             UIView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: damping, initialSpringVelocity: velocity, options: options, animations: animations) { success in
+                self.perform(completion: completion)
+            }
+            
+        case .keyframe(let options, let keyframes):
+            
+            var total = 0.0
+            var delay = 0.0
+            
+            for keyframe in keyframes {
+                let keyTotal = keyframe.duration + keyframe.delay
+                if keyTotal > total { total = keyTotal }
+                if keyframe.delay < delay { delay = keyframe.delay }
+            }
+            
+            let duration = total - delay
+            
+            UIView.animateKeyframes(withDuration: duration, delay: delay, options: options, animations: {
+                
+                for keyframe in keyframes {
+                    
+                    let relativeStartTime: Double = {
+                        let relativeDelay = keyframe.delay - delay
+                        return relativeDelay / duration
+                    }()
+                    
+                    let relativeDuration: Double = {
+                       return keyframe.duration / duration
+                    }()
+                    
+                    UIView.addKeyframe(withRelativeStartTime: relativeStartTime, relativeDuration: relativeDuration, animations: keyframe.animation)
+                }
+                
+            }) { success in
                 self.perform(completion: completion)
             }
             
@@ -374,6 +469,37 @@ open class Animate {
      */
     open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) {
         self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, callback))
+        perform()
+    }
+    
+    /**
+     Adds a keyFrame animation and then immediately performs the animation instance.
+     ```
+     //syntax:
+     
+     Animate()
+         .finish(keyFrames: [
+             KeyFrame(duration: 1.0) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.0, delay: 0.5) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.5) {
+                 // key frame animation
+             }
+         ])
+     ```
+     
+     - parameter options: Takes a set of `UIViewKeyframeAnimationOptions`.
+     - parameter keyframes: An array of Keyframe objects representing the keyframes to be animated.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func finish(options: UIViewKeyframeAnimationOptions = [], keyframes: [Keyframe]) {
+        animations.enqueue(data: .keyframe(options, keyframes))
         perform()
     }
     
