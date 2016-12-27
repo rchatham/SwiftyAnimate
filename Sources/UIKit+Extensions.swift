@@ -72,6 +72,7 @@ extension UIView {
     /**
      Creates an `Animate` instance that performs a translation core graphics transformation on a view.
      
+     - parameter duration: Duration for the transformation.
      - parameter x: Value to shift in the x direction.
      - parameter y: Value to shift in the y direction.
      
@@ -95,6 +96,7 @@ extension UIView {
     /**
      Creates an `Animate` instance that performs a rotation core graphics transformation on a view.
      
+     - parameter duration: Duration for the transformation.
      - parameter angle: Degrees to rotate the view.
      
      - returns: Animate instance.
@@ -118,6 +120,7 @@ extension UIView {
     /**
      Creates an `Animate` instance that performs a scale core graphics transformation on a view.
      
+     - parameter duration: Duration for the transformation.
      - parameter x: Value to scale in the x direction.
      - parameter y: Value to scale in the y direction.
      
@@ -141,6 +144,7 @@ extension UIView {
     /**
      Creates an `Animate` instance that sets the corner radius on the view's CALayer.
      
+     - parameter duration: Duration for the transformation.
      - parameter radius: Value for the new corner radius.
      
      - returns: Animate instance.
@@ -163,6 +167,7 @@ extension UIView {
     /**
      Creates an `Animate` instance that sets the view's background color.
      
+     - parameter duration: Duration for the transformation.
      - parameter color: Value for the new background color.
      
      - returns: Animate instance.
