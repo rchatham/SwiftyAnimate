@@ -70,13 +70,4 @@ extension UIView {
     public func color(_ color: UIColor) {
         backgroundColor = color
     }
-    
-    /**
-     Sets the corner radius on the view's CALayer.
-     
-     - parameter radius: Value for the new corner radius.
-     */
-    public func corner(radius: CGFloat) {
-        layer.cornerRadius = radius
-    }
 }

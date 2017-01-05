@@ -8,10 +8,15 @@
 
 import Foundation
 
+/// Enum reppresenting a cross-api timing functions.
 public enum Timing {
+    /// Ease in timing function.
     case easeIn
+    /// Ease out timing function.
     case easeOut
+    /// Linear timing function.
     case linear
+    /// Ease in-out timing function.
     case easeInOut
     
     var viewAnimationCurve: UIViewAnimationCurve {
@@ -29,6 +34,15 @@ public enum Timing {
         case .easeOut: return .init(name: kCAMediaTimingFunctionEaseOut)
         case .easeInOut: return .init(name: kCAMediaTimingFunctionEaseInEaseOut)
         case .linear: return .init(name: kCAMediaTimingFunctionLinear)
+        }
+    }
+    
+    var viewAnimationOptions: UIViewAnimationOptions {
+        switch self {
+        case .easeIn: return .curveEaseIn
+        case .easeOut: return .curveEaseOut
+        case .easeInOut: return .curveEaseInOut
+        case .linear: return .curveLinear
         }
     }
 }

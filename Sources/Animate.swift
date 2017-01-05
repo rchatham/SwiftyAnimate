@@ -462,7 +462,7 @@ open class Animate {
      - parameter delay: Takes a time interval to delay the animation.
      - parameter springDamping: Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.
      - parameter initialVelocity: The initial velocity for the view as a ratio of it's distance to it's final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.
-     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is an empty array.
      - parameter callback: `Animation` callback to perform over the duration passed in.
      
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
@@ -477,8 +477,7 @@ open class Animate {
      ```
      //syntax:
      
-     Animate()
-         .finish(keyFrames: [
+     Animate().finish(keyFrames: [
              KeyFrame(duration: 1.0) {
                  // key frame animation
              },
@@ -557,38 +556,56 @@ open class Animate {
     
     
     /**
-     Creates an `Animate` instance that sets the corner radius on the view's CALayer.
+     Appends an animation of the corner radius on the view's CALayer.
      
+     - parameter view: View to perform the animation on.
      - parameter duration: Duration for the transformation.
+     - parameter timing: The animation timing function to use.
      - parameter radius: Value for the new corner radius.
+     - parameter wait: Bool of whether the following animation wait for the corner animation to finish.
      
      - returns: Animate instance.
      */
-    public func corner(view: UIView, duration: TimeInterval, timing: Timing, radius: CGFloat) -> Animate {
+    public func corner(view: UIView, duration: TimeInterval, timing: Timing = .easeInOut, radius: CGFloat, wait: Bool = true) -> Animate {
         
         let corner = view.layer.cornerRadius
         
-        return Animate().wait(timeout: duration) { (resume) in
+        if wait {
+            return Animate().wait(timeout: duration) { (resume) in
                 let animation = CABasicAnimation(keyPath: "cornerRadius")
-                                animation.timingFunction = timing.coreAnimationCurve
+                animation.timingFunction = timing.coreAnimationCurve
                 animation.toValue = radius
                 animation.fromValue = corner
                 animation.duration = duration
                 view.layer.add(animation, forKey: "corner")
-                view.corner(radius: radius)
+                view.layer.cornerRadius = radius
+            }
+        } else {
+            return Animate().do {
+                let animation = CABasicAnimation(keyPath: "cornerRadius")
+                animation.timingFunction = timing.coreAnimationCurve
+                animation.toValue = radius
+                animation.fromValue = corner
+                animation.duration = duration
+                view.layer.add(animation, forKey: "corner")
+                view.layer.cornerRadius = radius
+            }
         }
     }
     
     /**
      Creates an `Animate` instance that sets the view's background color.
      
+     - parameter view: View to perform the animation on.
      - parameter duration: Duration for the transformation.
+     - parameter delay: Takes a time interval to delay the animation.
      - parameter color: Value for the new background color.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is an empty array.
      
      - returns: Animate instance.
      */
-    public func color(view: UIView, duration: TimeInterval, value: UIColor) -> Animate {
-        return Animate(duration: duration) {
+    public func color(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, value: UIColor, options: UIViewAnimationOptions = []) -> Animate {
+        return Animate(duration: duration, delay: delay, options: options) {
             view.color(value)
         }
     }
@@ -596,14 +613,17 @@ open class Animate {
     /**
      Creates an `Animate` instance that performs a scale core graphics transformation on a view.
      
+     - parameter view: View to perform the animation on.
      - parameter duration: Duration for the transformation.
+     - parameter delay: Takes a time interval to delay the animation.
      - parameter x: Value to scale in the x direction.
      - parameter y: Value to scale in the y direction.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is an empty array.
      
      - returns: Animate instance.
      */
-    public func scale(view: UIView, duration: TimeInterval, x: CGFloat, y: CGFloat) -> Animate {
-        return Animate(duration: duration) {
+    public func scale(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, x: CGFloat, y: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
+        return Animate(duration: duration, delay: delay, options: options) {
             view.scale(x: x, y: y)
         }
     }
@@ -611,13 +631,17 @@ open class Animate {
     /**
      Creates an `Animate` instance that performs a rotation core graphics transformation on a view.
      
+     - parameter view: View to perform the animation on.
      - parameter duration: Duration for the transformation.
+     - parameter delay: Takes a time interval to delay the animation.
+     - parameter delay: Takes a time interval to delay the animation.
      - parameter angle: Degrees to rotate the view.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is an empty array.
      
      - returns: Animate instance.
      */
-    public func rotate(view: UIView, duration: TimeInterval, angle: CGFloat) -> Animate {
-        return Animate(duration: 0.3) {
+    public func rotate(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, angle: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
+        return Animate(duration: duration, delay: delay, options: options) {
             view.rotate(angle: angle)
         }
     }
@@ -625,14 +649,17 @@ open class Animate {
     /**
      Creates an `Animate` instance that performs a translation core graphics transformation on a view.
      
+     - parameter view: View to perform the animation on.
      - parameter duration: Duration for the transformation.
+     - parameter delay: Takes a time interval to delay the animation.
      - parameter x: Value to shift in the x direction.
      - parameter y: Value to shift in the y direction.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is an empty array.
      
      - returns: Animate instance.
      */
-    public func move(view: UIView, duration: TimeInterval, x: CGFloat, y: CGFloat) -> Animate {
-        return Animate(duration: duration) {
+    public func move(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, x: CGFloat, y: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
+        return Animate(duration: duration, delay: delay, options: options) {
             view.move(x: x, y: y)
         }
     }
@@ -640,13 +667,16 @@ open class Animate {
     /**
      Creates an `Animate` object for performing multiple core graphics transformations on a view.
      
+     - parameter view: View to perform the animation on.
      - parameter duration: Duration for the transformation.
+     - parameter delay: Takes a time interval to delay the animation.
      - parameter transforms: Array of transformations to be performed on the view represented by `Transform` enum cases.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is an empty array.
      
      - returns: Animate instance.
      */
-    public func transform(view: UIView, duration: TimeInterval, transforms: [Transform]) -> Animate {
-        return Animate(duration: duration) {
+    public func transform(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, transforms: [Transform], options: UIViewAnimationOptions = []) -> Animate {
+        return Animate(duration: duration, delay: delay, options: options) {
             view.transformed(by: transforms)
         }
     }
