@@ -551,6 +551,105 @@ open class Animate {
     @objc internal func resumeBlock(_ sender: Timer) {
         resumeBlock?()
     }
+    
+    
+    // MARK: - UIView animations
+    
+    
+    /**
+     Creates an `Animate` instance that sets the corner radius on the view's CALayer.
+     
+     - parameter duration: Duration for the transformation.
+     - parameter radius: Value for the new corner radius.
+     
+     - returns: Animate instance.
+     */
+    public func corner(view: UIView, duration: TimeInterval, timing: Timing, radius: CGFloat) -> Animate {
+        
+        let corner = view.layer.cornerRadius
+        
+        return Animate().wait(timeout: duration) { (resume) in
+                let animation = CABasicAnimation(keyPath: "cornerRadius")
+                                animation.timingFunction = timing.coreAnimationCurve
+                animation.toValue = radius
+                animation.fromValue = corner
+                animation.duration = duration
+                view.layer.add(animation, forKey: "corner")
+                view.corner(radius: radius)
+        }
+    }
+    
+    /**
+     Creates an `Animate` instance that sets the view's background color.
+     
+     - parameter duration: Duration for the transformation.
+     - parameter color: Value for the new background color.
+     
+     - returns: Animate instance.
+     */
+    public func color(view: UIView, duration: TimeInterval, value: UIColor) -> Animate {
+        return Animate(duration: duration) {
+            view.color(value)
+        }
+    }
+    
+    /**
+     Creates an `Animate` instance that performs a scale core graphics transformation on a view.
+     
+     - parameter duration: Duration for the transformation.
+     - parameter x: Value to scale in the x direction.
+     - parameter y: Value to scale in the y direction.
+     
+     - returns: Animate instance.
+     */
+    public func scale(view: UIView, duration: TimeInterval, x: CGFloat, y: CGFloat) -> Animate {
+        return Animate(duration: duration) {
+            view.scale(x: x, y: y)
+        }
+    }
+    
+    /**
+     Creates an `Animate` instance that performs a rotation core graphics transformation on a view.
+     
+     - parameter duration: Duration for the transformation.
+     - parameter angle: Degrees to rotate the view.
+     
+     - returns: Animate instance.
+     */
+    public func rotate(view: UIView, duration: TimeInterval, angle: CGFloat) -> Animate {
+        return Animate(duration: 0.3) {
+            view.rotate(angle: angle)
+        }
+    }
+    
+    /**
+     Creates an `Animate` instance that performs a translation core graphics transformation on a view.
+     
+     - parameter duration: Duration for the transformation.
+     - parameter x: Value to shift in the x direction.
+     - parameter y: Value to shift in the y direction.
+     
+     - returns: Animate instance.
+     */
+    public func move(view: UIView, duration: TimeInterval, x: CGFloat, y: CGFloat) -> Animate {
+        return Animate(duration: duration) {
+            view.move(x: x, y: y)
+        }
+    }
+    
+    /**
+     Creates an `Animate` object for performing multiple core graphics transformations on a view.
+     
+     - parameter duration: Duration for the transformation.
+     - parameter transforms: Array of transformations to be performed on the view represented by `Transform` enum cases.
+     
+     - returns: Animate instance.
+     */
+    public func transform(view: UIView, duration: TimeInterval, transforms: [Transform]) -> Animate {
+        return Animate(duration: duration) {
+            view.transformed(by: transforms)
+        }
+    }
 }
 
 extension Animate: NSCopying {
