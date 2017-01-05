@@ -19,14 +19,14 @@ public enum Timing {
     /// Ease in-out timing function.
     case easeInOut
     
-    var viewAnimationCurve: UIViewAnimationCurve {
-        switch self {
-        case .easeIn: return .easeIn
-        case .easeOut: return .easeOut
-        case .easeInOut: return .easeInOut
-        case .linear: return .linear
-        }
-    }
+//    var viewAnimationCurve: UIViewAnimationCurve {
+//        switch self {
+//        case .easeIn: return .easeIn
+//        case .easeOut: return .easeOut
+//        case .easeInOut: return .easeInOut
+//        case .linear: return .linear
+//        }
+//    }
     
     var coreAnimationCurve: CAMediaTimingFunction {
         switch self {
@@ -37,12 +37,12 @@ public enum Timing {
         }
     }
     
-    var viewAnimationOptions: UIViewAnimationOptions {
-        switch self {
-        case .easeIn: return .curveEaseIn
-        case .easeOut: return .curveEaseOut
-        case .easeInOut: return .curveEaseInOut
-        case .linear: return .curveLinear
-        }
-    }
+//    var viewAnimationOptions: UIViewAnimationOptions {
+//        switch self {
+//        case .easeIn: return .curveEaseIn
+//        case .easeOut: return .curveEaseOut
+//        case .easeInOut: return .curveEaseInOut
+//        case .linear: return .curveLinear
+//        }
+//    }
 }
