@@ -528,7 +528,7 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssertTrue(performedAnimation)
     }
     
-    func test_KeyframeAnimation_PerformedThenAnimation() {
+    func test_KeyframeAnimation_PerformedThenKeyframeAnimation() {
         
         var performedAnimation = false
         var performedThenAnimation = false

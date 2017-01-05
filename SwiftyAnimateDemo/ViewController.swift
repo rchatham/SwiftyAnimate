@@ -11,10 +11,6 @@ import SwiftyAnimate
 
 class ViewController: UIViewController {
     
-    struct Constants {
-        static let defaultAnimationTime = 0.5
-    }
-    
     var liked: Bool = false {
         didSet {
             guard oldValue != liked else { return }
@@ -41,7 +37,7 @@ class ViewController: UIViewController {
         liked = !liked
         
         heartView.goCrazy().perform()
-//
+
 //        switch liked {
 //        case true:
 //            heartView.bounce().perform()
@@ -62,8 +58,6 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         Animate()
-            .then(animation: heartView.move(duration: 0.3, x: 10, y: 10))
-            .then(animation: heartView.move(duration: 0.3, x: -10, y: -10))
             .then(animation: heartView.tilt(angle: -30))
             .do { [unowned self] in
                 self.liked = !self.liked
@@ -72,8 +66,6 @@ class ViewController: UIViewController {
             .do { [unowned self] in
                 self.liked = !self.liked
             }
-            .then(animation: heartView.move(duration: 0.3, x: 10, y: 10))
-            .then(animation: heartView.move(duration: 0.3, x: -10, y: -10))
             .then(animation: heartView.tilt(angle: -30))
             .perform { [unowned self] in
                 self.heartView.isUserInteractionEnabled = true
@@ -97,19 +89,19 @@ protocol Tiltable {
 extension UIView: Bounceable {
     func bounce() -> Animate {
         return Animate()
-            .then(animation: scale(duration: 0.3, x: 1.3, y: 1.3))
-            .then(animation: scale(duration: 0.3, x: 0.8, y: 0.8))
-            .then(animation: scale(duration: 0.3, x: 1.1, y: 1.1))
-            .then(animation: scale(duration: 0.3, x: 1.0, y: 1.0))
+            .scale(view: self, duration: 0.3, x: 1.3, y: 1.3)
+            .scale(view: self, duration: 0.3, x: 0.8, y: 0.8)
+            .scale(view: self, duration: 0.3, x: 1.1, y: 1.1)
+            .scale(view: self, duration: 0.3, x: 1.0, y: 1.0)
     }
 }
 
 extension UIView: Tiltable {
     func tilt(angle: CGFloat) -> Animate {
         return Animate()
-            .then(animation: rotate(duration: 0.3, angle: angle))
+            .rotate(view: self, duration: 0.3, angle: angle)
             .wait(timeout: 0.5)
-            .then(animation: rotate(duration: 0.3, angle: 0))
+            .rotate(view: self, duration: 0.3, angle: 0)
     }
 }
 
@@ -124,16 +116,16 @@ protocol GoCrazy {
 extension UIView: GoCrazy {
     func goCrazy() -> Animate {
         return Animate()
-            .then(animation: transformed(duration: 0.3, transforms: [
+            .transform(view: self, duration: 0.3, transforms: [
                 .rotate(angle: 180),
                 .scale(x: 1.5, y: 1.5),
                 .move(x: -10, y: -10),
-            ]))
+            ])
             .wait(timeout: 0.2)
-            .then(animation: transformed(duration: 0.3, transforms: [
+            .transform(view: self, duration: 0.3, transforms: [
                 .move(x: 10, y: 10),
                 .scale(x: 1.0, y: 1.0),
                 .rotate(angle: 0),
-            ]))
+            ])
     }
 }

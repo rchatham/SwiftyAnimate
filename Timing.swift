@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Enum reppresenting a cross-api timing functions.
+/// Enum representing cross-api timing functions.
 public enum Timing {
     /// Ease in timing function.
     case easeIn
