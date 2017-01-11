@@ -407,10 +407,7 @@ open class Animate {
                 self.resumeBlock = nil
             }
             // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
-            waitBlock({ [weak self] in
-                self?.resumeBlock?()
-            })
-            
+            waitBlock(resumeBlock ?? {})
             
         case .do(let doBlock):
             
@@ -552,6 +549,7 @@ open class Animate {
     }
     
     
+    // TODO: - Should these functions be UIView extenstions or Animate functions?
     // MARK: - UIView animations
     
     
@@ -568,27 +566,26 @@ open class Animate {
      */
     public func corner(view: UIView, duration: TimeInterval, timing: Timing = .easeInOut, radius: CGFloat, wait: Bool = true) -> Animate {
         
-        let corner = view.layer.cornerRadius
+        let current = view.layer.cornerRadius
         
+        let animation = {
+            let animation = CABasicAnimation(keyPath: "cornerRadius")
+            animation.timingFunction = timing.coreAnimationCurve
+            animation.fromValue = current
+            animation.toValue = radius
+            animation.duration = duration
+            view.layer.add(animation, forKey: "corner")
+            view.layer.cornerRadius = radius
+        }
+        
+        // Because this is a CABasicAnimation it cannot occur in a standard animation block and therefore must be performed in either a wait or do block
         if wait {
-            return Animate().wait(timeout: duration) { (resume) in
-                let animation = CABasicAnimation(keyPath: "cornerRadius")
-                animation.timingFunction = timing.coreAnimationCurve
-                animation.toValue = radius
-                animation.fromValue = corner
-                animation.duration = duration
-                view.layer.add(animation, forKey: "corner")
-                view.layer.cornerRadius = radius
+            return self.wait(timeout: duration) { _ in
+                animation()
             }
         } else {
-            return Animate().do {
-                let animation = CABasicAnimation(keyPath: "cornerRadius")
-                animation.timingFunction = timing.coreAnimationCurve
-                animation.toValue = radius
-                animation.fromValue = corner
-                animation.duration = duration
-                view.layer.add(animation, forKey: "corner")
-                view.layer.cornerRadius = radius
+            return self.do {
+                animation()
             }
         }
     }
@@ -605,7 +602,7 @@ open class Animate {
      - returns: Animate instance.
      */
     public func color(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, value: UIColor, options: UIViewAnimationOptions = []) -> Animate {
-        return Animate(duration: duration, delay: delay, options: options) {
+        return then(duration: duration, delay: delay, options: options) {
             view.color(value)
         }
     }
@@ -623,7 +620,7 @@ open class Animate {
      - returns: Animate instance.
      */
     public func scale(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, x: CGFloat, y: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
-        return Animate(duration: duration, delay: delay, options: options) {
+        return then(duration: duration, delay: delay, options: options) {
             view.scale(x: x, y: y)
         }
     }
@@ -641,7 +638,7 @@ open class Animate {
      - returns: Animate instance.
      */
     public func rotate(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, angle: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
-        return Animate(duration: duration, delay: delay, options: options) {
+        return then(duration: duration, delay: delay, options: options) {
             view.rotate(angle: angle)
         }
     }
@@ -659,7 +656,7 @@ open class Animate {
      - returns: Animate instance.
      */
     public func move(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, x: CGFloat, y: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
-        return Animate(duration: duration, delay: delay, options: options) {
+        return then(duration: duration, delay: delay, options: options) {
             view.move(x: x, y: y)
         }
     }
@@ -676,7 +673,7 @@ open class Animate {
      - returns: Animate instance.
      */
     public func transform(view: UIView, duration: TimeInterval, delay: TimeInterval = 0.0, transforms: [Transform], options: UIViewAnimationOptions = []) -> Animate {
-        return Animate(duration: duration, delay: delay, options: options) {
+        return then(duration: duration, delay: delay, options: options) {
             view.transformed(by: transforms)
         }
     }

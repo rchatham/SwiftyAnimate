@@ -9,7 +9,7 @@
 import UIKit
 
 
-/// `enum` of supported animation operations.
+/// Enum of supported animation operations.
 public enum AnimateOperation {
     
     /**
