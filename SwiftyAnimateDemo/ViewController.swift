@@ -36,14 +36,14 @@ class ViewController: UIViewController {
     func tappedHeart(_ sender: UITapGestureRecognizer) {
         liked = !liked
         
-        heartView.goCrazy().perform()
+//        heartView.goCrazy().perform()
 
-//        switch liked {
-//        case true:
-//            heartView.bounce().perform()
-//        default:
-//            heartView.tilt(angle: -0.33).perform()
-//        }
+        switch liked {
+        case true:
+            heartView.bounce().perform()
+        default:
+            heartView.tilt(angle: -0.33).perform()
+        }
     }
     
     
@@ -89,19 +89,19 @@ protocol Tiltable {
 extension UIView: Bounceable {
     func bounce() -> Animate {
         return Animate()
-            .scale(view: self, duration: 0.3, x: 1.3, y: 1.3)
-            .scale(view: self, duration: 0.3, x: 0.8, y: 0.8)
-            .scale(view: self, duration: 0.3, x: 1.1, y: 1.1)
-            .scale(view: self, duration: 0.3, x: 1.0, y: 1.0)
+            .then(animation: scale(duration: 0.3, x: 1.3, y: 1.3))
+            .then(animation: scale(duration: 0.3, x: 0.8, y: 0.8))
+            .then(animation: scale(duration: 0.3, x: 1.1, y: 1.1))
+            .then(animation: scale(duration: 0.3, x: 1.0, y: 1.0))
     }
 }
 
 extension UIView: Tiltable {
     func tilt(angle: CGFloat) -> Animate {
         return Animate()
-            .rotate(view: self, duration: 0.3, angle: angle)
+            .then(animation: rotate(duration: 0.3, angle: angle))
             .wait(timeout: 0.5)
-            .rotate(view: self, duration: 0.3, angle: 0)
+            .then(animation: rotate(duration: 0.3, angle: 0))
     }
 }
 
@@ -116,16 +116,16 @@ protocol GoCrazy {
 extension UIView: GoCrazy {
     func goCrazy() -> Animate {
         return Animate()
-            .transform(view: self, duration: 0.3, transforms: [
+            .then(animation: transform(duration: 0.3, transforms: [
                 .rotate(angle: 180),
                 .scale(x: 1.5, y: 1.5),
                 .move(x: -10, y: -10),
-            ])
-            .wait(timeout: 0.2)
-            .transform(view: self, duration: 0.3, transforms: [
+            ]))
+            .wait(timeout: 0.3)
+            .then(animation: transform(duration: 0.3, transforms: [
                 .move(x: 10, y: 10),
                 .scale(x: 1.0, y: 1.0),
                 .rotate(angle: 0),
-            ])
+            ]))
     }
 }

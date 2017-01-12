@@ -614,7 +614,7 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssert(view.frame.origin.x == 0)
         XCTAssert(view.frame.origin.y == 0)
         
-        Animate().move(view: view, duration: 0.3, x: 10, y: 10).perform()
+        view.move(duration: 0.3, x: 10, y: 10).perform()
         
         XCTAssert(view.frame.origin.x == 10)
         XCTAssert(view.frame.origin.y == 10)
@@ -629,7 +629,7 @@ class SwiftyAnimateTests: XCTestCase {
         
         XCTAssert(transform == view.transform)
         
-        Animate().rotate(view: view, duration: 0.3, angle: 30).perform()
+        view.rotate(duration: 0.3, angle: 30).perform()
         
         let rotatedTransform = CGAffineTransform(rotationAngle: 30 * CGFloat(M_PI / 180))
         
@@ -644,7 +644,7 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssert(view.frame.width == 10)
         XCTAssert(view.frame.height == 10)
         
-        Animate().scale(view: view, duration: 0.3, x: 2, y: 2).perform()
+        view.scale(duration: 0.3, x: 2, y: 2).perform()
         
         XCTAssert(view.frame.width == 20)
         XCTAssert(view.frame.height == 20)
@@ -657,10 +657,53 @@ class SwiftyAnimateTests: XCTestCase {
         
         XCTAssert(view.layer.cornerRadius == 0)
         
-        Animate().corner(view: view, duration: 0.3, radius: 5).perform()
+        view.corner(duration: 0.3, radius: 5).perform()
         
         XCTAssert(view.layer.cornerRadius == 5)
+    }
+    
+    func test_Animate_Corner_WithNext() {
         
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        XCTAssert(view.layer.cornerRadius == 0)
+        
+        view.corner(duration: 0.3, radius: 5, wait: false).perform()
+        
+        XCTAssert(view.layer.cornerRadius == 5)
+    }
+    
+    func test_Animate_Corner_EaseIn() {
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        XCTAssert(view.layer.cornerRadius == 0)
+        
+        view.corner(duration: 0.3, radius: 5, timing: .easeIn).perform()
+        
+        XCTAssert(view.layer.cornerRadius == 5)
+    }
+    
+    func test_Animate_Corner_EaseOut() {
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        XCTAssert(view.layer.cornerRadius == 0)
+        
+        view.corner(duration: 0.3, radius: 5, timing: .easeOut).perform()
+        
+        XCTAssert(view.layer.cornerRadius == 5)
+    }
+    
+    func test_Animate_Corner_Linear() {
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        
+        XCTAssert(view.layer.cornerRadius == 0)
+        
+        view.corner(duration: 0.3, radius: 5, timing: .linear).perform()
+        
+        XCTAssert(view.layer.cornerRadius == 5)
     }
     
     func test_Animate_Color() {
@@ -670,7 +713,7 @@ class SwiftyAnimateTests: XCTestCase {
         
         XCTAssert(view.backgroundColor == .white)
         
-        Animate().color(view: view, duration: 0.3, value: .blue).perform()
+        view.color(duration: 0.3, color: .blue).perform()
         
         XCTAssert(view.backgroundColor == .blue)
         
@@ -684,7 +727,7 @@ class SwiftyAnimateTests: XCTestCase {
         
         XCTAssert(transform == view.transform)
         
-        Animate().transform(view: view, duration: 0.3, transforms: [
+        view.transform(duration: 0.3, transforms: [
                 .rotate(angle: 90),
                 .scale(x: 1.5, y: 1.5),
                 .move(x: -10, y: -10),

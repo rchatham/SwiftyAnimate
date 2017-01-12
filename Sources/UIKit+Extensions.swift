@@ -70,28 +70,28 @@ extension UIView {
     public func color(_ color: UIColor) {
         backgroundColor = color
     }
-    
-    
+}
+
+extension UIView {
     
     // TODO: - Should these functions be UIView extenstions or Animate functions?
     // MARK: - UIView animations
-    
     
     /**
      Appends an animation of the corner radius on the view's CALayer.
      
      - parameter duration: Duration for the transformation.
-     - parameter timing: The animation timing function to use.
      - parameter radius: Value for the new corner radius.
+     - parameter timing: The animation timing function to use.
      - parameter wait: Bool of whether the following animation wait for the corner animation to finish.
      
      - returns: Animate instance.
      */
-    public func corner(duration: TimeInterval, timing: Timing = .easeInOut, radius: CGFloat, wait: Bool = true) -> Animate {
+    public func corner(duration: TimeInterval, radius: CGFloat, timing: Timing = .easeInOut, wait: Bool = true) -> Animate {
         
         let current = layer.cornerRadius
         
-        let animation = { [weak self] in
+        let corner = { [weak self] in
             let animation = CABasicAnimation(keyPath: "cornerRadius")
             animation.timingFunction = timing.coreAnimationCurve
             animation.fromValue = current
@@ -101,16 +101,20 @@ extension UIView {
             self?.layer.cornerRadius = radius
         }
         
+        let animation = Animate()
+        
         // Because this is a CABasicAnimation it cannot occur in a standard animation block and therefore must be performed in either a wait or do block
         if wait {
-            return Animate().wait(timeout: duration) { _ in
-                animation()
+            _ = animation.wait(timeout: duration) { _ in
+                corner()
             }
         } else {
-            return Animate().do {
-                animation()
+            _ = animation.do {
+                corner()
             }
         }
+        
+        return animation
     }
     
     /**
