@@ -10,6 +10,7 @@
 /// :nodoc:
 internal class Node<T> {
     var data: T
+    weak var previous: Node<T>?
     var next: Node<T>?
     init(data: T) {
         self.data = data
@@ -34,9 +35,21 @@ internal struct Queue<T> {
             first = Node(data: data)
             last = first
         } else {
-            last?.next = Node(data: data)
-            last = last?.next
+            let new = Node(data: data)
+            new.previous = last
+            last!.next = new
+            last = new
         }
+    }
+    mutating func removeLast() -> T? {
+        let pop = last?.data
+        if first === last {
+            first = nil
+            last = nil
+        } else {
+            last = last?.previous
+        }
+        return pop
     }
 }
 

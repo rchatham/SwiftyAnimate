@@ -90,7 +90,7 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssertTrue(performedAnimation)
         XCTAssertFalse(performedThenAnimation)
         
-        waitForExpectations(timeout: 1.0) { error in
+        waitForExpectations(timeout: 1.1) { error in
             if error != nil { print(error!.localizedDescription) }
             XCTAssertTrue(performedThenAnimation)
         }
@@ -198,7 +198,6 @@ class SwiftyAnimateTests: XCTestCase {
             }
             
             if #available(iOS 10.0, *) {
-                
                 Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] timer in
                     self?.resumeBlock?()
                 }
@@ -285,11 +284,12 @@ class SwiftyAnimateTests: XCTestCase {
         
         XCTAssertFalse(finishedAnimation)
         
-        animation.finish(keyframes: [
-                Keyframe(duration: 1.0) {
-                    finishedAnimation = true
-                }
-            ])
+        let keyframe = KeyframeAnimation(keyframes: [
+            Keyframe(duration: 1.0) {
+                finishedAnimation = true
+            }], options: [])
+        
+        animation.finish(keyframe: keyframe)
         
         XCTAssertTrue(finishedAnimation)
     }
@@ -388,7 +388,7 @@ class SwiftyAnimateTests: XCTestCase {
         
     }
     
-    func test_Animate_ThenAnimation() {
+    func test_Animate_ConcatAnimation() {
         
         var performedAnimation = false
         var performedThenAnimation = false
@@ -399,7 +399,7 @@ class SwiftyAnimateTests: XCTestCase {
         
         let animation = Animate(duration: 1.0) {
             performedAnimation = true
-        }.then(animation: thenAnimation)
+        }.concat(animation: thenAnimation)
         
         XCTAssertFalse(performedAnimation)
         XCTAssertFalse(performedThenAnimation)
@@ -420,7 +420,7 @@ class SwiftyAnimateTests: XCTestCase {
         }
     }
     
-    func test_EmptyAnimate_ThenAnimation() {
+    func test_EmptyAnimate_ConcatAnimation() {
         
         var performedThenAnimation = false
         
@@ -428,7 +428,7 @@ class SwiftyAnimateTests: XCTestCase {
             performedThenAnimation = true
         }
         
-        let animation = Animate().then(animation: thenAnimation)
+        let animation = Animate().concat(animation: thenAnimation)
         
         XCTAssertFalse(performedThenAnimation)
         
@@ -505,7 +505,7 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssertTrue(performedAnimation)
         XCTAssertFalse(performedThenAnimation)
         
-        waitForExpectations(timeout: 1.0) { error in
+        waitForExpectations(timeout: 1.1) { error in
             if error != nil { print(error!.localizedDescription) }
             XCTAssertTrue(performedThenAnimation)
         }
@@ -515,11 +515,15 @@ class SwiftyAnimateTests: XCTestCase {
         
         var performedAnimation = false
         
-        let animation = Animate(keyframes: [
-                Keyframe(duration: 1.0) {
-                    performedAnimation = true
-                }
-            ])
+        let keyframes = [
+            Keyframe(duration: 1.0) {
+                performedAnimation = true
+            }
+        ]
+        
+        let keyframe = KeyframeAnimation(keyframes: keyframes, options: [])
+        
+        let animation = Animate(keyframe: keyframe)
         
         XCTAssertFalse(performedAnimation)
         
@@ -533,16 +537,22 @@ class SwiftyAnimateTests: XCTestCase {
         var performedAnimation = false
         var performedThenAnimation = false
         
-        let animation = Animate(keyframes: [
-                Keyframe(duration: 1.0) {
-                    performedAnimation = true
-                }
-            ])
-            .then(keyframes: [
-                Keyframe(duration: 1.0) {
-                    performedThenAnimation = true
-                }
-            ])
+        let keyframes1 = [
+            Keyframe(duration: 1.0) {
+                performedAnimation = true
+            }
+        ]
+        let keyframe1 = KeyframeAnimation(keyframes: keyframes1, options: [])
+        
+        let keyframes2 = [
+            Keyframe(duration: 1.0) {
+                performedThenAnimation = true
+            }
+        ]
+        let keyframe2 = KeyframeAnimation(keyframes: keyframes2, options: [])
+        
+        let animation = Animate(keyframe: keyframe1)
+            .then(keyframe: keyframe2)
         
         XCTAssertFalse(performedAnimation)
         XCTAssertFalse(performedThenAnimation)
@@ -556,7 +566,7 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssertTrue(performedAnimation)
         XCTAssertFalse(performedThenAnimation)
         
-        waitForExpectations(timeout: 1.0) { error in
+        waitForExpectations(timeout: 2.1) { error in
             if error != nil { print(error!.localizedDescription) }
             XCTAssertTrue(performedThenAnimation)
         }
@@ -742,7 +752,7 @@ class SwiftyAnimateTests: XCTestCase {
         
     }
     
-    private var resumeBlock: Resume?
+    private var resumeBlock: ResumeBlock?
     
     internal func resume(_ sender: Timer) {
         resumeBlock?()
