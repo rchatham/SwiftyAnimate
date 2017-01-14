@@ -106,10 +106,38 @@ open class Animate {
         animations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
     }
     
+    /**
+     Creates an animation instance with an initial standard animation.
+     ```
+     //syntax:
+     
+     Animate(standardAnimation: standard).perform()
+     ```
+     
+     - parameter standardAnimation: Takes a `StandardAnimation` object.
+     
+     - returns: An animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
     public init(standardAnimation: StandardAnimation) {
         animations.enqueue(data: [.animation(standardAnimation)])
     }
     
+    /**
+     Creates an animation instance with an initial spring animation.
+     ```
+     //syntax:
+     
+     Animate(springAnimation: spring).perform()
+     ```
+     
+     - parameter basicAnimation: Takes a `SpringAnimation` object.
+     
+     - returns: An animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
     public init(springAnimation: SpringAnimation) {
         animations.enqueue(data: [.animation(springAnimation)])
     }
@@ -250,7 +278,7 @@ open class Animate {
          .perform()
      ```
      
-     - parameter keyframes: A `KeyframeAnimation` objects representing the keyframes to be animated.
+     - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
      
      - returns: The current animation instance.
      
@@ -261,18 +289,50 @@ open class Animate {
         return self
     }
     
+    /**
+     Follows the previous animation with a standard animation added to the instance.
+     ```
+     //syntax:
+     
+     Animate()
+         .then(standardAnimation: standard)
+         .perform()
+     ```
+     
+     - parameter standardAnimation: Takes a `StandardAnimation` object.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
     open func then(standardAnimation: StandardAnimation) -> Animate {
         animations.enqueue(data: [.animation(standardAnimation)])
         return self
     }
     
+    /**
+     Follows the previous animation with a spring animation added to the instance.
+     ```
+     //syntax:
+     
+     Animate()
+         .then(springAnimation: spring)
+         .perform()
+     ```
+     
+     - parameter springAnimation: Takes a `SpringAnimation` object.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
     open func then(springAnimation: SpringAnimation) -> Animate {
         animations.enqueue(data: [.animation(springAnimation)])
         return self
     }
     
     /**
-     Follows the previous animation with a keyFrame animation to the instance.
+     Follows the previous animation with a keyFrame animation added to the instance.
      ```
      //syntax:
      
@@ -307,16 +367,16 @@ open class Animate {
     }
     
     /**
-     Follows the previous animation with a basic animation to the instance.
+     Follows the previous animation with a basic animation added to the instance.
      ```
      //syntax:
      
      let aView = UIView()
      
+     let basic = BasicAnimation.cornerRadius(view: aView, duration: 1.0, delay: 0.0, radius: 10.0, timing: .easeInOut)
+     
      Animate()
-        .then(basicAnimations: [
-            .cornerRadius(view: aView, duration: 1.0, delay: 0.0, radius: 10.0, timing: .easeInOut)
-        ])
+        .then(basicAnimations: basic)
         .perform()
      ```
      
@@ -406,6 +466,24 @@ open class Animate {
         return self
     }
     
+    /**
+     Adds a standard animation to the instance.
+     ```
+     //syntax:
+     
+     Animate(duration: time) {
+             // Initial animation
+         }
+         .add(standardAnimation: standard)
+         .perform()
+     ```
+     
+     - parameter standardAnimation: A `StandardAnimation` object representing a standard animation.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
     open func add(standardAnimation: StandardAnimation) -> Animate {
         
         switch self.animations.last {
@@ -418,6 +496,24 @@ open class Animate {
         return self
     }
     
+    /**
+     Adds a spring animation to the instance.
+     ```
+     //syntax:
+     
+     Animate(duration: time) {
+             // Initial animation
+         }
+         .add(springAnimation: spring)
+         .perform()
+     ```
+     
+     - parameter springAnimation: A `SpringAnimation` object representing a spring animation.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
     open func add(springAnimation: SpringAnimation) -> Animate {
         
         switch self.animations.last {
@@ -442,19 +538,19 @@ open class Animate {
          .perform()
      ```
      
-     - parameter keyframes: A `KeyframeAnimation` object representing the keyframes to be animated.
+     - parameter keyframeAnimation: A `KeyframeAnimation` object representing the keyframes to be animated.
      
      - returns: The current animation instance.
      
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func add(keyframe: KeyframeAnimation) -> Animate {
+    open func add(keyframeAnimation: KeyframeAnimation) -> Animate {
         
         switch self.animations.last {
         case .some:
-            self.animations.last!.data.append(.animation(keyframe))
+            self.animations.last!.data.append(.animation(keyframeAnimation))
         case .none:
-            self.animations.enqueue(data: [.animation(keyframe)])
+            self.animations.enqueue(data: [.animation(keyframeAnimation)])
         }
         
         return self
@@ -491,78 +587,6 @@ open class Animate {
             animations.enqueue(data: [.animation(basicAnimation)])
         }
         
-        return self
-    }
-    
-    /**
-     Block in which to perform things that you may want to pause an ongoing flow of animations for.
-     ```
-     //syntax:
-     
-     Animate(duration: time) {
-            // Perform animations
-         }
-         .wait { (resume: ResumeBlock) in
-            // Perform operations that take time or a function with a callback.
-            // ...
-            // ...
-            // ...
-            // After some time has passed.
-            resume()
-         
-            // ...
-            // Or once something has finished.
-            function(callback: {
-                resume()
-            })
-         }
-         .then(duartion: time) {
-            // Perform more animations
-         }
-         .perform()
-     ```
-     
-     - parameter waitBlock: a `WaitBlock` block consisting of a function which is passed to the user. This must be called in order to resume any further animations passed in after the wait block.
-     
-     - returns: The current animation instance.
-     
-     - warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in a memory leak!
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
-     */
-    open func wait(timeout: TimeInterval? = nil, waitBlock: @escaping WaitBlock = {_ in}) -> Animate {
-        animations.enqueue(data: [.wait(timeout: timeout, block: waitBlock)])
-        return self
-    }
-    
-    /**
-     Block in which to perform non animation code which should occur between specified animations.
-     
-     ```
-     // syntax:
-     
-     Animate(duration: time) {
-            // initial animations
-         }
-         .do {
-            // non-animation code
-         }
-         .then(duration: time) {
-            // more animations
-         }
-         .do {
-            // more non-animation code
-         }
-         .perform()
-     ```
-     
-     - parameter block: `Do` block to perform after an animation completes.
-     
-     - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
-     */
-    open func `do`(block: @escaping DoBlock) -> Animate {
-        animations.enqueue(data: [.do(block: block)])
         return self
     }
     
@@ -619,7 +643,7 @@ open class Animate {
     }
     
     /**
-     Follows the previous animation with a keyFrame animation to the instance.
+     Follows the previous animation with a keyframe animation and calls perform on the instance.
      ```
      //syntax:
      
@@ -648,11 +672,35 @@ open class Animate {
         perform()
     }
     
+    /**
+     Follows the previous animation with a standard animation and calls perform on the instance.
+     ```
+     //syntax:
+     
+     Animate().finish(standardAnimation: standard)
+     ```
+     
+     - parameter standardAnimation: Takes a `StandardAnimation` object.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
     open func finish(standardAnimation: StandardAnimation) {
         animations.enqueue(data: [.animation(standardAnimation)])
         perform()
     }
     
+    /**
+     Follows the previous animation with a spring animation and calls perform on the instance.
+     ```
+     //syntax:
+     
+     Animate().finish(springAnimation: spring)
+     ```
+     
+     - parameter springAnimation: Takes a `SpringAnimation` object.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
     open func finish(springAnimation: SpringAnimation) {
         animations.enqueue(data: [.animation(springAnimation)])
         perform()
@@ -690,7 +738,7 @@ open class Animate {
     }
     
     /**
-     Follows the previous animation with a basic animation to the instance.
+     Follows the previous animation with a basic animation and calls perform on the instance.
      ```
      //syntax:
      
@@ -698,7 +746,7 @@ open class Animate {
      
      let basic = BasicAnimation.cornerRadius(view: aView, duration: 1.0, delay: 0.0, radius: 10.0, timing: .easeInOut)
      
-     Animate().finish(basicAnimations: basic)
+     Animate().finish(basicAnimation: basic)
      ```
      
      - parameter basicAnimation: Takes a `BasicAnimation` object.
@@ -730,9 +778,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(animation: Animate) {
-        animations.append(animation.animations)
-        animation.decay()
-        perform()
+        concat(animation: animation).perform()
     }
     
     /**
@@ -745,9 +791,81 @@ open class Animate {
     }
     
     /**
-     Method call to start or perform animations. Takes a closure that gets called after the last animation.
+     Block in which to perform things that you may want to pause an ongoing flow of animations for.
      ```
      //syntax:
+     
+     Animate(duration: time) {
+             // Perform animations
+         }
+         .wait { (resume: ResumeBlock) in
+             // Perform operations that take time or a function with a callback.
+             // ...
+             // ...
+             // ...
+             // After some time has passed.
+             resume()
+             
+             // ...
+             // Or once something has finished.
+             function(callback: {
+                 resume()
+             })
+         }
+         .then(duartion: time) {
+             // Perform more animations
+         }
+         .perform()
+     ```
+     
+     - parameter waitBlock: a `WaitBlock` block consisting of a function which is passed to the user. This must be called in order to resume any further animations passed in after the wait block.
+     
+     - returns: The current animation instance.
+     
+     - warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in a memory leak!
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func wait(timeout: TimeInterval? = nil, waitBlock: @escaping WaitBlock = {_ in}) -> Animate {
+        animations.enqueue(data: [.wait(timeout: timeout, block: waitBlock)])
+        return self
+    }
+    
+    /**
+     Block in which to perform non animation code which should occur between specified animations.
+     
+     ```
+     // syntax:
+     
+     Animate(duration: time) {
+             // initial animations
+         }
+         .do {
+             // non-animation code
+         }
+         .then(duration: time) {
+             // more animations
+         }
+         .do {
+             // more non-animation code
+         }
+         .perform()
+     ```
+     
+     - parameter block: `DoBlock` block to perform after an animation completes.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func `do`(block: @escaping DoBlock) -> Animate {
+        animations.enqueue(data: [.do(block: block)])
+        return self
+    }
+    
+    /**
+     Method call to start or perform animations. Takes a closure that gets called after the last animation.
+     ```
+     // syntax:
      
      let animation = Animate(duration: time) {
             // Initial animation.
@@ -786,8 +904,8 @@ open class Animate {
         
         if let total = operations.timeInterval {
             if #available(iOS 10.0, *) {
-                Timer.scheduledTimer(withTimeInterval: total, repeats: false) { (timer) in
-                    self.completionBlock?()
+                Timer.scheduledTimer(withTimeInterval: total, repeats: false) { [weak self] (timer) in
+                    self?.completionBlock?()
                 }
             } else {
                 Timer.scheduledTimer(timeInterval: total, target: self, selector: #selector(Animate.completionBlock(_:)), userInfo: nil, repeats: false)
@@ -814,10 +932,34 @@ open class Animate {
                     
                 } else if let basic = animation as? BasicAnimation {
                     
-                    basic.animationBlock()
+                    animationBlock = {
+                        self.animationBlock = nil
+                        basic.animationBlock()
+                    }
+                    
+                    if #available(iOS 10.0, *) {
+                        Timer.scheduledTimer(withTimeInterval: basic.delay, repeats: false) { [weak self] (timer) in
+                            self?.animationBlock?()
+                        }
+                    } else {
+                        Timer.scheduledTimer(timeInterval: basic.delay, target: self, selector: #selector(Animate.animationBlock(_:)), userInfo: nil, repeats: false)
+                    }
                     
                 } else {
-                    fatalError("Animation type not supported!")
+                    
+                    animationBlock = {
+                        self.animationBlock = nil
+                        animation.animationBlock()
+                    }
+                    
+                    if #available(iOS 10.0, *) {
+                        Timer.scheduledTimer(withTimeInterval: animation.delay, repeats: false) { [weak self] (timer) in
+                            self?.animationBlock?()
+                        }
+                    } else {
+                        Timer.scheduledTimer(timeInterval: animation.delay, target: self, selector: #selector(Animate.animationBlock(_:)), userInfo: nil, repeats: false)
+                    }
+                    
                 }
                 
             case .wait(let timeout, let waitBlock):
@@ -835,9 +977,9 @@ open class Animate {
                 }
                 
                 resumeBlock = {
+                    self.resumeBlock = nil
                     timer?.invalidate()
                     self.completionBlock?()
-                    self.resumeBlock = nil
                 }
                 // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
                 waitBlock(resumeBlock ?? {})
@@ -890,10 +1032,9 @@ open class Animate {
         resumeBlock?()
     }
     
-    private var basicAnimations: [BasicAnimation] = []
-    @objc internal func performBasicAnimation(_ sender: Timer) {
-        guard let i = sender.userInfo as? Int else { return }
-        basicAnimations[i].animationBlock()
+    private var animationBlock: AnimationBlock?
+    @objc internal func animationBlock(_ sender: Timer) {
+        animationBlock?()
     }
     
     private var completionBlock: (()->Void)?

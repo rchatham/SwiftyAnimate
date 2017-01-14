@@ -12,43 +12,12 @@ import UIKit
 /// Enum of supported animation operations.
 public enum AnimateOperation {
     
+    /**
+     Animation operation.
+     
+     - parameter: Takes an object that conforms to the `Animation` protocol.
+     */
     case animation(Animation)
-    
-//    /**
-//     Animation operation.
-//     
-//     - parameter duration: `TimeInterval` to animate over.
-//     - parameter delay: `TimeInterval` to delay the animation.
-//     - parameter options: `UIViewAnimationOptions` to apply to the animation.
-//     - parameter animationBlock: `AnimationBlock` block to perform.
-//     */
-//    case standard(duration: TimeInterval, delay: TimeInterval, options: UIViewAnimationOptions, animationBlock: AnimationBlock)
-//    
-//    /**
-//     Spring animation operation.
-//     
-//     - parameter duration: `TimeInterval` to animate over.
-//     - parameter delay: `TimeInterval` to delay the animation.
-//     - parameter damping: Spring damping to apply to the animation.
-//     - parameter velocity: Initial Velocity for the UIView to animate with.
-//     - parameter options: `UIViewAnimationOptions` to apply to the animation.
-//     - parameter animationBlock: `AnimationBlock` block to perform.
-//     */
-//    case spring(duration: TimeInterval, delay: TimeInterval, damping: CGFloat, velocity: CGFloat, options: UIViewAnimationOptions, animationBlock: AnimationBlock)
-//    
-//    /**
-//     Keyframe animation operation.
-//     
-//     - parameter animation: A `KeyframeAnimation` object to perform.
-//     */
-//    case keyframe(animation: KeyframeAnimation)
-//    
-//    /**
-//     Basic animation operation.
-//     
-//     - parameter animations: A `BasicAnimation` object to perform.
-//     */
-//    case basic(animation: BasicAnimation)
     
     /**
      Wait operation.

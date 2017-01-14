@@ -12,20 +12,38 @@ import UIKit
  Represents a keyframe animation.
  */
 public struct KeyframeAnimation {
+    /// The `Keyframe` objects representing the keyframes to be animated.
     public let keyframes: [Keyframe]
+    /// The `UIViewKeyframeAnimationOptions` to apply to the animation.
     public let options: UIViewKeyframeAnimationOptions
+    
+    /**
+     Initializes and returns a `KeyframeAnimation` instance representing a keyframe animation.
+     
+     - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
+     - parameter options: The `UIViewKeyframeAnimationOptions` to apply to the animation.
+     
+     - returns An initialized `KeyframeAnimation` instance.
+     */
+    public init(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) {
+        self.keyframes = keyframes
+        self.options = options
+    }
 }
 
 extension KeyframeAnimation: Animation {
     
+    /// The delay before the begginging of the animation.
     public var delay: TimeInterval {
         return keyframes.delay
     }
     
+    /// The duration of the animation.
     public var duration: TimeInterval {
         return keyframes.timeInterval - delay
     }
     
+    /// The animation block to pass to a `UIView` keyframe animation.
     public var animationBlock: AnimationBlock {
         return {
             for keyframe in self.keyframes {
@@ -49,8 +67,11 @@ extension KeyframeAnimation: Animation {
  Represents a keyframe as part of a keyframe animation.
  */
 public struct Keyframe: Animation {
+    /// The delay before the keyframe.
     public let delay: TimeInterval
+    /// The duration of the keyframe animation.
     public let duration: TimeInterval
+    /// The animation block for the keyframe.
     public let animationBlock: AnimationBlock
     
     /**

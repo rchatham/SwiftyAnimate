@@ -8,14 +8,19 @@
 
 import Foundation
 
+/// Protocol representing an instance of an animation.
 public protocol Animation {
+    /// The duration over which to perform the animation.
     var duration: TimeInterval { get }
+    /// The delay after which to perform the animation.
     var delay: TimeInterval { get }
+    /// Block containing the animations to perform.
     var animationBlock: AnimationBlock { get }
 }
 
 extension Animation {
     
+    /// The time interval after which the animation will complete.
     var timeInterval: TimeInterval {
         return delay + duration
     }

@@ -8,8 +8,6 @@
 
 import Foundation
 
-//extension Array where Element == AnimateOperation {
-
 extension Collection where Iterator.Element == AnimateOperation {
     
     var timeInterval: TimeInterval? {

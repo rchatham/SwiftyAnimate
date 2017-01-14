@@ -8,9 +8,14 @@
 
 import Foundation
 
+/// Represents a standard animation.
 public struct StandardAnimation: Animation {
+    /// The duration over which to perform the animation.
     public let duration: TimeInterval
+    /// The delay after which to perform the animation.
     public let delay: TimeInterval
+    /// The options to apply to the animation.
     public let options: UIViewAnimationOptions
+    /// The aniamtion block containing the animations to perform.
     public let animationBlock: AnimationBlock
 }
