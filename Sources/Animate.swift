@@ -193,7 +193,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     public init(basicAnimation: BasicAnimation) {
-        self.animations.enqueue(data: [.animation(basicAnimation)])
+        animations.enqueue(data: [.animation(basicAnimation)])
     }
     
     /**
@@ -223,7 +223,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
-        self.animations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
+        animations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
         return self
     }
     
@@ -254,7 +254,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
-        self.animations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
+        animations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
         return self
     }
     
@@ -419,11 +419,11 @@ open class Animate {
      */
     open func add(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
         
-        switch self.animations.last {
+        switch animations.last {
         case .some:
-            self.animations.last!.data.append(.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock)))
+            animations.last!.data.append(.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock)))
         case .none:
-            self.animations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
+            animations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
         }
         
         return self
@@ -456,11 +456,11 @@ open class Animate {
      */
     open func add(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
         
-        switch self.animations.last {
+        switch animations.last {
         case .some:
-            self.animations.last!.data.append(.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock)))
+            animations.last!.data.append(.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock)))
         case .none:
-            self.animations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
+            animations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
         }
         
         return self
@@ -486,11 +486,11 @@ open class Animate {
      */
     open func add(standardAnimation: StandardAnimation) -> Animate {
         
-        switch self.animations.last {
+        switch animations.last {
         case .some:
-            self.animations.last!.data.append(.animation(standardAnimation))
+            animations.last!.data.append(.animation(standardAnimation))
         case .none:
-            self.animations.enqueue(data: [.animation(standardAnimation)])
+            animations.enqueue(data: [.animation(standardAnimation)])
         }
         
         return self
@@ -516,11 +516,11 @@ open class Animate {
      */
     open func add(springAnimation: SpringAnimation) -> Animate {
         
-        switch self.animations.last {
+        switch animations.last {
         case .some:
-            self.animations.last!.data.append(.animation(springAnimation))
+            animations.last!.data.append(.animation(springAnimation))
         case .none:
-            self.animations.enqueue(data: [.animation(springAnimation)])
+            animations.enqueue(data: [.animation(springAnimation)])
         }
         
         return self
@@ -546,11 +546,11 @@ open class Animate {
      */
     open func add(keyframeAnimation: KeyframeAnimation) -> Animate {
         
-        switch self.animations.last {
+        switch animations.last {
         case .some:
-            self.animations.last!.data.append(.animation(keyframeAnimation))
+            animations.last!.data.append(.animation(keyframeAnimation))
         case .none:
-            self.animations.enqueue(data: [.animation(keyframeAnimation)])
+            animations.enqueue(data: [.animation(keyframeAnimation)])
         }
         
         return self
@@ -897,45 +897,40 @@ open class Animate {
             return completion()
         }
         
-        // Completion implementation
-        completionBlock = {
-            self.completionBlock = nil
-            self.perform(completion: completion)
-        }
-        
-        if let total = operations.timeInterval {
-            if #available(iOS 10.0, *) {
-                Timer.scheduledTimer(withTimeInterval: total, repeats: false) { [weak self] (timer) in
-                    self?.completionBlock?()
-                }
-            } else {
-                Timer.scheduledTimer(timeInterval: total, target: self, selector: #selector(Animate.completionBlock(_:)), userInfo: nil, repeats: false)
-            }
-        }
+        let group = DispatchGroup()
         
         // Perform operations
         for operation in operations {
+            
+            group.enter()
         
             switch operation {
             case .animation(let animation):
                 
                 if let standard = animation as? StandardAnimation {
                     
-                    UIView.animate(withDuration: standard.duration, delay: standard.delay, options: standard.options, animations: standard.animationBlock, completion: nil)
+                    UIView.animate(withDuration: standard.duration, delay: standard.delay, options: standard.options, animations: standard.animationBlock, completion: { success in
+                        group.leave()
+                    })
                     
                 } else if let spring = animation as? SpringAnimation {
                     
-                    UIView.animate(withDuration: spring.duration, delay: spring.delay, usingSpringWithDamping: spring.damping, initialSpringVelocity: spring.velocity, options: spring.options, animations: spring.animationBlock, completion: nil)
+                    UIView.animate(withDuration: spring.duration, delay: spring.delay, usingSpringWithDamping: spring.damping, initialSpringVelocity: spring.velocity, options: spring.options, animations: spring.animationBlock, completion: { success in
+                        group.leave()
+                    })
                     
                 } else if let keyframe = animation as? KeyframeAnimation {
                     
-                    UIView.animateKeyframes(withDuration: keyframe.duration, delay: keyframe.delay, options: keyframe.options, animations: keyframe.animationBlock, completion: nil)
+                    UIView.animateKeyframes(withDuration: keyframe.duration, delay: keyframe.delay, options: keyframe.options, animations: keyframe.animationBlock, completion: { success in
+                        group.leave()
+                    })
                     
                 } else {
+                    
                     // Basic and other custom animations must have their animations self contained within the animation block.
                     
-                    animationBlock = {
-                        self.animationBlock = nil
+                    animationBlock = { [weak self] in
+                        self?.animationBlock = nil
                         animation.animationBlock()
                     }
                     
@@ -947,6 +942,20 @@ open class Animate {
                         Timer.scheduledTimer(timeInterval: animation.delay, target: self, selector: #selector(Animate.animationBlock(_:)), userInfo: nil, repeats: false)
                     }
                     
+                    // Completion implementation
+                    completionBlock = {  [weak self] in
+                        self?.completionBlock = nil
+                        group.leave()
+                    }
+                    
+                    if #available(iOS 10.0, *) {
+                        Timer.scheduledTimer(withTimeInterval: animation.timeInterval, repeats: false) { [weak self] (timer) in
+                            self?.completionBlock?()
+                        }
+                    } else {
+                        Timer.scheduledTimer(timeInterval: animation.timeInterval, target: self, selector: #selector(Animate.completionBlock(_:)), userInfo: nil, repeats: false)
+                    }
+                    
                 }
                 
             case .wait(let timeout, let waitBlock):
@@ -955,18 +964,18 @@ open class Animate {
                 var timer: Timer?
                 if let timeout = timeout {
                     if #available(iOS 10.0, *) {
-                        timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { (timer) in
-                            self.resumeBlock?()
+                        timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] (timer) in
+                            self?.resumeBlock?()
                         }
                     } else {
                         timer = Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.resumeBlock(_:)), userInfo: nil, repeats: false)
                     }
                 }
                 
-                resumeBlock = {
-                    self.resumeBlock = nil
+                resumeBlock = { [weak self] in
+                    self?.resumeBlock = nil
+                    group.leave()
                     timer?.invalidate()
-                    self.completionBlock?()
                 }
                 
                 // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
@@ -976,9 +985,16 @@ open class Animate {
                 
             case .do(let doBlock):
                 
+                group.leave()
                 doBlock()
             }
         }
+        
+        group.notify(queue: .main) {
+            // Keep a strong reference to ensure the Animate instance does not get deallocated unexpectedly.
+            self.perform(completion: completion)
+        }
+        
     }
     
     /**
