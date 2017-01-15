@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension UIView {
+public extension UIView {
     
     /**
      Perform multiple core graphics transformations on a view.
@@ -72,7 +72,7 @@ extension UIView {
     }
 }
 
-extension UIView {
+public extension UIView {
     
     // TODO: - Should these functions be UIView extenstions or Animate functions?
     // MARK: - UIView animations
@@ -102,7 +102,6 @@ extension UIView {
         }
         
         let animation = Animate()
-        
         // Because this is a CABasicAnimation it cannot occur in a standard animation block and therefore must be performed in either a wait or do block
         if wait {
             _ = animation.wait(timeout: duration) { _ in
@@ -113,7 +112,6 @@ extension UIView {
                 corner()
             }
         }
-        
         return animation
     }
     

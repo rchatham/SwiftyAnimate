@@ -10,12 +10,16 @@ import Foundation
 
 /// Enum representing cross-api timing functions.
 public enum Timing {
+    
     /// Ease in timing function.
     case easeIn
+    
     /// Ease out timing function.
     case easeOut
+    
     /// Linear timing function.
     case linear
+    
     /// Ease in-out timing function.
     case easeInOut
     

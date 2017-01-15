@@ -10,10 +10,13 @@ import Foundation
 
 /// A view transform.
 public enum Transform {
+    
     /// `Transform` case for translating a view.
     case move(x: CGFloat, y: CGFloat)
+    
     /// `Transform` case for rotating a view.
     case rotate(angle: CGFloat)
+    
     /// `Transform` case for scaling a view.
     case scale(x: CGFloat, y: CGFloat)
 }
