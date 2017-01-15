@@ -1,0 +1,2892 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Animate Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Animate" class="dashAnchor"></a>
+    <a title="Animate Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">SwiftyAnimate Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/rchatham/SwiftyAnimate"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">SwiftyAnimate Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Animate Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Animate.html">Animate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/AnimateOperation.html">AnimateOperation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BasicAnimation.html">BasicAnimation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Timing.html">Timing</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Transform.html">Transform</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/UIView.html">UIView</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Animation.html">Animation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Keyframe.html">Keyframe</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/KeyframeAnimation.html">KeyframeAnimation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SpringAnimation.html">SpringAnimation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/StandardAnimation.html">StandardAnimation</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Animate</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="n">open</span> <span class="kd">class</span> <span class="kt">Animate</span></code></pre>
+
+                </div>
+              </div>
+            <p>Composable animations in Swift.</p>
+
+<p>Have fun animating!</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7AnimatecFT_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7AnimatecFT_S0_">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an animation instance</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An empty animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7AnimatecFT8durationSd5delaySd7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(duration:delay:options:animationBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7AnimatecFT8durationSd5delaySd7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_">init(duration:delay:options:animationBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an animation instance with an initial animation.
+&ldquo;`
+// syntax:</p>
+
+<p>let animation = Animate(duration: time) {
+   // stuff to animate
+}</p>
+
+<p>animation.perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">duration</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">animationBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">AnimationBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration that the animation should take.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a time interval to delay the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a set of UIViewAnimationOptions. Default is none.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animationBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animation</code> callback to perform over the duration passed in.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7AnimatecFT8durationSd5delaySd13springDampingV12CoreGraphics7CGFloat15initialVelocityS2_7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(duration:delay:springDamping:initialVelocity:options:animationBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7AnimatecFT8durationSd5delaySd13springDampingV12CoreGraphics7CGFloat15initialVelocityS2_7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_">init(duration:delay:springDamping:initialVelocity:options:animationBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an animation instance with an initial spring animation.
+&ldquo;`
+// syntax:</p>
+
+<p>let animation = Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+    // spring animation
+}</p>
+
+<p>animation.perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">duration</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">springDamping</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">initialVelocity</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">animationBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">AnimationBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration that the animation should take.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a time interval to delay the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>springDamping</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>initialVelocity</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The initial velocity for the view as a ratio of it’s distance to it’s final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a set of UIViewAnimationOptions. Default is none.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animationBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animation</code> callback to perform over the duration passed in.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7AnimatecFT9keyframesGSaVS_8Keyframe_7optionsVSC30UIViewKeyframeAnimationOptions_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(keyframes:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7AnimatecFT9keyframesGSaVS_8Keyframe_7optionsVSC30UIViewKeyframeAnimationOptions_S0_">init(keyframes:options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an animation instance with an initial keyFrame animation.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(keyFrames: [
+        KeyFrame(duration: 1.0) {
+            // key frame animation
+        },
+        KeyFrame(duration: 1.0, delay: 0.5) {
+            // key frame animation
+        },
+        KeyFrame(duration: 1.5) {
+            // key frame animation
+        }
+    ])
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">keyframes</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Keyframe.html">Keyframe</a></span><span class="p">],</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewKeyframeAnimationOptions</span> <span class="o">=</span> <span class="p">[])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyframes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of <code>Keyframe</code> objects representing the keyframes to be animated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>UIViewKeyframeAnimationOptions</code> to be applied to the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7AnimatecFT17standardAnimationVS_17StandardAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(standardAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7AnimatecFT17standardAnimationVS_17StandardAnimation_S0_">init(standardAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an animation instance with an initial standard animation.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(standardAnimation: standard).perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">standardAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/StandardAnimation.html">StandardAnimation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>standardAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>StandardAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7AnimatecFT15springAnimationVS_15SpringAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(springAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7AnimatecFT15springAnimationVS_15SpringAnimation_S0_">init(springAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an animation instance with an initial spring animation.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(springAnimation: spring).perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">springAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/SpringAnimation.html">SpringAnimation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>basicAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>SpringAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7AnimatecFT8keyframeVS_17KeyframeAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(keyframe:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7AnimatecFT8keyframeVS_17KeyframeAnimation_S0_">init(keyframe:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an animation instance with an initial keyFrame animation.
+&ldquo;`
+// syntax:</p>
+
+<p>let keyframes = [
+    KeyFrame(duration: 1.0) {
+        // key frame animation
+    },
+    KeyFrame(duration: 1.0, delay: 0.5) {
+        // key frame animation
+    },
+    KeyFrame(duration: 1.5) {
+        // key frame animation
+    }
+]</p>
+
+<p>let keyframe = KeyframeAnimation(keyframes: keyframe, options: [])</p>
+
+<p>Animate(keyframe: keyframe).perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">keyframe</span><span class="p">:</span> <span class="kt"><a href="../Structs/KeyframeAnimation.html">KeyframeAnimation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyframe</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>KeyframeAnimation</code> object representing the keyframes to be animated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7AnimatecFT14basicAnimationOS_14BasicAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(basicAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7AnimatecFT14basicAnimationOS_14BasicAnimation_S0_">init(basicAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an animation instance with an initial basic animation.
+&ldquo;`
+// syntax:</p>
+
+<p>let aView = UIView()</p>
+
+<p>let basic = BasicAnimation.cornerRadius(view: aView, duration: 1.0, delay: 0.0, radius: 10.0, timing: .easeInOut)</p>
+
+<p>Animate(basicAnimation: basic).perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">basicAnimation</span><span class="p">:</span> <span class="kt"><a href="../Enums/BasicAnimation.html">BasicAnimation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>basicAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>BasicAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4thenFT8durationSd5delaySd7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/then(duration:delay:options:animationBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4thenFT8durationSd5delaySd7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_">then(duration:delay:options:animationBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a standard animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time) {
+       // Initial animation
+    }
+    .then(duration: time) {
+       // Animation begining upon completion of the initial animation.
+    }
+    .then(duration: time) {
+       // Animation following the previous animation.
+    }
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">duration</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">animationBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">AnimationBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration that the animation should take.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a time interval to delay the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a set of UIViewAnimationOptions. Default is none.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animationBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animation</code> callback to perform over the duration passed in.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4thenFT8durationSd5delaySd13springDampingV12CoreGraphics7CGFloat15initialVelocityS2_7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/then(duration:delay:springDamping:initialVelocity:options:animationBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4thenFT8durationSd5delaySd13springDampingV12CoreGraphics7CGFloat15initialVelocityS2_7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_">then(duration:delay:springDamping:initialVelocity:options:animationBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a spring animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate()
+    .then(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+        // spring animation
+    }
+    .then(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+        // spring animation
+    }
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">duration</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">springDamping</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">initialVelocity</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">animationBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">AnimationBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration that the animation should take.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a time interval to delay the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>springDamping</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>initialVelocity</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The initial velocity for the view as a ratio of it’s distance to it’s final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a set of UIViewAnimationOptions. Default is none.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animationBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animation</code> callback to perform over the duration passed in.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4thenFT9keyframesGSaVS_8Keyframe_7optionsVSC30UIViewKeyframeAnimationOptions_S0_"></a>
+                    <a name="//apple_ref/swift/Method/then(keyframes:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4thenFT9keyframesGSaVS_8Keyframe_7optionsVSC30UIViewKeyframeAnimationOptions_S0_">then(keyframes:options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a keyFrame animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate()
+    .then(keyFrames: [
+        KeyFrame(duration: 1.0) {
+            // key frame animation
+        },
+        KeyFrame(duration: 1.0, delay: 0.5) {
+            // key frame animation
+        },
+        KeyFrame(duration: 1.5) {
+            // key frame animation
+        }
+    ])
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">keyframes</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Keyframe.html">Keyframe</a></span><span class="p">],</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewKeyframeAnimationOptions</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyframes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of <code>Keyframe</code> objects representing the keyframes to be animated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4thenFT17standardAnimationVS_17StandardAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/then(standardAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4thenFT17standardAnimationVS_17StandardAnimation_S0_">then(standardAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a standard animation added to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate()
+    .then(standardAnimation: standard)
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">standardAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/StandardAnimation.html">StandardAnimation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>standardAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>StandardAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4thenFT15springAnimationVS_15SpringAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/then(springAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4thenFT15springAnimationVS_15SpringAnimation_S0_">then(springAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a spring animation added to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate()
+    .then(springAnimation: spring)
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">springAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/SpringAnimation.html">SpringAnimation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>springAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>SpringAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4thenFT8keyframeVS_17KeyframeAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/then(keyframe:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4thenFT8keyframeVS_17KeyframeAnimation_S0_">then(keyframe:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a keyFrame animation added to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>let keyframes = [
+    KeyFrame(duration: 1.0) {
+        // key frame animation
+    },
+    KeyFrame(duration: 1.0, delay: 0.5) {
+        // key frame animation
+    },
+    KeyFrame(duration: 1.5) {
+        // key frame animation
+    }
+]</p>
+
+<p>let keyframe = KeyframeAnimation(keyframes: keyframe, options: [])</p>
+
+<p>Animate()
+   .then(keyframe: keyframe)
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">keyframe</span><span class="p">:</span> <span class="kt"><a href="../Structs/KeyframeAnimation.html">KeyframeAnimation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyframe</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>KeyframeAnimation</code> object representing the keyframes to be animated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4thenFT14basicAnimationOS_14BasicAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/then(basicAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4thenFT14basicAnimationOS_14BasicAnimation_S0_">then(basicAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a basic animation added to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>let aView = UIView()</p>
+
+<p>let basic = BasicAnimation.cornerRadius(view: aView, duration: 1.0, delay: 0.0, radius: 10.0, timing: .easeInOut)</p>
+
+<p>Animate()
+   .then(basicAnimations: basic)
+   .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">basicAnimation</span><span class="p">:</span> <span class="kt"><a href="../Enums/BasicAnimation.html">BasicAnimation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>basicAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>BasicAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate3addFT8durationSd5delaySd7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/add(duration:delay:options:animationBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate3addFT8durationSd5delaySd7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_">add(duration:delay:options:animationBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a standard animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time) {
+        // Initial animation
+    }
+    .add(duration: time) {
+        // Animation begining upon completion of the initial animation.
+    }
+    .add(duration: time) {
+        // Animation following the previous animation.
+    }
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">duration</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">animationBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">AnimationBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration that the animation should take.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a time interval to delay the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a set of UIViewAnimationOptions. Default is none.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animationBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animation</code> callback to perform over the duration passed in.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate3addFT8durationSd5delaySd13springDampingV12CoreGraphics7CGFloat15initialVelocityS2_7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/add(duration:delay:springDamping:initialVelocity:options:animationBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate3addFT8durationSd5delaySd13springDampingV12CoreGraphics7CGFloat15initialVelocityS2_7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__S0_">add(duration:delay:springDamping:initialVelocity:options:animationBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a spring animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+        // spring animation
+    }
+    .add(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+        // spring animation
+    }
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">duration</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">springDamping</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">initialVelocity</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">animationBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">AnimationBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration that the animation should take.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a time interval to delay the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>springDamping</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>initialVelocity</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The initial velocity for the view as a ratio of it’s distance to it’s final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a set of UIViewAnimationOptions. Default is none.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animationBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animation</code> callback to perform over the duration passed in.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate3addFT17standardAnimationVS_17StandardAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/add(standardAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate3addFT17standardAnimationVS_17StandardAnimation_S0_">add(standardAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a standard animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time) {
+        // Initial animation
+    }
+    .add(standardAnimation: standard)
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">standardAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/StandardAnimation.html">StandardAnimation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>standardAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>StandardAnimation</code> object representing a standard animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate3addFT15springAnimationVS_15SpringAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/add(springAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate3addFT15springAnimationVS_15SpringAnimation_S0_">add(springAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a spring animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time) {
+        // Initial animation
+    }
+    .add(springAnimation: spring)
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">springAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/SpringAnimation.html">SpringAnimation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>springAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>SpringAnimation</code> object representing a spring animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate3addFT17keyframeAnimationVS_17KeyframeAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/add(keyframeAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate3addFT17keyframeAnimationVS_17KeyframeAnimation_S0_">add(keyframeAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a keyFrame animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time) {
+        // Initial animation
+    }
+    .add(keyframe: keyframe)
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">keyframeAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/KeyframeAnimation.html">KeyframeAnimation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyframeAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>KeyframeAnimation</code> object representing the keyframes to be animated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate3addFT14basicAnimationOS_14BasicAnimation_S0_"></a>
+                    <a name="//apple_ref/swift/Method/add(basicAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate3addFT14basicAnimationOS_14BasicAnimation_S0_">add(basicAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a basic animation to the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>let aView = UIView()</p>
+
+<p>let basic = BasicAnimation.cornerRadius(view: aView, duration: 1.0, delay: 0.0, radius: 10.0, timing: .easeInOut)</p>
+
+<p>Animate(duration: time) {
+        // Initial animation
+    }
+    .add(basicAnimation: basic)
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">basicAnimation</span><span class="p">:</span> <span class="kt"><a href="../Enums/BasicAnimation.html">BasicAnimation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>basicAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>BasicAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate6finishFT8durationSd5delaySd7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__T_"></a>
+                    <a name="//apple_ref/swift/Method/finish(duration:delay:options:animationBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate6finishFT8durationSd5delaySd7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__T_">finish(duration:delay:options:animationBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a finishing animation and then immediately calls perform on the animation instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time) {
+        // Perform initial animation
+    }
+    .finish(duration: time) {
+        // Perform finishing animation
+    }
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">(</span><span class="nv">duration</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">animationBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">AnimationBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration that the animation should take.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a time interval to delay the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a set of UIViewAnimationOptions. Default is none.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animationBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animation</code> callback to perform over the duration passed in.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate6finishFT8durationSd5delaySd13springDampingV12CoreGraphics7CGFloat15initialVelocityS2_7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__T_"></a>
+                    <a name="//apple_ref/swift/Method/finish(duration:delay:springDamping:initialVelocity:options:animationBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate6finishFT8durationSd5delaySd13springDampingV12CoreGraphics7CGFloat15initialVelocityS2_7optionsVSC22UIViewAnimationOptions14animationBlockFT_T__T_">finish(duration:delay:springDamping:initialVelocity:options:animationBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a finishing animation and then immediately calls perform on the animation instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time) {
+        // Perform initial animation
+    }
+    .finish(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+        // Perform finishing animation
+    }
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">(</span><span class="nv">duration</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">springDamping</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">initialVelocity</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">animationBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">AnimationBlock</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration that the animation should take.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a time interval to delay the animation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>springDamping</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>initialVelocity</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The initial velocity for the view as a ratio of it’s distance to it’s final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a set of UIViewAnimationOptions. Default is an empty array.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animationBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animation</code> callback to perform over the duration passed in.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate6finishFT9keyframesGSaVS_8Keyframe_7optionsVSC30UIViewKeyframeAnimationOptions_T_"></a>
+                    <a name="//apple_ref/swift/Method/finish(keyframes:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate6finishFT9keyframesGSaVS_8Keyframe_7optionsVSC30UIViewKeyframeAnimationOptions_T_">finish(keyframes:options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a keyframe animation and calls perform on the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate()
+    .finish(keyFrames: [
+        KeyFrame(duration: 1.0) {
+            // key frame animation
+        },
+        KeyFrame(duration: 1.0, delay: 0.5) {
+            // key frame animation
+        },
+        KeyFrame(duration: 1.5) {
+            // key frame animation
+        }
+    ])
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">(</span><span class="nv">keyframes</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Keyframe.html">Keyframe</a></span><span class="p">],</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewKeyframeAnimationOptions</span> <span class="o">=</span> <span class="p">[])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyframes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>KeyframeAnimation</code> objects representing the keyframes to be animated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate6finishFT17standardAnimationVS_17StandardAnimation_T_"></a>
+                    <a name="//apple_ref/swift/Method/finish(standardAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate6finishFT17standardAnimationVS_17StandardAnimation_T_">finish(standardAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a standard animation and calls perform on the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate().finish(standardAnimation: standard)
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">(</span><span class="nv">standardAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/StandardAnimation.html">StandardAnimation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>standardAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>StandardAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate6finishFT15springAnimationVS_15SpringAnimation_T_"></a>
+                    <a name="//apple_ref/swift/Method/finish(springAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate6finishFT15springAnimationVS_15SpringAnimation_T_">finish(springAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a spring animation and calls perform on the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate().finish(springAnimation: spring)
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">(</span><span class="nv">springAnimation</span><span class="p">:</span> <span class="kt"><a href="../Structs/SpringAnimation.html">SpringAnimation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>springAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>SpringAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate6finishFT8keyframeVS_17KeyframeAnimation_T_"></a>
+                    <a name="//apple_ref/swift/Method/finish(keyframe:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate6finishFT8keyframeVS_17KeyframeAnimation_T_">finish(keyframe:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a keyFrame animation and then immediately performs the animation instance.
+&ldquo;`
+// syntax:</p>
+
+<p>let keyframes = [
+    KeyFrame(duration: 1.0) {
+        // key frame animation
+    },
+    KeyFrame(duration: 1.0, delay: 0.5) {
+        // key frame animation
+    },
+    KeyFrame(duration: 1.5) {
+        // key frame animation
+    }
+]</p>
+
+<p>let keyframe = KeyframeAnimation(keyframes: keyframes, options: [])</p>
+
+<p>Animate().finish(keyframe: keyframe)
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">(</span><span class="nv">keyframe</span><span class="p">:</span> <span class="kt"><a href="../Structs/KeyframeAnimation.html">KeyframeAnimation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyframe</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>KeyframeAnimation</code> object representing the keyframes to be animated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate6finishFT14basicAnimationOS_14BasicAnimation_T_"></a>
+                    <a name="//apple_ref/swift/Method/finish(basicAnimation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate6finishFT14basicAnimationOS_14BasicAnimation_T_">finish(basicAnimation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Follows the previous animation with a basic animation and calls perform on the instance.
+&ldquo;`
+// syntax:</p>
+
+<p>let aView = UIView()</p>
+
+<p>let basic = BasicAnimation.cornerRadius(view: aView, duration: 1.0, delay: 0.0, radius: 10.0, timing: .easeInOut)</p>
+
+<p>Animate().finish(basicAnimation: basic)
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">(</span><span class="nv">basicAnimation</span><span class="p">:</span> <span class="kt"><a href="../Enums/BasicAnimation.html">BasicAnimation</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>basicAnimation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Takes a <code>BasicAnimation</code> object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate6finishFT9animationS0__T_"></a>
+                    <a name="//apple_ref/swift/Method/finish(animation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate6finishFT9animationS0__T_">finish(animation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Appends the passed <code>Animate</code> instance to the current animation and then performs it. The animation instance passed in is discarded to prevent memory leaks.
+&ldquo;`
+// syntax:</p>
+
+<p>let animation = Animate(duration: time) {
+    // animation code
+}</p>
+
+<p>Animate(duration: time) {
+        // initial animation
+    }
+    .finish(animation: animation)
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">finish</span><span class="p">(</span><span class="nv">animation</span><span class="p">:</span> <span class="kt">Animate</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animate</code> instance to append.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate5decayFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/decay()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate5decayFT_T_">decay()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Dequeues the animation instance without performing any of the remaining animations.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Not calling decay, finish or perform on an animation will result in a memory leak!
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">decay</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4waitFT7timeoutGSqSd_9waitBlockFFT_T_T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/wait(timeout:waitBlock:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4waitFT7timeoutGSqSd_9waitBlockFFT_T_T__S0_">wait(timeout:waitBlock:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Block in which to perform things that you may want to pause an ongoing flow of animations for.
+&ldquo;`
+// syntax:</p>
+
+<p>Animate(duration: time) {
+        // Perform animations
+    }
+    .wait { (resume: ResumeBlock) in
+        // Perform operations that take time or a function with a callback.
+        // &hellip;
+        // &hellip;
+        // &hellip;
+        // After some time has passed.
+        resume()</p>
+
+<pre class="highlight plaintext"><code>    // ...
+    // Or once something has finished.
+    function(callback: {
+        resume()
+    })
+}
+.then(duartion: time) {
+    // Perform more animations
+}
+.perform()
+</code></pre>
+
+<pre class="highlight plaintext"><code>
+- parameter waitBlock: a `WaitBlock` block consisting of a function which is passed to the user. This must be called in order to resume any further animations passed in after the wait block.
+
+- returns: The current animation instance.
+
+- warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in a memory leak!
+- warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">wait</span><span class="p">(</span><span class="nv">timeout</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">waitBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">WaitBlock</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>waitBlock</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>a <code>WaitBlock</code> block consisting of a function which is passed to the user. This must be called in order to resume any further animations passed in after the wait block.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate2doFT5blockFT_T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/do(block:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate2doFT5blockFT_T__S0_">do(block:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Block in which to perform non animation code which should occur between specified animations.</p>
+
+<pre class="highlight plaintext"><code>// syntax:
+
+Animate(duration: time) {
+        // initial animations
+    }
+    .do {
+        // non-animation code
+    }
+    .then(duration: time) {
+        // more animations
+    }
+    .do {
+        // more non-animation code
+    }
+    .perform()
+</code></pre>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="err">`</span><span class="k">do</span><span class="err">`</span><span class="p">(</span><span class="nv">block</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">DoBlock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>block</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>DoBlock</code> block to perform after an animation completes.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate7performFT10completionFT_T__T_"></a>
+                    <a name="//apple_ref/swift/Method/perform(completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate7performFT10completionFT_T__T_">perform(completion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Method call to start or perform animations. Takes a closure that gets called after the last animation.
+&ldquo;`
+// syntax:</p>
+
+<p>let animation = Animate(duration: time) {
+       // Initial animation.
+    }
+    .then(duration: time) {
+       // More animations
+    }
+    .wait {
+       // For something to happen
+       resume()
+    }
+    .then(duraton: time) {
+       // Finishing animation
+    }</p>
+
+<p>// Nothing will occur until calling perform on the animation instance.</p>
+
+<p>animation.perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">perform</span><span class="p">(</span><span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="n">_</span> <span class="k">in</span><span class="p">})</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Called after the final animation completes.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4thenFT9animationS0__S0_"></a>
+                    <a name="//apple_ref/swift/Method/then(animation:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4thenFT9animationS0__S0_">then(animation:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Appends the passed <code>Animate</code> instance to the current animation. The animation instance passed in is discarded to prevent memory leaks.
+&ldquo;`
+// syntax:</p>
+
+<p>let animation = Animate(duration: time) {
+        // animation code
+    }</p>
+
+<p>Animate(duration: time) {
+        // initial animation
+    }
+    .then(animation: animation)
+    .perform()
+&rdquo;`</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Not calling decay, finish or perform on an animation will result in a memory leak!</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">then</span><span class="p">(</span><span class="nv">animation</span><span class="p">:</span> <span class="kt">Animate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>animation</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Animate</code> instance to append.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The current animation instance.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13SwiftyAnimate7Animate4copyFT4withGSqV10ObjectiveC6NSZone__P_"></a>
+                    <a name="//apple_ref/swift/Method/copy(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13SwiftyAnimate7Animate4copyFT4withGSqV10ObjectiveC6NSZone__P_">copy(with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Copies the current Animate instance.
+- returns: A new instance with the same animations as the original.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="kd">func</span> <span class="nf">copy</span><span class="p">(</span><span class="n">with</span> <span class="nv">zone</span><span class="p">:</span> <span class="kt">NSZone</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A new instance with the same animations as the original.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13SwiftyAnimate7Animate4copyS0_"></a>
+                    <a name="//apple_ref/swift/Property/copy" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13SwiftyAnimate7Animate4copyS0_">copy</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Copy of the current instance.
+- returns: A new <code>Animate</code> instance with matching animations.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="n">open</span> <span class="k">var</span> <span class="nv">copy</span><span class="p">:</span> <span class="kt">Animate</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A new <code>Animate</code> instance with matching animations.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="https://reidchatham.com/" target="_blank" rel="external">Reid Chatham</a>. All rights reserved. (Last updated: 2017-01-14)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

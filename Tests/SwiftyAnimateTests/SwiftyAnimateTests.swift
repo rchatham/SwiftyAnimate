@@ -398,8 +398,9 @@ class SwiftyAnimateTests: XCTestCase {
         }
         
         let animation = Animate(duration: 1.0) {
-            performedAnimation = true
-        }.concat(animation: thenAnimation)
+                performedAnimation = true
+            }
+            .then(animation: thenAnimation)
         
         XCTAssertFalse(performedAnimation)
         XCTAssertFalse(performedThenAnimation)
@@ -428,7 +429,7 @@ class SwiftyAnimateTests: XCTestCase {
             performedThenAnimation = true
         }
         
-        let animation = Animate().concat(animation: thenAnimation)
+        let animation = Animate().then(animation: thenAnimation)
         
         XCTAssertFalse(performedThenAnimation)
         

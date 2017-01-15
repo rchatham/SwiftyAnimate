@@ -26,10 +26,10 @@ open class Animate {
     /**
      Creates an animation instance with an initial animation.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time) {
-        // Stuff to animate
+        // stuff to animate
      }
      
      animation.perform()
@@ -52,7 +52,7 @@ open class Animate {
     /**
      Creates an animation instance with an initial spring animation.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
          // spring animation
@@ -79,7 +79,7 @@ open class Animate {
     /**
      Creates an animation instance with an initial keyFrame animation.
      ```
-     //syntax:
+     // syntax:
      
      Animate(keyFrames: [
              KeyFrame(duration: 1.0) {
@@ -109,7 +109,7 @@ open class Animate {
     /**
      Creates an animation instance with an initial standard animation.
      ```
-     //syntax:
+     // syntax:
      
      Animate(standardAnimation: standard).perform()
      ```
@@ -127,7 +127,7 @@ open class Animate {
     /**
      Creates an animation instance with an initial spring animation.
      ```
-     //syntax:
+     // syntax:
      
      Animate(springAnimation: spring).perform()
      ```
@@ -145,7 +145,7 @@ open class Animate {
     /**
      Creates an animation instance with an initial keyFrame animation.
      ```
-     //syntax:
+     // syntax:
      
      let keyframes = [
          KeyFrame(duration: 1.0) {
@@ -177,7 +177,7 @@ open class Animate {
     /**
      Creates an animation instance with an initial basic animation.
      ```
-     //syntax:
+     // syntax:
      
      let aView = UIView()
      
@@ -199,7 +199,7 @@ open class Animate {
     /**
      Follows the previous animation with a standard animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
             // Initial animation
@@ -230,7 +230,7 @@ open class Animate {
     /**
      Follows the previous animation with a spring animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate()
          .then(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
@@ -261,7 +261,7 @@ open class Animate {
     /**
      Follows the previous animation with a keyFrame animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate()
          .then(keyFrames: [
@@ -292,7 +292,7 @@ open class Animate {
     /**
      Follows the previous animation with a standard animation added to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate()
          .then(standardAnimation: standard)
@@ -313,7 +313,7 @@ open class Animate {
     /**
      Follows the previous animation with a spring animation added to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate()
          .then(springAnimation: spring)
@@ -334,7 +334,7 @@ open class Animate {
     /**
      Follows the previous animation with a keyFrame animation added to the instance.
      ```
-     //syntax:
+     // syntax:
      
      let keyframes = [
          KeyFrame(duration: 1.0) {
@@ -369,7 +369,7 @@ open class Animate {
     /**
      Follows the previous animation with a basic animation added to the instance.
      ```
-     //syntax:
+     // syntax:
      
      let aView = UIView()
      
@@ -394,7 +394,7 @@ open class Animate {
     /**
      Adds a standard animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
              // Initial animation
@@ -432,7 +432,7 @@ open class Animate {
     /**
      Adds a spring animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
              // spring animation
@@ -469,7 +469,7 @@ open class Animate {
     /**
      Adds a standard animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
              // Initial animation
@@ -499,7 +499,7 @@ open class Animate {
     /**
      Adds a spring animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
              // Initial animation
@@ -529,7 +529,7 @@ open class Animate {
     /**
      Adds a keyFrame animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
              // Initial animation
@@ -559,7 +559,7 @@ open class Animate {
     /**
      Adds a basic animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      let aView = UIView()
      
@@ -593,7 +593,7 @@ open class Animate {
     /**
      Adds a finishing animation and then immediately calls perform on the animation instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
              // Perform initial animation
@@ -618,7 +618,7 @@ open class Animate {
     /**
      Adds a finishing animation and then immediately calls perform on the animation instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
              // Perform initial animation
@@ -645,7 +645,7 @@ open class Animate {
     /**
      Follows the previous animation with a keyframe animation and calls perform on the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate()
          .finish(keyFrames: [
@@ -675,7 +675,7 @@ open class Animate {
     /**
      Follows the previous animation with a standard animation and calls perform on the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate().finish(standardAnimation: standard)
      ```
@@ -692,7 +692,7 @@ open class Animate {
     /**
      Follows the previous animation with a spring animation and calls perform on the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate().finish(springAnimation: spring)
      ```
@@ -709,7 +709,7 @@ open class Animate {
     /**
      Adds a keyFrame animation and then immediately performs the animation instance.
      ```
-     //syntax:
+     // syntax:
      
      let keyframes = [
          KeyFrame(duration: 1.0) {
@@ -740,7 +740,7 @@ open class Animate {
     /**
      Follows the previous animation with a basic animation and calls perform on the instance.
      ```
-     //syntax:
+     // syntax:
      
      let aView = UIView()
      
@@ -761,7 +761,7 @@ open class Animate {
     /**
      Appends the passed `Animate` instance to the current animation and then performs it. The animation instance passed in is discarded to prevent memory leaks.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time) {
          // animation code
@@ -778,7 +778,8 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(animation: Animate) {
-        concat(animation: animation).perform()
+        _ = then(animation: animation)
+        perform()
     }
     
     /**
@@ -793,7 +794,7 @@ open class Animate {
     /**
      Block in which to perform things that you may want to pause an ongoing flow of animations for.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
              // Perform animations
@@ -930,22 +931,8 @@ open class Animate {
                     
                     UIView.animateKeyframes(withDuration: keyframe.duration, delay: keyframe.delay, options: keyframe.options, animations: keyframe.animationBlock, completion: nil)
                     
-                } else if let basic = animation as? BasicAnimation {
-                    
-                    animationBlock = {
-                        self.animationBlock = nil
-                        basic.animationBlock()
-                    }
-                    
-                    if #available(iOS 10.0, *) {
-                        Timer.scheduledTimer(withTimeInterval: basic.delay, repeats: false) { [weak self] (timer) in
-                            self?.animationBlock?()
-                        }
-                    } else {
-                        Timer.scheduledTimer(timeInterval: basic.delay, target: self, selector: #selector(Animate.animationBlock(_:)), userInfo: nil, repeats: false)
-                    }
-                    
                 } else {
+                    // Basic and other custom animations must have their animations self contained within the animation block.
                     
                     animationBlock = {
                         self.animationBlock = nil
@@ -981,8 +968,11 @@ open class Animate {
                     timer?.invalidate()
                     self.completionBlock?()
                 }
+                
                 // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
-                waitBlock(resumeBlock ?? {})
+                waitBlock({ [weak self] in
+                    self?.resumeBlock?()
+                })
                 
             case .do(let doBlock):
                 
@@ -994,7 +984,7 @@ open class Animate {
     /**
      Appends the passed `Animate` instance to the current animation. The animation instance passed in is discarded to prevent memory leaks.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time) {
              // animation code
@@ -1003,7 +993,7 @@ open class Animate {
      Animate(duration: time) {
              // initial animation
          }
-         .concat(animation: animation)
+         .then(animation: animation)
          .perform()
      ```
      
@@ -1013,7 +1003,7 @@ open class Animate {
      
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func concat(animation: Animate) -> Animate {
+    open func then(animation: Animate) -> Animate {
         animations.append(animation.animations)
         animation.decay()
         return self
