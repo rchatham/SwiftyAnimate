@@ -893,7 +893,7 @@ open class Animate {
      */
     open func perform(completion: @escaping (()->Void) = {_ in}) {
         
-        guard let operations = animations.dequeue() else {
+        guard let operations = animations.dequeue()?.sorted(by: { $0.delay <= $1.delay }) else {
             return completion()
         }
         
@@ -929,7 +929,11 @@ open class Animate {
                     
                     // Basic and other custom animations must have their animations self contained within the animation block.
                     
+                    // Capture the previous animation block to retain it on the next call. This requires the delay to be sorted in order to ensure the callback are called in the correct order.
+                    let currentAnimationBlock = animationBlock
+                    
                     animationBlock = { [weak self] in
+                        currentAnimationBlock?()
                         self?.animationBlock = nil
                         animation.animationBlock()
                     }
@@ -942,8 +946,12 @@ open class Animate {
                         Timer.scheduledTimer(timeInterval: animation.delay, target: self, selector: #selector(Animate.animationBlock(_:)), userInfo: nil, repeats: false)
                     }
                     
+                    // Capture the previous completion block to retain it on the next call. This requires the delay to be sorted in order to ensure the callback are called in the correct order.
+                    let currentCompletionBlock = completionBlock
+                    
                     // Completion implementation
                     completionBlock = {  [weak self] in
+                        currentCompletionBlock?()
                         self?.completionBlock = nil
                         group.leave()
                     }
@@ -960,8 +968,16 @@ open class Animate {
                 
             case .wait(let timeout, let waitBlock):
                 
-                // If a timeout was passed in setup a timer.
                 var timer: Timer?
+                
+                // There should never be mor than one wait block being performed at a time.
+                resumeBlock = { [weak self] in
+                    self?.resumeBlock = nil
+                    group.leave()
+                    timer?.invalidate()
+                }
+                
+                // If a timeout was passed in setup a timer.
                 if let timeout = timeout {
                     if #available(iOS 10.0, *) {
                         timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] (timer) in
@@ -972,12 +988,6 @@ open class Animate {
                     }
                 }
                 
-                resumeBlock = { [weak self] in
-                    self?.resumeBlock = nil
-                    group.leave()
-                    timer?.invalidate()
-                }
-                
                 // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
                 waitBlock({ [weak self] in
                     self?.resumeBlock?()
@@ -985,8 +995,8 @@ open class Animate {
                 
             case .do(let doBlock):
                 
-                group.leave()
                 doBlock()
+                group.leave()
             }
         }
         

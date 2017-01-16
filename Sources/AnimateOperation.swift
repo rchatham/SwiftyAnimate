@@ -34,3 +34,28 @@ public enum AnimateOperation {
      */
     case `do`(block: DoBlock)
 }
+
+extension AnimateOperation {
+    
+    var timeInterval: TimeInterval? {
+        switch self {
+        case .animation(let animation):
+            return animation.timeInterval
+        case .wait(timeout: let timeout, block: _):
+            return timeout
+        case .do(block: _):
+            return nil
+        }
+    }
+    
+    var delay: TimeInterval {
+        switch self {
+        case .animation(let animation):
+            return animation.delay
+        case .wait:
+            return 0.0
+        case .do:
+            return 0.0
+        }
+    }
+}

@@ -11,7 +11,6 @@ import Foundation
 extension Collection where Iterator.Element == AnimateOperation {
     
     var timeInterval: TimeInterval? {
-        
         var total: TimeInterval = 0.0
         
         for operation in self {

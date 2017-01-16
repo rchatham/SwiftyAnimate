@@ -109,10 +109,10 @@
 				3053C0031E2B072F00672422 /* BasicAnimation.swift */,
 				3053C00A1E2B074700672422 /* Timing.swift */,
 				3053C00B1E2B074700672422 /* Transform.swift */,
-				3053C0061E2B073F00672422 /* Collection+Extensions.swift */,
-				3053C0071E2B073F00672422 /* BlockTypes.swift */,
 				30B282F21E1230C60072E0A2 /* UIKit+Extensions.swift */,
+				3053C0061E2B073F00672422 /* Collection+Extensions.swift */,
 				3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */,
+				3053C0071E2B073F00672422 /* BlockTypes.swift */,
 				3002F9A11DB7F29B00FF2E53 /* Info.plist */,
 			);
 			name = Sources;
