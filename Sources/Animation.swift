@@ -17,6 +17,8 @@ public protocol Animation {
     /// Block containing the animations to perform.
     var animationBlock: AnimationBlock { get }
     
+    /// Performs the animations for the aniamtion object with the given completion handler.
+    /// - parameter completion: The completion handler when the animation finishes.
     func performAnimations(completion: ((Bool)->Void)?)
 }
 

@@ -20,6 +20,8 @@ public struct StandardAnimation: Animation {
     /// The aniamtion block containing the animations to perform.
     public let animationBlock: AnimationBlock
     
+    /// Performs the animations for the aniamtion object with the given completion handler.
+    /// - parameter completion: The completion handler when the animation finishes.
     public func performAnimations(completion: ((Bool) -> Void)?) {
         UIView.animate(withDuration: duration, delay: delay, options: options, animations: animationBlock, completion: completion)
     }

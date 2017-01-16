@@ -33,7 +33,7 @@ public struct KeyframeAnimation {
 
 extension KeyframeAnimation: Animation {
     
-    /// The delay before the begginging of the animation.
+    /// The delay before the beggining of the animation.
     public var delay: TimeInterval {
         return keyframes.delay
     }
@@ -41,6 +41,11 @@ extension KeyframeAnimation: Animation {
     /// The duration of the animation.
     public var duration: TimeInterval {
         return keyframes.timeInterval - delay
+    }
+    
+    /// The total time of the animation.
+    public var timeInterval: TimeInterval {
+        return keyframes.timeInterval
     }
     
     /// The animation block to pass to a `UIView` keyframe animation.
@@ -62,6 +67,8 @@ extension KeyframeAnimation: Animation {
         }
     }
     
+    /// Performs the animations for the aniamtion object with the given completion handler.
+    /// - parameter completion: The completion handler when the animation finishes.
     public func performAnimations(completion: ((Bool) -> Void)? = nil) {
         UIView.animateKeyframes(withDuration: duration, delay: delay, options: options, animations: animationBlock, completion: completion)
     }

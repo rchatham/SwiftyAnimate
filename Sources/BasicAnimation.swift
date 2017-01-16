@@ -57,6 +57,8 @@ extension BasicAnimation: Animation {
         }
     }
     
+    /// Performs the animations for the aniamtion object with the given completion handler.
+    /// - parameter completion: The completion handler when the animation finishes.
     public func performAnimations(completion: ((Bool) -> Void)?) {
         BasicAnimationInvocation(duration: duration, delay: delay, animationBlock: animationBlock, completion: completion)
     }
