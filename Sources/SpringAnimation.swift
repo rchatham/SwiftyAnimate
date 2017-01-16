@@ -6,7 +6,7 @@
 //  Copyright © 2017 Reid Chatham. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// Represents a spring animation.
 public struct SpringAnimation: Animation {
@@ -22,4 +22,8 @@ public struct SpringAnimation: Animation {
     public let options: UIViewAnimationOptions
     /// The block containing the animations to perform.
     public let animationBlock: AnimationBlock
+    
+    public func performAnimations(completion: ((Bool) -> Void)?) {
+        UIView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: damping, initialSpringVelocity: velocity, options: options, animations: animationBlock, completion: completion)
+    }
 }

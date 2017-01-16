@@ -16,6 +16,8 @@ public protocol Animation {
     var delay: TimeInterval { get }
     /// Block containing the animations to perform.
     var animationBlock: AnimationBlock { get }
+    
+    func performAnimations(completion: ((Bool)->Void)?)
 }
 
 extension Animation {

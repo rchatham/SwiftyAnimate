@@ -10,7 +10,6 @@
 		3002F9A21DB7F29B00FF2E53 /* SwiftyAnimate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3002F99E1DB7F29B00FF2E53 /* SwiftyAnimate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3002F9A31DB7F29B00FF2E53 /* Animate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3002F99F1DB7F29B00FF2E53 /* Animate.swift */; };
 		3002F9A41DB7F29B00FF2E53 /* DataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */; };
-		3053BFFD1E2ADDDB00672422 /* MockSpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3053BFFC1E2ADDDB00672422 /* MockSpringAnimation.swift */; };
 		3053C0001E2B072400672422 /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3053BFFE1E2B072400672422 /* SpringAnimation.swift */; };
 		3053C0011E2B072400672422 /* StandardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3053BFFF1E2B072400672422 /* StandardAnimation.swift */; };
 		3053C0041E2B072F00672422 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3053C0021E2B072F00672422 /* Animation.swift */; };
@@ -42,7 +41,6 @@
 		3002F99F1DB7F29B00FF2E53 /* Animate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Animate.swift; path = Sources/Animate.swift; sourceTree = "<group>"; };
 		3002F9A01DB7F29B00FF2E53 /* DataStructures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStructures.swift; path = Sources/DataStructures.swift; sourceTree = "<group>"; };
 		3002F9A11DB7F29B00FF2E53 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = "<group>"; };
-		3053BFFC1E2ADDDB00672422 /* MockSpringAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSpringAnimation.swift; sourceTree = "<group>"; };
 		3053BFFE1E2B072400672422 /* SpringAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpringAnimation.swift; path = Sources/SpringAnimation.swift; sourceTree = "<group>"; };
 		3053BFFF1E2B072400672422 /* StandardAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StandardAnimation.swift; path = Sources/StandardAnimation.swift; sourceTree = "<group>"; };
 		3053C0021E2B072F00672422 /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Animation.swift; path = Sources/Animation.swift; sourceTree = "<group>"; };
@@ -123,7 +121,6 @@
 			children = (
 				30D4C4411DF51C27007DFC81 /* Info.plist */,
 				30D4C4421DF51C27007DFC81 /* SwiftyAnimateTests.swift */,
-				3053BFFC1E2ADDDB00672422 /* MockSpringAnimation.swift */,
 			);
 			name = SwiftyAnimateTests;
 			path = Tests/SwiftyAnimateTests;
@@ -242,7 +239,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3053BFFD1E2ADDDB00672422 /* MockSpringAnimation.swift in Sources */,
 				3002F9A31DB7F29B00FF2E53 /* Animate.swift in Sources */,
 				30B282F31E1230C60072E0A2 /* KeyframeAnimation.swift in Sources */,
 				3053C0081E2B073F00672422 /* Collection+Extensions.swift in Sources */,

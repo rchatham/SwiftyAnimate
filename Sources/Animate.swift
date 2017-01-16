@@ -393,6 +393,34 @@ open class Animate {
     }
     
     /**
+     Appends the passed `Animate` instance to the current animation. The animation instance passed in is discarded to prevent memory leaks.
+     ```
+     // syntax:
+     
+     let animation = Animate(duration: time) {
+     // animation code
+     }
+     
+     Animate(duration: time) {
+     // initial animation
+     }
+     .then(animation: animation)
+     .perform()
+     ```
+     
+     - parameter animation: `Animate` instance to append.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func then(animation: Animate) -> Animate {
+        operations.append(animation.operations)
+        animation.decay()
+        return self
+    }
+    
+    /**
      Adds a standard animation to the instance.
      ```
      // syntax:
@@ -936,13 +964,7 @@ open class Animate {
      */
     open func perform(completion: @escaping (()->Void) = {_ in}) {
         
-        completionBlock = nil
-        
-        guard let operationSet = operations.dequeue()?.sorted(by: {
-            $0.delay <= $1.delay && ($0.timeInterval ?? TimeInterval.greatestFiniteMagnitude) <= ($1.timeInterval ?? TimeInterval.greatestFiniteMagnitude)
-        }) else {
-            return completion()
-        }
+        guard let operationSet = operations.dequeue() else { return completion() }
         
         let group = DispatchGroup()
         
@@ -954,52 +976,9 @@ open class Animate {
             switch operation {
             case .animation(let animation):
                 
-                if let standard = animation as? StandardAnimation {
-                    
-                    UIView.animate(withDuration: standard.duration, delay: standard.delay, options: standard.options, animations: standard.animationBlock, completion: { success in
-                        group.leave()
-                    })
-                    
-                } else if let spring = animation as? SpringAnimation {
-                    
-                    UIView.animate(withDuration: spring.duration, delay: spring.delay, usingSpringWithDamping: spring.damping, initialSpringVelocity: spring.velocity, options: spring.options, animations: spring.animationBlock, completion: { success in
-                        group.leave()
-                    })
-                    
-                } else if let keyframe = animation as? KeyframeAnimation {
-                    
-                    UIView.animateKeyframes(withDuration: keyframe.duration, delay: keyframe.delay, options: keyframe.options, animations: keyframe.animationBlock, completion: { success in
-                        group.leave()
-                    })
-                    
-                } else {
-                    
-                    // Basic and other custom animations must have their animations self contained within the animation block.
-                    
-                    animations.enqueue(data: animation.animationBlock)
-                    
-                    if #available(iOS 10.0, *) {
-                        Timer.scheduledTimer(withTimeInterval: animation.delay, repeats: false) { [weak self] (timer) in
-                            self?.animationBlock(timer)
-                        }
-                    } else {
-                        Timer.scheduledTimer(timeInterval: animation.delay, target: self, selector: #selector(Animate.animationBlock(_:)), userInfo: nil, repeats: false)
-                    }
-                    
-                    // Completion implementation
-                    completionBlock = {
-                        group.leave()
-                    }
-                    
-                    if #available(iOS 10.0, *) {
-                        Timer.scheduledTimer(withTimeInterval: animation.timeInterval, repeats: false) { [weak self] (timer) in
-                            self?.completionBlock?()
-                        }
-                    } else {
-                        Timer.scheduledTimer(timeInterval: animation.timeInterval, target: self, selector: #selector(Animate.completionBlock(_:)), userInfo: nil, repeats: false)
-                    }
-                    
-                }
+                animation.performAnimations(completion: { (success) in
+                    group.leave()
+                })
                 
             case .wait(let timeout, let waitBlock):
                 
@@ -1042,61 +1021,24 @@ open class Animate {
         
     }
     
-    /**
-     Appends the passed `Animate` instance to the current animation. The animation instance passed in is discarded to prevent memory leaks.
-     ```
-     // syntax:
-     
-     let animation = Animate(duration: time) {
-             // animation code
-         }
-     
-     Animate(duration: time) {
-             // initial animation
-         }
-         .then(animation: animation)
-         .perform()
-     ```
-     
-     - parameter animation: `Animate` instance to append.
-     
-     - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
-     */
-    open func then(animation: Animate) -> Animate {
-        operations.append(animation.operations)
-        animation.decay()
-        return self
-    }
-    
     // MARK: - Fileprivate
     
     fileprivate var operations = Queue<[AnimateOperation]>()
     
     // MARK: - Private
     
-    // Below needed for backwards compatibility.
+    // Below needed for backwards compatibility with Timer.
     
     private var resumeBlock: ResumeBlock?
     @objc internal func resumeBlock(_ sender: Timer) {
         resumeBlock?()
-    }
-    
-    private var animations = Queue<AnimationBlock>()
-    @objc internal func animationBlock(_ sender: Timer) {
-        animations.dequeue()?()
-    }
-    
-    private var completionBlock: (()->Void)?
-    @objc internal func completionBlock(_ sender: Timer) {
-        completionBlock?()
     }
 }
 
 extension Animate: NSCopying {
     
     /// Copies the current Animate instance.
+    /// - parameter zone: Optional `NSZone` to copy with. Default is `nil`. Does not have any effect when copying with `Animate`.
     /// - returns: A new instance with the same animations as the original.
     open func copy(with zone: NSZone? = nil) -> Any {
         let animation = Animate()

@@ -10,6 +10,7 @@ import Foundation
 
 /// Represents a standard animation.
 public struct StandardAnimation: Animation {
+
     /// The duration over which to perform the animation.
     public let duration: TimeInterval
     /// The delay after which to perform the animation.
@@ -18,4 +19,8 @@ public struct StandardAnimation: Animation {
     public let options: UIViewAnimationOptions
     /// The aniamtion block containing the animations to perform.
     public let animationBlock: AnimationBlock
+    
+    public func performAnimations(completion: ((Bool) -> Void)?) {
+        UIView.animate(withDuration: duration, delay: delay, options: options, animations: animationBlock, completion: completion)
+    }
 }

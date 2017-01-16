@@ -61,6 +61,10 @@ extension KeyframeAnimation: Animation {
             }
         }
     }
+    
+    public func performAnimations(completion: ((Bool) -> Void)? = nil) {
+        UIView.animateKeyframes(withDuration: duration, delay: delay, options: options, animations: animationBlock, completion: completion)
+    }
 }
 
 /**
@@ -87,5 +91,11 @@ public struct Keyframe: Animation {
         self.duration = duration
         self.delay = delay
         self.animationBlock = animationBlock
+    }
+    
+    public func performAnimations(completion: ((Bool) -> Void)?) {
+        UIView.animateKeyframes(withDuration: duration, delay: delay, options: [], animations: { 
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: self.animationBlock)
+        }, completion: completion)
     }
 }

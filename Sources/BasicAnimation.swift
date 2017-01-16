@@ -56,5 +56,41 @@ extension BasicAnimation: Animation {
             }
         }
     }
+    
+    public func performAnimations(completion: ((Bool) -> Void)?) {
+        BasicAnimationInvocation(duration: duration, delay: delay, animationBlock: animationBlock, completion: completion)
+    }
+    
+}
+
+class BasicAnimationInvocation {
+    
+    let animationBlock: AnimationBlock
+    let completion: ((Bool)->Void)?
+    
+    @discardableResult init(duration: TimeInterval, delay: TimeInterval, animationBlock: @escaping AnimationBlock, completion:  ((Bool)->Void)? = nil) {
+        self.animationBlock = animationBlock
+        self.completion = completion
+        
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: delay, repeats: false, block: { (timer) in
+                animationBlock()
+            })
+            Timer.scheduledTimer(withTimeInterval: duration + delay, repeats: false, block: { (timer) in
+                completion?(true)
+            })
+        } else {
+            Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(BasicAnimationInvocation.animationBlock(_:)), userInfo: nil, repeats: false)
+            Timer.scheduledTimer(timeInterval: duration + delay, target: self, selector: #selector(BasicAnimationInvocation.completion(_:)), userInfo: nil, repeats: false)
+        }
+    }
+    
+    @objc func animationBlock(_ sender: Timer) {
+        animationBlock()
+    }
+    
+    @objc func completion(_ sender: Timer) {
+        completion?(true)
+    }
 }
 
