@@ -398,14 +398,14 @@ open class Animate {
      // syntax:
      
      let animation = Animate(duration: time) {
-     // animation code
-     }
+             // animation code
+         }
      
      Animate(duration: time) {
-     // initial animation
-     }
-     .then(animation: animation)
-     .perform()
+             // initial animation
+         }
+         .then(animation: animation)
+         .perform()
      ```
      
      - parameter animation: `Animate` instance to append.
@@ -661,6 +661,165 @@ open class Animate {
     }
     
     /**
+     Block in which to perform things that you may want to pause an ongoing flow of animations for.
+     ```
+     // syntax:
+     
+     Animate(duration: time) {
+             // Perform animations
+         }
+         .wait { (resume: ResumeBlock) in
+             // Perform operations that take time or a function with a callback.
+             // ...
+             // ...
+             // ...
+             // After some time has passed.
+             resume()
+             
+             // ...
+             // Or once something has finished.
+             function(callback: {
+                 resume()
+             })
+         }
+         .then(duartion: time) {
+             // Perform more animations
+         }
+         .perform()
+     ```
+     
+     - parameter waitBlock: a `WaitBlock` block consisting of a function which is passed to the user. This must be called in order to resume any further animations passed in after the wait block.
+     
+     - returns: The current animation instance.
+     
+     - warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in a memory leak!
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func wait(timeout: TimeInterval? = nil, waitBlock: @escaping WaitBlock = {_ in}) -> Animate {
+        operations.enqueue(data: [.wait(timeout: timeout, block: waitBlock)])
+        return self
+    }
+    
+    /**
+     Block in which to perform non animation code which should occur between specified animations.
+     
+     ```
+     // syntax:
+     
+     Animate(duration: time) {
+             // initial animations
+         }
+         .do {
+             // non-animation code
+         }
+         .then(duration: time) {
+             // more animations
+         }
+         .do {
+             // more non-animation code
+         }
+         .perform()
+     ```
+     
+     - parameter block: `DoBlock` block to perform after an animation completes.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func `do`(block: @escaping DoBlock) -> Animate {
+        operations.enqueue(data: [.do(block: block)])
+        return self
+    }
+    
+    /**
+     Method call to start or perform animations. Takes a closure that gets called after the last animation.
+     ```
+     // syntax:
+     
+     let animation = Animate(duration: time) {
+            // Initial animation.
+         }
+         .then(duration: time) {
+            // More animations
+         }
+         .wait {
+            // For something to happen
+            resume()
+         }
+         .then(duraton: time) {
+            // Finishing animation
+         }
+     
+     // Nothing will occur until calling perform on the animation instance.
+     
+     animation.perform()
+     ```
+     
+     - parameter completion: Called after the final animation completes.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func perform(completion: @escaping (()->Void) = {_ in}) {
+        
+        guard let operationSet = operations.dequeue() else { return completion() }
+        
+        let group = DispatchGroup()
+        
+        // Perform operations
+        for operation in operationSet {
+            
+            group.enter()
+        
+            switch operation {
+            case .animation(let animation):
+                
+                animation.performAnimations(completion: { (success) in
+                    group.leave()
+                })
+                
+            case .wait(let timeout, let waitBlock):
+                
+                var timer: Timer?
+                
+                // There should never be mor than one wait block being performed at a time.
+                resumeBlock = { [weak self] in
+                    self?.resumeBlock = nil
+                    group.leave()
+                    timer?.invalidate()
+                }
+                
+                // If a timeout was passed in setup a timer.
+                if let timeout = timeout {
+                    if #available(iOS 10.0, *) {
+                        timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] (timer) in
+                            self?.resumeBlock?()
+                        }
+                    } else {
+                        timer = Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.resumeBlock(_:)), userInfo: nil, repeats: false)
+                    }
+                }
+                
+                // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
+                waitBlock({ [weak self] in
+                    self?.resumeBlock?()
+                })
+                
+            case .do(let doBlock):
+                
+                doBlock()
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            // Keep a strong reference to ensure the Animate instance does not get deallocated unexpectedly.
+            self.perform(completion: completion)
+        }
+        
+    }
+    
+    /**
      Adds a finishing animation and then immediately calls perform on the animation instance.
      ```
      // syntax:
@@ -860,165 +1019,6 @@ open class Animate {
      */
     open func decay() {
         operations.release()
-    }
-    
-    /**
-     Block in which to perform things that you may want to pause an ongoing flow of animations for.
-     ```
-     // syntax:
-     
-     Animate(duration: time) {
-             // Perform animations
-         }
-         .wait { (resume: ResumeBlock) in
-             // Perform operations that take time or a function with a callback.
-             // ...
-             // ...
-             // ...
-             // After some time has passed.
-             resume()
-             
-             // ...
-             // Or once something has finished.
-             function(callback: {
-                 resume()
-             })
-         }
-         .then(duartion: time) {
-             // Perform more animations
-         }
-         .perform()
-     ```
-     
-     - parameter waitBlock: a `WaitBlock` block consisting of a function which is passed to the user. This must be called in order to resume any further animations passed in after the wait block.
-     
-     - returns: The current animation instance.
-     
-     - warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in a memory leak!
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
-     */
-    open func wait(timeout: TimeInterval? = nil, waitBlock: @escaping WaitBlock = {_ in}) -> Animate {
-        operations.enqueue(data: [.wait(timeout: timeout, block: waitBlock)])
-        return self
-    }
-    
-    /**
-     Block in which to perform non animation code which should occur between specified animations.
-     
-     ```
-     // syntax:
-     
-     Animate(duration: time) {
-             // initial animations
-         }
-         .do {
-             // non-animation code
-         }
-         .then(duration: time) {
-             // more animations
-         }
-         .do {
-             // more non-animation code
-         }
-         .perform()
-     ```
-     
-     - parameter block: `DoBlock` block to perform after an animation completes.
-     
-     - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
-     */
-    open func `do`(block: @escaping DoBlock) -> Animate {
-        operations.enqueue(data: [.do(block: block)])
-        return self
-    }
-    
-    /**
-     Method call to start or perform animations. Takes a closure that gets called after the last animation.
-     ```
-     // syntax:
-     
-     let animation = Animate(duration: time) {
-            // Initial animation.
-         }
-         .then(duration: time) {
-            // More animations
-         }
-         .wait {
-            // For something to happen
-            resume()
-         }
-         .then(duraton: time) {
-            // Finishing animation
-         }
-     
-     // Nothing will occur until calling perform on the animation instance.
-     
-     animation.perform()
-     ```
-     
-     - parameter completion: Called after the final animation completes.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
-     */
-    open func perform(completion: @escaping (()->Void) = {_ in}) {
-        
-        guard let operationSet = operations.dequeue() else { return completion() }
-        
-        let group = DispatchGroup()
-        
-        // Perform operations
-        for operation in operationSet {
-            
-            group.enter()
-        
-            switch operation {
-            case .animation(let animation):
-                
-                animation.performAnimations(completion: { (success) in
-                    group.leave()
-                })
-                
-            case .wait(let timeout, let waitBlock):
-                
-                var timer: Timer?
-                
-                // There should never be mor than one wait block being performed at a time.
-                resumeBlock = { [weak self] in
-                    self?.resumeBlock = nil
-                    group.leave()
-                    timer?.invalidate()
-                }
-                
-                // If a timeout was passed in setup a timer.
-                if let timeout = timeout {
-                    if #available(iOS 10.0, *) {
-                        timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] (timer) in
-                            self?.resumeBlock?()
-                        }
-                    } else {
-                        timer = Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.resumeBlock(_:)), userInfo: nil, repeats: false)
-                    }
-                }
-                
-                // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
-                waitBlock({ [weak self] in
-                    self?.resumeBlock?()
-                })
-                
-            case .do(let doBlock):
-                
-                doBlock()
-                group.leave()
-            }
-        }
-        
-        group.notify(queue: .main) {
-            // Keep a strong reference to ensure the Animate instance does not get deallocated unexpectedly.
-            self.perform(completion: completion)
-        }
-        
     }
     
     // MARK: - Fileprivate

@@ -673,17 +673,6 @@ class SwiftyAnimateTests: XCTestCase {
         XCTAssert(view.layer.cornerRadius == 5)
     }
     
-    func test_Animate_Corner_WithNext() {
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        
-        XCTAssert(view.layer.cornerRadius == 0)
-        
-        view.corner(duration: 0.3, radius: 5, wait: false).perform()
-        
-        XCTAssert(view.layer.cornerRadius == 5)
-    }
-    
     func test_Animate_Corner_EaseIn() {
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))

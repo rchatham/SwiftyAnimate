@@ -78,41 +78,17 @@ public extension UIView {
     // MARK: - UIView animations
     
     /**
-     Appends an animation of the corner radius on the view's CALayer.
+     Creates an `Animate` instance that sets the corner radius on the view's CALayer.
      
      - parameter duration: Duration for the transformation.
+     - parameter delay: Takes a time interval to delay the animation.
      - parameter radius: Value for the new corner radius.
      - parameter timing: The animation timing function to use.
-     - parameter wait: Bool of whether the following animation wait for the corner animation to finish.
      
      - returns: Animate instance.
      */
-    public func corner(duration: TimeInterval, radius: CGFloat, timing: Timing = .easeInOut, wait: Bool = true) -> Animate {
-        
-        let current = layer.cornerRadius
-        
-        let corner = { [weak self] in
-            let animation = CABasicAnimation(keyPath: "cornerRadius")
-            animation.timingFunction = timing.coreAnimationCurve
-            animation.fromValue = current
-            animation.toValue = radius
-            animation.duration = duration
-            self?.layer.add(animation, forKey: "corner")
-            self?.layer.cornerRadius = radius
-        }
-        
-        let animation = Animate()
-        // Because this is a CABasicAnimation it cannot occur in a standard animation block and therefore must be performed in either a wait or do block
-        if wait {
-            _ = animation.wait(timeout: duration) { _ in
-                corner()
-            }
-        } else {
-            _ = animation.do {
-                corner()
-            }
-        }
-        return animation
+    public func corner(duration: TimeInterval, delay: TimeInterval = 0.0, radius: CGFloat, timing: Timing = .easeInOut) -> Animate {
+        return Animate(basicAnimation: .cornerRadius(view: self, duration: duration, delay: delay, radius: radius, timing: timing))
     }
     
     /**

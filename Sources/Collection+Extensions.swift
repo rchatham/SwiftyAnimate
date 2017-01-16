@@ -8,28 +8,28 @@
 
 import Foundation
 
-extension Collection where Iterator.Element == AnimateOperation {
-    
-    var timeInterval: TimeInterval? {
-        var total: TimeInterval = 0.0
-        
-        for operation in self {
-            
-            switch operation {
-            case .animation(let animation):
-                if animation.timeInterval > total { total = animation.timeInterval }
-                
-            case .wait(timeout: let timeout, _):
-                guard let timeout = timeout else { return nil }
-                if timeout > total { total = timeout }
-                
-            case .do: break
-            }
-        }
-
-        return total
-    }
-}
+//extension Collection where Iterator.Element == AnimateOperation {
+//    
+//    var timeInterval: TimeInterval? {
+//        var total: TimeInterval = 0.0
+//        
+//        for operation in self {
+//            
+//            switch operation {
+//            case .animation(let animation):
+//                if animation.timeInterval > total { total = animation.timeInterval }
+//                
+//            case .wait(timeout: let timeout, _):
+//                guard let timeout = timeout else { return nil }
+//                if timeout > total { total = timeout }
+//                
+//            case .do: break
+//            }
+//        }
+//
+//        return total
+//    }
+//}
 
 extension Collection where Iterator.Element: Animation {
     
