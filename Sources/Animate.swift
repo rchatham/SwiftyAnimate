@@ -46,7 +46,7 @@ open class Animate {
      
      */
     public init(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
-        animations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
+        operations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
     }
     
     /**
@@ -73,7 +73,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     public init(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
-        animations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
+        operations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
     }
     
     /**
@@ -103,7 +103,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     public init(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) {
-        animations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
+        operations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
     }
     
     /**
@@ -121,7 +121,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     public init(standardAnimation: StandardAnimation) {
-        animations.enqueue(data: [.animation(standardAnimation)])
+        operations.enqueue(data: [.animation(standardAnimation)])
     }
     
     /**
@@ -139,7 +139,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     public init(springAnimation: SpringAnimation) {
-        animations.enqueue(data: [.animation(springAnimation)])
+        operations.enqueue(data: [.animation(springAnimation)])
     }
     
     /**
@@ -171,7 +171,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     public init(keyframe: KeyframeAnimation) {
-        animations.enqueue(data: [.animation(keyframe)])
+        operations.enqueue(data: [.animation(keyframe)])
     }
     
     /**
@@ -193,7 +193,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     public init(basicAnimation: BasicAnimation) {
-        animations.enqueue(data: [.animation(basicAnimation)])
+        operations.enqueue(data: [.animation(basicAnimation)])
     }
     
     /**
@@ -223,7 +223,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
-        animations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
+        operations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
         return self
     }
     
@@ -254,7 +254,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
-        animations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
+        operations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
         return self
     }
     
@@ -279,13 +279,14 @@ open class Animate {
      ```
      
      - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
+     - parameter options: The `UIViewKeyframeAnimationOptions` to apply to the animation.
      
      - returns: The current animation instance.
      
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) -> Animate {
-        animations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
+        operations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
         return self
     }
     
@@ -306,7 +307,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(standardAnimation: StandardAnimation) -> Animate {
-        animations.enqueue(data: [.animation(standardAnimation)])
+        operations.enqueue(data: [.animation(standardAnimation)])
         return self
     }
     
@@ -327,7 +328,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(springAnimation: SpringAnimation) -> Animate {
-        animations.enqueue(data: [.animation(springAnimation)])
+        operations.enqueue(data: [.animation(springAnimation)])
         return self
     }
     
@@ -362,7 +363,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(keyframe: KeyframeAnimation) -> Animate {
-        animations.enqueue(data: [.animation(keyframe)])
+        operations.enqueue(data: [.animation(keyframe)])
         return self
     }
     
@@ -387,7 +388,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(basicAnimation: BasicAnimation) -> Animate {
-        animations.enqueue(data: [.animation(basicAnimation)])
+        operations.enqueue(data: [.animation(basicAnimation)])
         return self
     }
     
@@ -419,11 +420,11 @@ open class Animate {
      */
     open func add(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
         
-        switch animations.last {
+        switch operations.last {
         case .some:
-            animations.last!.data.append(.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock)))
+            operations.last!.data.append(.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock)))
         case .none:
-            animations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
+            operations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
         }
         
         return self
@@ -456,11 +457,52 @@ open class Animate {
      */
     open func add(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
         
-        switch animations.last {
+        switch operations.last {
         case .some:
-            animations.last!.data.append(.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock)))
+            operations.last!.data.append(.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock)))
         case .none:
-            animations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
+            operations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
+        }
+        
+        return self
+    }
+    
+    /**
+     Adds a keyFrame animation to the instance.
+     ```
+     // syntax:
+     
+     Animate(duration: time) {
+             // Initial animation
+         }
+         .add(keyframes: [
+             KeyFrame(duration: 1.0) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.0, delay: 0.5) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.5) {
+                 // key frame animation
+             }
+         ])
+         .perform()
+     ```
+     
+     - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
+     - parameter options: The `UIViewKeyframeAnimationOptions` to apply to the animation.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func add(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) -> Animate {
+        
+        switch operations.last {
+        case .some:
+            operations.last!.data.append(.animation(KeyframeAnimation(keyframes: keyframes, options: options)))
+        case .none:
+            operations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
         }
         
         return self
@@ -486,11 +528,11 @@ open class Animate {
      */
     open func add(standardAnimation: StandardAnimation) -> Animate {
         
-        switch animations.last {
+        switch operations.last {
         case .some:
-            animations.last!.data.append(.animation(standardAnimation))
+            operations.last!.data.append(.animation(standardAnimation))
         case .none:
-            animations.enqueue(data: [.animation(standardAnimation)])
+            operations.enqueue(data: [.animation(standardAnimation)])
         }
         
         return self
@@ -516,11 +558,11 @@ open class Animate {
      */
     open func add(springAnimation: SpringAnimation) -> Animate {
         
-        switch animations.last {
+        switch operations.last {
         case .some:
-            animations.last!.data.append(.animation(springAnimation))
+            operations.last!.data.append(.animation(springAnimation))
         case .none:
-            animations.enqueue(data: [.animation(springAnimation)])
+            operations.enqueue(data: [.animation(springAnimation)])
         }
         
         return self
@@ -546,11 +588,11 @@ open class Animate {
      */
     open func add(keyframeAnimation: KeyframeAnimation) -> Animate {
         
-        switch animations.last {
+        switch operations.last {
         case .some:
-            animations.last!.data.append(.animation(keyframeAnimation))
+            operations.last!.data.append(.animation(keyframeAnimation))
         case .none:
-            animations.enqueue(data: [.animation(keyframeAnimation)])
+            operations.enqueue(data: [.animation(keyframeAnimation)])
         }
         
         return self
@@ -580,11 +622,11 @@ open class Animate {
      */
     open func add(basicAnimation: BasicAnimation) -> Animate {
         
-        switch animations.last {
+        switch operations.last {
         case .some:
-            animations.last!.data.append(.animation(basicAnimation))
+            operations.last!.data.append(.animation(basicAnimation))
         case .none:
-            animations.enqueue(data: [.animation(basicAnimation)])
+            operations.enqueue(data: [.animation(basicAnimation)])
         }
         
         return self
@@ -611,7 +653,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
-        animations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
+        operations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
         perform()
     }
     
@@ -638,7 +680,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
-        animations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
+        operations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
         perform()
     }
     
@@ -648,7 +690,7 @@ open class Animate {
      // syntax:
      
      Animate()
-         .finish(keyFrames: [
+         .finish(keyframes: [
              KeyFrame(duration: 1.0) {
                  // key frame animation
              },
@@ -661,14 +703,15 @@ open class Animate {
          ])
      ```
      
-     - parameter keyframes: A `KeyframeAnimation` objects representing the keyframes to be animated.
+     - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
+     - parameter options: The `UIViewKeyframeAnimationOptions` to apply to the animation.
      
      - returns: The current animation instance.
      
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) {
-        animations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
+        operations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
         perform()
     }
     
@@ -685,7 +728,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(standardAnimation: StandardAnimation) {
-        animations.enqueue(data: [.animation(standardAnimation)])
+        operations.enqueue(data: [.animation(standardAnimation)])
         perform()
     }
     
@@ -702,7 +745,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(springAnimation: SpringAnimation) {
-        animations.enqueue(data: [.animation(springAnimation)])
+        operations.enqueue(data: [.animation(springAnimation)])
         perform()
     }
     
@@ -733,7 +776,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(keyframe: KeyframeAnimation) {
-        animations.enqueue(data: [.animation(keyframe)])
+        operations.enqueue(data: [.animation(keyframe)])
         perform()
     }
     
@@ -754,7 +797,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(basicAnimation: BasicAnimation) {
-        animations.enqueue(data: [.animation(basicAnimation)])
+        operations.enqueue(data: [.animation(basicAnimation)])
         perform()
     }
     
@@ -788,7 +831,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func decay() {
-        animations.release()
+        operations.release()
     }
     
     /**
@@ -827,7 +870,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func wait(timeout: TimeInterval? = nil, waitBlock: @escaping WaitBlock = {_ in}) -> Animate {
-        animations.enqueue(data: [.wait(timeout: timeout, block: waitBlock)])
+        operations.enqueue(data: [.wait(timeout: timeout, block: waitBlock)])
         return self
     }
     
@@ -859,7 +902,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func `do`(block: @escaping DoBlock) -> Animate {
-        animations.enqueue(data: [.do(block: block)])
+        operations.enqueue(data: [.do(block: block)])
         return self
     }
     
@@ -893,14 +936,18 @@ open class Animate {
      */
     open func perform(completion: @escaping (()->Void) = {_ in}) {
         
-        guard let operations = animations.dequeue()?.sorted(by: { $0.delay <= $1.delay }) else {
+        completionBlock = nil
+        
+        guard let operationSet = operations.dequeue()?.sorted(by: {
+            $0.delay <= $1.delay && ($0.timeInterval ?? TimeInterval.greatestFiniteMagnitude) <= ($1.timeInterval ?? TimeInterval.greatestFiniteMagnitude)
+        }) else {
             return completion()
         }
         
         let group = DispatchGroup()
         
         // Perform operations
-        for operation in operations {
+        for operation in operationSet {
             
             group.enter()
         
@@ -929,30 +976,18 @@ open class Animate {
                     
                     // Basic and other custom animations must have their animations self contained within the animation block.
                     
-                    // Capture the previous animation block to retain it on the next call. This requires the delay to be sorted in order to ensure the callback are called in the correct order.
-                    let currentAnimationBlock = animationBlock
-                    
-                    animationBlock = { [weak self] in
-                        currentAnimationBlock?()
-                        self?.animationBlock = nil
-                        animation.animationBlock()
-                    }
+                    animations.enqueue(data: animation.animationBlock)
                     
                     if #available(iOS 10.0, *) {
                         Timer.scheduledTimer(withTimeInterval: animation.delay, repeats: false) { [weak self] (timer) in
-                            self?.animationBlock?()
+                            self?.animationBlock(timer)
                         }
                     } else {
                         Timer.scheduledTimer(timeInterval: animation.delay, target: self, selector: #selector(Animate.animationBlock(_:)), userInfo: nil, repeats: false)
                     }
                     
-                    // Capture the previous completion block to retain it on the next call. This requires the delay to be sorted in order to ensure the callback are called in the correct order.
-                    let currentCompletionBlock = completionBlock
-                    
                     // Completion implementation
-                    completionBlock = {  [weak self] in
-                        currentCompletionBlock?()
-                        self?.completionBlock = nil
+                    completionBlock = {
                         group.leave()
                     }
                     
@@ -1030,14 +1065,14 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(animation: Animate) -> Animate {
-        animations.append(animation.animations)
+        operations.append(animation.operations)
         animation.decay()
         return self
     }
     
     // MARK: - Fileprivate
     
-    fileprivate var animations = Queue<[AnimateOperation]>()
+    fileprivate var operations = Queue<[AnimateOperation]>()
     
     // MARK: - Private
     
@@ -1048,9 +1083,9 @@ open class Animate {
         resumeBlock?()
     }
     
-    private var animationBlock: AnimationBlock?
+    private var animations = Queue<AnimationBlock>()
     @objc internal func animationBlock(_ sender: Timer) {
-        animationBlock?()
+        animations.dequeue()?()
     }
     
     private var completionBlock: (()->Void)?
@@ -1065,7 +1100,7 @@ extension Animate: NSCopying {
     /// - returns: A new instance with the same animations as the original.
     open func copy(with zone: NSZone? = nil) -> Any {
         let animation = Animate()
-        animation.animations = animations
+        animation.operations = operations
         return animation
     }
     
