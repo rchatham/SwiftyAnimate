@@ -21,7 +21,7 @@ public typealias WaitBlock = (_ resume: @escaping ResumeBlock)->Void
 public typealias DoBlock = (Void)->Void
 
 
-@objc class Block: NSObject {
+class Block: NSObject {
     
     private struct Static {
         fileprivate static var instances: [Block] = []
@@ -43,7 +43,7 @@ public typealias DoBlock = (Void)->Void
     
 }
 
-@objc class Wait: Block {
+class Wait: Block {
 
     init(timeout: TimeInterval? = nil, _ completion: @escaping ()->Void = {_ in}) {
         
@@ -63,5 +63,43 @@ public typealias DoBlock = (Void)->Void
                 timer = Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Wait.complete(_:)), userInfo: nil, repeats: false)
             }
         }
+    }
+}
+
+class BasicAnimationBlock: Block {
+    
+    let animationBlock: AnimationBlock
+    
+    @discardableResult init(duration: TimeInterval, delay: TimeInterval, animationBlock: @escaping AnimationBlock, completion:  ((Bool)->Void)? = nil) {
+        self.animationBlock = animationBlock
+        super.init {
+            completion?(true)
+        }
+        
+        // Animation
+        if delay == 0.0 {
+            animationBlock()
+        } else {
+            if #available(iOS 10.0, *) {
+                Timer.scheduledTimer(withTimeInterval: delay, repeats: false, block: { [weak self] (timer) in
+                    self?.animationBlock(timer)
+                })
+            } else {
+                Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(BasicAnimationBlock.animationBlock(_:)), userInfo: nil, repeats: false)
+            }
+        }
+        
+        // Completion
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: duration + delay, repeats: false, block: { [weak self] (timer) in
+                self?.complete(timer)
+            })
+        } else {
+            Timer.scheduledTimer(timeInterval: duration + delay, target: self, selector: #selector(BasicAnimationBlock.complete(_:)), userInfo: nil, repeats: false)
+        }
+    }
+    
+    @objc func animationBlock(_ sender: Timer) {
+        animationBlock()
     }
 }
