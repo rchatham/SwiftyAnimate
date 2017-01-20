@@ -67,10 +67,6 @@ extension BasicAnimation: Animation {
 
 class BasicAnimationBlock: Block {
     
-    private struct Static {
-        fileprivate static var instances: [BasicAnimationBlock] = []
-    }
-    
     let animationBlock: AnimationBlock
     
     @discardableResult init(duration: TimeInterval, delay: TimeInterval, animationBlock: @escaping AnimationBlock, completion:  ((Bool)->Void)? = nil) {
@@ -100,8 +96,6 @@ class BasicAnimationBlock: Block {
         } else {
             Timer.scheduledTimer(timeInterval: duration + delay, target: self, selector: #selector(BasicAnimationBlock.complete(_:)), userInfo: nil, repeats: false)
         }
-        
-        Static.instances.append(self)
     }
     
     @objc func animationBlock(_ sender: Timer) {
