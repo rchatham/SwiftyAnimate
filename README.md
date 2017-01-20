@@ -90,7 +90,7 @@ Animate(duration: 1.0) {
         // animation code goes here
     }
     .wait(timeout: 5.0) { resume in
-        // logic you don't want to pause an animation to complete
+        // logic you want to pause an animation to complete
         resume()
     }
     .then(duration: 0.5) {
