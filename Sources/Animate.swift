@@ -415,8 +415,12 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(animation: Animate) -> Animate {
-        operations.append(animation.operations)
-        animation.decay()
+        let operation = AnimateOperation.wait(timeout: nil) { (resume: @escaping ResumeBlock) in
+            animation.perform {
+                resume()
+            }
+        }
+        operations.enqueue(data: [operation])
         return self
     }
     
@@ -661,6 +665,45 @@ open class Animate {
     }
     
     /**
+     Adds an animation to the instance in parallel to the top animations.
+     ```
+     // syntax:
+     
+     let animation = Animate(duration: time) {
+         // Initial animation
+     }
+     
+     Animate(duration: time) {
+             // Initial animation
+         }
+         .add(animation: animation)
+         .perform()
+     ```
+     
+     - parameter basicAnimation: Takes a `BasicAnimation` object.
+     
+     - returns: The current animation instance.
+     
+     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     */
+    open func add(animation: Animate) -> Animate {
+        
+        let operation = AnimateOperation.wait(timeout: nil) { (resume: @escaping ResumeBlock) in
+            animation.perform {
+                resume()
+            }
+        }
+        switch operations.last {
+        case .some:
+            operations.last!.data.append(operation)
+        case .none:
+            operations.enqueue(data: [operation])
+        }
+        
+        return self
+    }
+    
+    /**
      Block in which to perform things that you may want to pause an ongoing flow of animations for.
      ```
      // syntax:
@@ -780,29 +823,10 @@ open class Animate {
                 
             case .wait(let timeout, let waitBlock):
                 
-                var timer: Timer?
+                let wait = Wait(timeout: timeout, group.leave)
                 
-                // There should never be mor than one wait block being performed at a time.
-                resumeBlock = { [weak self] in
-                    self?.resumeBlock = nil
-                    group.leave()
-                    timer?.invalidate()
-                }
-                
-                // If a timeout was passed in setup a timer.
-                if let timeout = timeout {
-                    if #available(iOS 10.0, *) {
-                        timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] (timer) in
-                            self?.resumeBlock?()
-                        }
-                    } else {
-                        timer = Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.resumeBlock(_:)), userInfo: nil, repeats: false)
-                    }
-                }
-                
-                // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
                 waitBlock({ [weak self] in
-                    self?.resumeBlock?()
+                    wait.complete(self as Any)
                 })
                 
             case .do(let doBlock):
@@ -812,8 +836,8 @@ open class Animate {
             }
         }
         
+        // Keep a strong reference to ensure the Animate instance does not get deallocated unexpectedly.
         group.notify(queue: .main) {
-            // Keep a strong reference to ensure the Animate instance does not get deallocated unexpectedly.
             self.perform(completion: completion)
         }
         
@@ -840,7 +864,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
-        operations.enqueue(data: [.animation(StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))])
+        _ = then(duration: duration, delay: delay, options: options, animationBlock: animationBlock)
         perform()
     }
     
@@ -867,7 +891,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
-        operations.enqueue(data: [.animation(SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))])
+        _ = then(duration: duration, delay: delay, springDamping: springDamping, initialVelocity: initialVelocity, options: options, animationBlock: animationBlock)
         perform()
     }
     
@@ -898,7 +922,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) {
-        operations.enqueue(data: [.animation(KeyframeAnimation(keyframes: keyframes, options: options))])
+        _ = then(keyframes: keyframes, options: options)
         perform()
     }
     
@@ -915,7 +939,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(standardAnimation: StandardAnimation) {
-        operations.enqueue(data: [.animation(standardAnimation)])
+        _ = then(standardAnimation: standardAnimation)
         perform()
     }
     
@@ -932,7 +956,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(springAnimation: SpringAnimation) {
-        operations.enqueue(data: [.animation(springAnimation)])
+        _ = then(springAnimation: springAnimation)
         perform()
     }
     
@@ -963,7 +987,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(keyframe: KeyframeAnimation) {
-        operations.enqueue(data: [.animation(keyframe)])
+        _ = then(keyframe: keyframe)
         perform()
     }
     
@@ -984,7 +1008,7 @@ open class Animate {
      - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(basicAnimation: BasicAnimation) {
-        operations.enqueue(data: [.animation(basicAnimation)])
+        _ = then(basicAnimation: basicAnimation)
         perform()
     }
     
@@ -1025,14 +1049,6 @@ open class Animate {
     
     fileprivate var operations = Queue<[AnimateOperation]>()
     
-    // MARK: - Private
-    
-    // Below needed for backwards compatibility with Timer.
-    
-    private var resumeBlock: ResumeBlock?
-    @objc internal func resumeBlock(_ sender: Timer) {
-        resumeBlock?()
-    }
 }
 
 extension Animate: NSCopying {

@@ -100,6 +100,11 @@ public struct Keyframe: Animation {
         self.animationBlock = animationBlock
     }
     
+    /**
+     Performs a keyframe animation with no options using the given keyframe. This is not a recomended approach to performing keyframe animations.
+     
+     - parameter: completion: Takes an optional completion closure which takes a `Bool`.
+     */
     public func performAnimations(completion: ((Bool) -> Void)?) {
         UIView.animateKeyframes(withDuration: duration, delay: delay, options: [], animations: { 
             UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: self.animationBlock)

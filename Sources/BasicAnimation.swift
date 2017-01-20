@@ -60,15 +60,15 @@ extension BasicAnimation: Animation {
     /// Performs the animations for the aniamtion object with the given completion handler.
     /// - parameter completion: The completion handler when the animation finishes.
     public func performAnimations(completion: ((Bool) -> Void)?) {
-        BasicAnimationInvocation(duration: duration, delay: delay, animationBlock: animationBlock, completion: completion)
+        BasicAnimationBlock(duration: duration, delay: delay, animationBlock: animationBlock, completion: completion)
     }
     
 }
 
-class BasicAnimationInvocation {
+class BasicAnimationBlock {
     
     private struct Static {
-        fileprivate static var instances: [BasicAnimationInvocation] = []
+        fileprivate static var instances: [BasicAnimationBlock] = []
     }
     
     let animationBlock: AnimationBlock
@@ -87,7 +87,7 @@ class BasicAnimationInvocation {
                     animationBlock()
                 })
             } else {
-                Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(BasicAnimationInvocation.animationBlock(_:)), userInfo: nil, repeats: false)
+                Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(BasicAnimationBlock.animationBlock(_:)), userInfo: nil, repeats: false)
             }
         }
         
@@ -97,7 +97,7 @@ class BasicAnimationInvocation {
                 completion?(true)
             })
         } else {
-            Timer.scheduledTimer(timeInterval: duration + delay, target: self, selector: #selector(BasicAnimationInvocation.completion(_:)), userInfo: nil, repeats: false)
+            Timer.scheduledTimer(timeInterval: duration + delay, target: self, selector: #selector(BasicAnimationBlock.completion(_:)), userInfo: nil, repeats: false)
         }
         
         Static.instances.append(self)
