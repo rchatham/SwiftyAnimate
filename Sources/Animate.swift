@@ -1058,7 +1058,7 @@ extension Animate: NSCopying {
     /// - returns: A new instance with the same animations as the original.
     open func copy(with zone: NSZone? = nil) -> Any {
         let animation = Animate()
-        animation.operations = operations
+        animation.operations = operations.copy
         return animation
     }
     

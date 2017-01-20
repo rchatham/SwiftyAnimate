@@ -72,3 +72,15 @@ extension Queue {
         last = nil
     }
 }
+
+extension Queue {
+    var copy: Queue<T> {
+        var queue = Queue<T>()
+        var node = first
+        while node != nil {
+            queue.enqueue(data: node!.data)
+            node = node!.next
+        }
+        return queue
+    }
+}
