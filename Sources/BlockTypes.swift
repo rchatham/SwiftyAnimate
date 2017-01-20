@@ -27,7 +27,7 @@ class Block: NSObject {
         fileprivate static var instances: [Block] = []
     }
     
-    var completion: (()->Void)?
+    private var completion: (()->Void)?
     
     init(_ completion: @escaping ()->Void) {
         self.completion = completion
@@ -68,7 +68,7 @@ class Wait: Block {
 
 class BasicAnimationBlock: Block {
     
-    let animationBlock: AnimationBlock
+    private var animationBlock: AnimationBlock?
     
     @discardableResult init(duration: TimeInterval, delay: TimeInterval, animationBlock: @escaping AnimationBlock, completion:  ((Bool)->Void)? = nil) {
         self.animationBlock = animationBlock
@@ -100,6 +100,7 @@ class BasicAnimationBlock: Block {
     }
     
     @objc func animationBlock(_ sender: Timer) {
-        animationBlock()
+        animationBlock?()
+        animationBlock = nil
     }
 }
