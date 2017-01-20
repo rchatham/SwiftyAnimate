@@ -65,26 +65,27 @@ extension BasicAnimation: Animation {
     
 }
 
-class BasicAnimationBlock {
+class BasicAnimationBlock: Block {
     
     private struct Static {
         fileprivate static var instances: [BasicAnimationBlock] = []
     }
     
     let animationBlock: AnimationBlock
-    let completion: ((Bool)->Void)?
     
     @discardableResult init(duration: TimeInterval, delay: TimeInterval, animationBlock: @escaping AnimationBlock, completion:  ((Bool)->Void)? = nil) {
         self.animationBlock = animationBlock
-        self.completion = completion
+        super.init { 
+            completion?(true)
+        }
         
         // Animation
         if delay == 0.0 {
             animationBlock()
         } else {
             if #available(iOS 10.0, *) {
-                Timer.scheduledTimer(withTimeInterval: delay, repeats: false, block: { (timer) in
-                    animationBlock()
+                Timer.scheduledTimer(withTimeInterval: delay, repeats: false, block: { [weak self] (timer) in
+                    self?.animationBlock(timer)
                 })
             } else {
                 Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(BasicAnimationBlock.animationBlock(_:)), userInfo: nil, repeats: false)
@@ -93,11 +94,11 @@ class BasicAnimationBlock {
         
         // Completion
         if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: duration + delay, repeats: false, block: { (timer) in
-                completion?(true)
+            Timer.scheduledTimer(withTimeInterval: duration + delay, repeats: false, block: { [weak self] (timer) in
+                self?.complete(timer)
             })
         } else {
-            Timer.scheduledTimer(timeInterval: duration + delay, target: self, selector: #selector(BasicAnimationBlock.completion(_:)), userInfo: nil, repeats: false)
+            Timer.scheduledTimer(timeInterval: duration + delay, target: self, selector: #selector(BasicAnimationBlock.complete(_:)), userInfo: nil, repeats: false)
         }
         
         Static.instances.append(self)
@@ -105,11 +106,6 @@ class BasicAnimationBlock {
     
     @objc func animationBlock(_ sender: Timer) {
         animationBlock()
-    }
-    
-    @objc func completion(_ sender: Timer) {
-        completion?(true)
-        Static.instances = Static.instances.filter { $0 !== self }
     }
 }
 
