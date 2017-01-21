@@ -11,7 +11,7 @@ import XCTest
 
 class TimingTests: XCTestCase {
     
-    func test_Timing() {
+    func test_Timing_CAMediaTimingFunction() {
         XCTAssert(Timing.easeIn.coreAnimationCurve == CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn))
         XCTAssert(Timing.easeOut.coreAnimationCurve == CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut))
         XCTAssert(Timing.easeInOut.coreAnimationCurve == CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))

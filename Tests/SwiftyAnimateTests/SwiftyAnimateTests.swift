@@ -388,7 +388,7 @@ class SwiftyAnimateTests: XCTestCase {
         
     }
     
-    func test_Animate_ConcatAnimation() {
+    func test_Animate_ThenAnimation() {
         
         var performedAnimation = false
         var performedThenAnimation = false
@@ -421,7 +421,7 @@ class SwiftyAnimateTests: XCTestCase {
         }
     }
     
-    func test_EmptyAnimate_ConcatAnimation() {
+    func test_EmptyAnimate_ThenAnimation() {
         
         var performedThenAnimation = false
         
@@ -438,139 +438,6 @@ class SwiftyAnimateTests: XCTestCase {
         }
         
         XCTAssertTrue(performedThenAnimation)
-    }
-    
-    func test_SpringAnimation_Performed() {
-        
-        var performedAnimation = false
-        
-        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            performedAnimation = true
-        }
-        
-        XCTAssertFalse(performedAnimation)
-        
-        animation.perform()
-        
-        XCTAssertTrue(performedAnimation)
-    }
-    
-    
-    func test_SpringAnimation_PerformedWithCompletion() {
-        
-        var performedAnimation = false
-        var performedWithCompletion = false
-        
-        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            performedAnimation = true
-        }
-        
-        XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedWithCompletion)
-        
-        let expect = expectation(description: "Performed animation with completion")
-        
-        animation.perform {
-            performedWithCompletion = true
-            expect.fulfill()
-        }
-        
-        XCTAssertTrue(performedAnimation)
-        
-        waitForExpectations(timeout: 1.0) { error in
-            if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedWithCompletion)
-        }
-    }
-    
-    func test_SpringAnimation_PerformedThenAnimation() {
-        
-        var performedAnimation = false
-        var performedThenAnimation = false
-        
-        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            performedAnimation = true
-        }.then(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            performedThenAnimation = true
-        }
-        
-        XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        let expect = expectation(description: "Performed then animation with completion")
-        
-        animation.perform {
-            expect.fulfill()
-        }
-        
-        XCTAssertTrue(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        waitForExpectations(timeout: 1.1) { error in
-            if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedThenAnimation)
-        }
-    }
-    
-    func test_KeyframeAnimation_Performed() {
-        
-        var performedAnimation = false
-        
-        let keyframes = [
-            Keyframe(duration: 1.0) {
-                performedAnimation = true
-            }
-        ]
-        
-        let keyframe = KeyframeAnimation(keyframes: keyframes, options: [])
-        
-        let animation = Animate(keyframe: keyframe)
-        
-        XCTAssertFalse(performedAnimation)
-        
-        animation.perform()
-        
-        XCTAssertTrue(performedAnimation)
-    }
-    
-    func test_KeyframeAnimation_PerformedThenKeyframeAnimation() {
-        
-        var performedAnimation = false
-        var performedThenAnimation = false
-        
-        let keyframes1 = [
-            Keyframe(duration: 1.0) {
-                performedAnimation = true
-            }
-        ]
-        let keyframe1 = KeyframeAnimation(keyframes: keyframes1, options: [])
-        
-        let keyframes2 = [
-            Keyframe(duration: 1.0) {
-                performedThenAnimation = true
-            }
-        ]
-        let keyframe2 = KeyframeAnimation(keyframes: keyframes2, options: [])
-        
-        let animation = Animate(keyframe: keyframe1)
-            .then(keyframe: keyframe2)
-        
-        XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        let expect = expectation(description: "Performed then animation with completion")
-        
-        animation.perform {
-            expect.fulfill()
-        }
-        
-        XCTAssertTrue(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        waitForExpectations(timeout: 2.1) { error in
-            if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedThenAnimation)
-        }
     }
     
     func test_Animate_Copy() {

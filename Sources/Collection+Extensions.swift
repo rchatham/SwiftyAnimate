@@ -31,7 +31,7 @@ import Foundation
 //    }
 //}
 
-extension Collection where Iterator.Element: Animation {
+extension Collection where Iterator.Element: Animation, SubSequence.Iterator.Element == Iterator.Element {
     
     var timeInterval: TimeInterval {
         var total = 0.0
@@ -45,9 +45,9 @@ extension Collection where Iterator.Element: Animation {
     }
     
     var delay: TimeInterval {
-        var delay = 0.0
+        var delay = first?.delay ?? 0.0
         
-        for animation in self {
+        for animation in self.dropFirst() {
             if animation.delay < delay { delay = animation.delay }
         }
         

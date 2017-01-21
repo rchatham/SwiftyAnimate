@@ -41,29 +41,29 @@ internal struct Queue<T> {
             last = new
         }
     }
-    mutating func removeLast() -> T? {
-        let pop = last?.data
-        if first === last {
-            first = nil
-            last = nil
-        } else {
-            last = last?.previous
-        }
-        return pop
-    }
+//    mutating func removeLast() -> T? {
+//        let pop = last?.data
+//        if first === last {
+//            first = nil
+//            last = nil
+//        } else {
+//            last = last?.previous
+//        }
+//        return pop
+//    }
 }
 
-extension Queue {
-    mutating func append(_ queue: Queue) {
-        if last != nil {
-            last?.next = queue.first
-            last = queue.last
-        } else {
-            first = queue.first
-            last = queue.last
-        }
-    }
-}
+//extension Queue {
+//    mutating func append(_ queue: Queue) {
+//        if last != nil {
+//            last?.next = queue.first
+//            last = queue.last
+//        } else {
+//            first = queue.first
+//            last = queue.last
+//        }
+//    }
+//}
 
 extension Queue {
     mutating func release() {

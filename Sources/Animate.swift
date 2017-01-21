@@ -693,6 +693,7 @@ open class Animate {
                 resume()
             }
         }
+        
         switch operations.last {
         case .some:
             operations.last!.data.append(operation)
