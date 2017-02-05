@@ -64,6 +64,20 @@ Animate(duration: 1.0) {
     .perform()
 ```
 
+#### And blocks
+
+Add animations to the current instance using one of the implementations for this function. There are implemetations for spring and keyframe animations as well as stacking `Animate` objects together. 'And' animations are performed in sync with the animation before it.
+
+```swift
+Animate(duration: 1.0) {
+        // animation code goes here
+    }
+    .and(duration: 0.5) {
+        // more animation code
+    }
+    .perform()
+```
+
 #### Do blocks
 
 Add code that you don't intend on animating but would like to perform between animations here. Any code you put here will NOT be animated.
