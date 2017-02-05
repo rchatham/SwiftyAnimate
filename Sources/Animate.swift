@@ -8,20 +8,9 @@
 
 import UIKit
 
-/// `Animation` block `(Void)->Void`
-public typealias Animation = (Void)->Void
-/// `Resume` block to be called from a `Wait` block `(Void)->Void`
-public typealias Resume = (Void)->Void
-/// `Wait` block `(Resume)->Void`
-public typealias Wait = (_ resume: @escaping Resume)->Void
-/// `Do` block `(Void)->Void`
-public typealias Do = (Void)->Void
-
 
 /**
- Swift animation.
- 
- Light wrapper over the `UIView` animation pyramid of doom.
+ Composable animations in Swift.
  
  Have fun animating!
  */
@@ -37,10 +26,10 @@ open class Animate {
     /**
      Creates an animation instance with an initial animation.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time) {
-        // Stuff to animate
+        // stuff to animate
      }
      
      animation.perform()
@@ -49,21 +38,19 @@ open class Animate {
      - parameter duration: The duration that the animation should take.
      - parameter delay: Takes a time interval to delay the animation.
      - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
-     - parameter callback: `Animation` callback to perform over the duration passed in.
+     - parameter animationBlock: `Animation` callback to perform over the duration passed in.
      
      - returns: An animation instance.
      
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
-     
      */
-    public init(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animations: @escaping Animation) {
-        self.animations.enqueue(data: .animation(duration,delay,options,animations))
+    convenience public init(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
+        self.init(animation: StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))
     }
     
     /**
      Creates an animation instance with an initial spring animation.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
          // spring animation
@@ -77,20 +64,18 @@ open class Animate {
      - parameter springDamping: Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.
      - parameter initialVelocity: The initial velocity for the view as a ratio of it's distance to it's final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.
      - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
-     - parameter callback: `Animation` callback to perform over the duration passed in.
+     - parameter animationBlock: `Animation` callback to perform over the duration passed in.
      
      - returns: An animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    public init(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animations: @escaping Animation) {
-        self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
+    convenience public init(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
+        self.init(animation: SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))
     }
     
     /**
      Creates an animation instance with an initial keyFrame animation.
      ```
-     //syntax:
+     // syntax:
      
      Animate(keyFrames: [
              KeyFrame(duration: 1.0) {
@@ -103,24 +88,38 @@ open class Animate {
                  // key frame animation
              }
          ])
-        .perform()
+         .perform()
      ```
      
-     - parameter options: Takes a set of `UIViewKeyframeAnimationOptions`.
-     - parameter keyframes: An array of Keyframe objects representing the keyframes to be animated.
+     - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
+     - parameter options: The `UIViewKeyframeAnimationOptions` to be applied to the animation.
      
      - returns: An animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    public init(options: UIViewKeyframeAnimationOptions = [], keyframes: [Keyframe]) {
-        animations.enqueue(data: .keyframe(options, keyframes))
+    convenience public init(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) {
+        self.init(animation: KeyframeAnimation(keyframes: keyframes, options: options))
     }
     
     /**
-     Adds a standard animation to the instance.
+     Creates an animation instance with an initial standard animation.
      ```
-     //syntax:
+     // syntax:
+     
+     Animate(animation: animation).perform()
+     ```
+     
+     - parameter animation: Takes a `Animation` object.
+     
+     - returns: An animation instance.
+     */
+    public init(animation: Animation) {
+        operations.enqueue(data: [.animation(animation)])
+    }
+    
+    /**
+     Follows the previous animation with a standard animation to the instance.
+     ```
+     // syntax:
      
      Animate(duration: time) {
             // Initial animation
@@ -137,21 +136,18 @@ open class Animate {
      - parameter duration: The duration that the animation should take.
      - parameter delay: Takes a time interval to delay the animation.
      - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
-     - parameter callback: `Animation` callback to perform over the duration passed in.
+     - parameter animationBlock: `Animation` callback to perform over the duration passed in.
      
      - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
-        self.animations.enqueue(data: .animation(duration,delay,options,animations))
-        return self
+    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
+        return then(animation: StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))
     }
     
     /**
-     Adds a spring animation to the instance.
+     Follows the previous animation with a spring animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate()
          .then(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
@@ -168,57 +164,70 @@ open class Animate {
      - parameter springDamping: Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.
      - parameter initialVelocity: The initial velocity for the view as a ratio of it's distance to it's final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.
      - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
-     - parameter callback: `Animation` callback to perform over the duration passed in.
+     - parameter animationBlock: `Animation` callback to perform over the duration passed in.
      
      - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animations: @escaping Animation) -> Animate {
-        self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, animations))
-        return self
+    open func then(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
+        return then(animation: SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))
     }
     
     /**
-     Adds a keyFrame animation to the instance.
+     Follows the previous animation with a keyFrame animation to the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate()
          .then(keyFrames: [
-            KeyFrame(duration: 1.0) {
-                // key frame animation
-            },
-            KeyFrame(duration: 1.0, delay: 0.5) {
-                // key frame animation
-            },
-            KeyFrame(duration: 1.5) {
-                // key frame animation
-            }
+             KeyFrame(duration: 1.0) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.0, delay: 0.5) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.5) {
+                 // key frame animation
+             }
          ])
          .perform()
      ```
      
-     - parameter options: Takes a set of `UIViewKeyframeAnimationOptions`.
-     - parameter keyframes: An array of Keyframe objects representing the keyframes to be animated.
+     - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
+     - parameter options: The `UIViewKeyframeAnimationOptions` to apply to the animation.
      
      - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func then(options: UIViewKeyframeAnimationOptions = [], keyframes: [Keyframe]) -> Animate {
-        animations.enqueue(data: .keyframe(options, keyframes))
+    open func then(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) -> Animate {
+        return then(animation: KeyframeAnimation(keyframes: keyframes, options: options))
+    }
+    
+    /**
+     Follows the previous animation with a standard animation added to the instance.
+     ```
+     // syntax:
+     
+     Animate()
+         .then(animation: standard)
+         .perform()
+     ```
+     
+     - parameter animation: Takes a `Animation` object.
+     
+     - returns: The current animation instance.
+     */
+    open func then(animation: Animation) -> Animate {
+        operations.enqueue(data: [.animation(animation)])
         return self
     }
     
     /**
-     Appends the passed `Animate` instance to the current animation. The animation instance passed in is discarded to prevent memory leaks.
+     Appends the passed `Animate` instance to the current animation.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time) {
-         // animation code
-     }
+             // animation code
+         }
      
      Animate(duration: time) {
              // initial animation
@@ -230,52 +239,199 @@ open class Animate {
      - parameter animation: `Animate` instance to append.
      
      - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func then(animation: Animate) -> Animate {
-        animations.append(animation.animations)
-        animation.decay()
+        let animation = animation.copy
+        let operation = AnimateOperation.wait(timeout: nil) { resume in animation.perform { resume() } }
+        operations.enqueue(data: [operation])
+        return self
+    }
+    
+    /**
+     Adds a standard animation to the instance.
+     ```
+     // syntax:
+     
+     Animate(duration: time) {
+             // Initial animation
+         }
+         .and(duration: time) {
+             // Animation begining upon completion of the initial animation.
+         }
+         .and(duration: time) {
+             // Animation following the previous animation.
+         }
+         .perform()
+     ```
+     
+     - parameter duration: The duration that the animation should take.
+     - parameter delay: Takes a time interval to delay the animation.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
+     - parameter animationBlock: `Animation` callback to perform over the duration passed in.
+     
+     - returns: The current animation instance.
+     */
+    open func and(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
+        return and(animation: StandardAnimation(duration: duration, delay: delay, options: options, animationBlock: animationBlock))
+    }
+    
+    /**
+     Adds a spring animation to the instance.
+     ```
+     // syntax:
+     
+     Animate(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+             // spring animation
+         }
+         .and(duration: time, springDamping: 0.8, initialVelocity: 0.0) {
+             // spring animation
+         }
+         .perform()
+     ```
+     
+     - parameter duration: The duration that the animation should take.
+     - parameter delay: Takes a time interval to delay the animation.
+     - parameter springDamping: Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.
+     - parameter initialVelocity: The initial velocity for the view as a ratio of it's distance to it's final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
+     - parameter animationBlock: `Animation` callback to perform over the duration passed in.
+     
+     - returns: The current animation instance.
+     */
+    open func and(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) -> Animate {
+        return and(animation: SpringAnimation(duration: duration, delay: delay, damping: springDamping, velocity: initialVelocity, options: options, animationBlock: animationBlock))
+    }
+    
+    /**
+     Adds a keyFrame animation to the instance.
+     ```
+     // syntax:
+     
+     Animate(duration: time) {
+             // Initial animation
+         }
+         .and(keyframes: [
+             KeyFrame(duration: 1.0) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.0, delay: 0.5) {
+                 // key frame animation
+             },
+             KeyFrame(duration: 1.5) {
+                 // key frame animation
+             }
+         ])
+         .perform()
+     ```
+     
+     - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
+     - parameter options: The `UIViewKeyframeAnimationOptions` to apply to the animation.
+     
+     - returns: The current animation instance.
+     */
+    open func and(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) -> Animate {
+        return and(animation: KeyframeAnimation(keyframes: keyframes, options: options))
+    }
+    
+    /**
+     Adds a standard animation to the instance.
+     ```
+     // syntax:
+     
+     Animate(duration: time) {
+             // Initial animation
+         }
+         .and(animation: standard)
+         .perform()
+     ```
+     
+     - parameter animation: A `Animation` object representing a standard animation.
+     
+     - returns: The current animation instance.
+     */
+    open func and(animation: Animation) -> Animate {
+        
+        switch operations.last {
+        case .some:
+            operations.last!.data.append(.animation(animation))
+        case .none:
+            operations.enqueue(data: [.animation(animation)])
+        }
+        
+        return self
+    }
+    
+    /**
+     Adds an animation to the instance in parallel to the top animations.
+     ```
+     // syntax:
+     
+     let animation = Animate(duration: time) {
+         // Initial animation
+     }
+     
+     Animate(duration: time) {
+             // Initial animation
+         }
+         .and(animation: animation)
+         .perform()
+     ```
+     
+     - parameter basicAnimation: Takes a `BasicAnimation` object.
+     
+     - returns: The current animation instance.
+     */
+    open func and(animation: Animate) -> Animate {
+        
+        let animation = animation.copy
+        let operation = AnimateOperation.wait(timeout: nil) { resume in animation.perform { resume() } }
+        
+        switch operations.last {
+        case .some:
+            operations.last!.data.append(operation)
+        case .none:
+            operations.enqueue(data: [operation])
+        }
+        
         return self
     }
     
     /**
      Block in which to perform things that you may want to pause an ongoing flow of animations for.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
-            // Perform animations
+             // Perform animations
          }
-         .wait { (resume: ()->Void) in
-            // Perform operations that take time or a function with a callback.
-            // ...
-            // ...
-            // ...
-            // After some time has passed.
-            resume()
-         
-            // ...
-            // Or once something has finished.
-            function(callback: {
-                resume()
-            })
+         .wait { (resume: ResumeBlock) in
+             // Perform operations that take time or a function with a callback.
+             // ...
+             // ...
+             // ...
+             // After some time has passed.
+             resume()
+             
+             // ...
+             // Or once something has finished.
+             function(callback: {
+                 resume()
+             })
          }
          .then(duartion: time) {
-            // Perform more animations
+             // Perform more animations
          }
          .perform()
      ```
      
-     - parameter callback: a `Wait` block consisting of a function which is passed to the user. This must be called in order to resume any further animations passed in after the wait block.
+     - parameter waitBlock: a `WaitBlock` block consisting of a function which is passed to the user. This must be called in order to resume any further animations passed in after the wait block.
      
      - returns: The current animation instance.
      
      - warning: You must remember to call the resume block if no timeout has been passed in or further animations will not occur and it will result in a memory leak!
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func wait(timeout: TimeInterval? = nil, _ callback: @escaping Wait = {_ in}) -> Animate {
-        animations.enqueue(data: .wait(timeout, callback))
+    open func wait(timeout: TimeInterval? = nil, waitBlock: @escaping WaitBlock = {_ in}) -> Animate {
+        operations.enqueue(data: [.wait(timeout: timeout, block: waitBlock)])
         return self
     }
     
@@ -286,35 +442,33 @@ open class Animate {
      // syntax:
      
      Animate(duration: time) {
-            // initial animations
+             // initial animations
          }
          .do {
-            // non-animation code
+             // non-animation code
          }
          .then(duration: time) {
-            // more animations
+             // more animations
          }
          .do {
-            // more non-animation code
+             // more non-animation code
          }
          .perform()
      ```
      
-     - parameter callback: `Do` block to perform after an animation completes.
+     - parameter block: `DoBlock` block to perform after an animation completes.
      
      - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func `do`(_ callback: @escaping Do) -> Animate {
-        animations.enqueue(data: .do(callback))
+    open func `do`(block: @escaping DoBlock) -> Animate {
+        operations.enqueue(data: [.do(block: block)])
         return self
     }
     
     /**
      Method call to start or perform animations. Takes a closure that gets called after the last animation.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time) {
             // Initial animation.
@@ -336,119 +490,74 @@ open class Animate {
      ```
      
      - parameter completion: Called after the final animation completes.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func perform(completion: @escaping (()->Void) = {_ in}) {
         
-        guard let operation = animations.dequeue() else { return completion() }
+        guard let operationSet = operations.dequeue() else { return completion() }
         
-        switch operation {
-        case .animation(let duration, let delay, let options, let animations):
+        let group = DispatchGroup()
+        
+        // Perform operations
+        for operation in operationSet {
             
-            UIView.animate(withDuration: duration, delay: delay, options: options, animations: animations) { success in
-                self.perform(completion: completion)
-            }
-            
-        case .spring(let duration, let delay, let damping, let velocity, let options, let animations):
-            
-            UIView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: damping, initialSpringVelocity: velocity, options: options, animations: animations) { success in
-                self.perform(completion: completion)
-            }
-            
-        case .keyframe(let options, let keyframes):
-            
-            var total = 0.0
-            var delay = 0.0
-            
-            for keyframe in keyframes {
-                let keyTotal = keyframe.duration + keyframe.delay
-                if keyTotal > total { total = keyTotal }
-                if keyframe.delay < delay { delay = keyframe.delay }
-            }
-            
-            let duration = total - delay
-            
-            UIView.animateKeyframes(withDuration: duration, delay: delay, options: options, animations: {
+            group.enter()
+        
+            switch operation {
+            case .animation(let animation):
                 
-                for keyframe in keyframes {
-                    
-                    let relativeStartTime: Double = {
-                        let relativeDelay = keyframe.delay - delay
-                        return relativeDelay / duration
-                    }()
-                    
-                    let relativeDuration: Double = {
-                       return keyframe.duration / duration
-                    }()
-                    
-                    UIView.addKeyframe(withRelativeStartTime: relativeStartTime, relativeDuration: relativeDuration, animations: keyframe.animation)
-                }
+                animation.performAnimations(completion: { (success) in
+                    group.leave()
+                })
                 
-            }) { success in
-                self.perform(completion: completion)
+            case .wait(let timeout, let waitBlock):
+                
+                let wait = Wait(timeout: timeout, group.leave)
+                
+                waitBlock({ [weak self] in
+                    wait.complete(self as Any)
+                })
+                
+            case .do(let doBlock):
+                
+                doBlock()
+                group.leave()
             }
-            
-        case .wait(let timeout, let waitBlock):
-            
-            // If a timeout was passed in setup a timer.
-            var timer: Timer?
-            if let timeout = timeout {
-                if #available(iOS 10.0, *) {
-                    timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { _ in self.resumeBlock?() }
-                } else {
-                    timer = Timer.scheduledTimer(timeInterval: timeout, target: self, selector: #selector(Animate.resumeBlock(_:)), userInfo: nil, repeats: false)
-                }
-            }
-            
-            resumeBlock = {
-                timer?.invalidate()
-                self.perform(completion: completion)
-                self.resumeBlock = nil
-            }
-            // This passes a closure to the waitBlock which is the resume funtion that the developer must call in the waitBlock.
-            waitBlock({ [weak self] in
-                self?.resumeBlock?()
-            })
-            
-            
-        case .do(let doBlock):
-            
-            doBlock()
-            perform(completion: completion)
-            
         }
+        
+        // Keep a strong reference to ensure the Animate instance does not get deallocated unexpectedly.
+        group.notify(queue: .main) {
+            self.perform(completion: completion)
+        }
+        
     }
     
     /**
      Adds a finishing animation and then immediately calls perform on the animation instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
-            // Perform initial animation
+             // Perform initial animation
          }
          .finish(duration: time) {
-            // Perform finishing animation
+             // Perform finishing animation
          }
      ```
      
      - parameter duration: The duration that the animation should take.
      - parameter delay: Takes a time interval to delay the animation.
      - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
-     - parameter callback: `Animation` callback to perform over the duration passed in.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     - parameter animationBlock: `Animation` callback to perform over the duration passed in.
      */
-    open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) {
-        self.animations.enqueue(data: .animation(duration,delay,options,callback))
+    open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
+        _ = then(duration: duration, delay: delay, options: options, animationBlock: animationBlock)
         perform()
     }
     
     /**
      Adds a finishing animation and then immediately calls perform on the animation instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate(duration: time) {
              // Perform initial animation
@@ -462,23 +571,21 @@ open class Animate {
      - parameter delay: Takes a time interval to delay the animation.
      - parameter springDamping: Takes the spring damping for the animation. 1.0 gives a smooth animation with a number closer to 0.0 having higher oscillation.
      - parameter initialVelocity: The initial velocity for the view as a ratio of it's distance to it's final position in points per second. If the distance is 200 points then an initial velocity of 0.5 would be 100 points per second.
-     - parameter options: Takes a set of UIViewAnimationOptions. Default is none.
-     - parameter callback: `Animation` callback to perform over the duration passed in.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
+     - parameter options: Takes a set of UIViewAnimationOptions. Default is an empty array.
+     - parameter animationBlock: `Animation` callback to perform over the duration passed in.
      */
-    open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], _ callback: @escaping Animation) {
-        self.animations.enqueue(data: .spring(duration, delay, springDamping, initialVelocity, options, callback))
+    open func finish(duration: TimeInterval, delay: TimeInterval = 0.0, springDamping: CGFloat, initialVelocity: CGFloat, options: UIViewAnimationOptions = [], animationBlock: @escaping AnimationBlock) {
+        _ = then(duration: duration, delay: delay, springDamping: springDamping, initialVelocity: initialVelocity, options: options, animationBlock: animationBlock)
         perform()
     }
     
     /**
-     Adds a keyFrame animation and then immediately performs the animation instance.
+     Follows the previous animation with a keyframe animation and calls perform on the instance.
      ```
-     //syntax:
+     // syntax:
      
      Animate()
-         .finish(keyFrames: [
+         .finish(keyframes: [
              KeyFrame(duration: 1.0) {
                  // key frame animation
              },
@@ -491,75 +598,74 @@ open class Animate {
          ])
      ```
      
-     - parameter options: Takes a set of `UIViewKeyframeAnimationOptions`.
-     - parameter keyframes: An array of Keyframe objects representing the keyframes to be animated.
+     - parameter keyframes: An array of `Keyframe` objects representing the keyframes to be animated.
+     - parameter options: The `UIViewKeyframeAnimationOptions` to apply to the animation.
      
      - returns: The current animation instance.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
-    open func finish(options: UIViewKeyframeAnimationOptions = [], keyframes: [Keyframe]) {
-        animations.enqueue(data: .keyframe(options, keyframes))
+    open func finish(keyframes: [Keyframe], options: UIViewKeyframeAnimationOptions = []) {
+        _ = then(keyframes: keyframes, options: options)
+        perform()
+    }
+    
+    /**
+     Follows the previous animation with a standard animation and calls perform on the instance.
+     ```
+     // syntax:
+     
+     Animate().finish(animation: standard)
+     ```
+     
+     - parameter animation: Takes a `Animation` object.
+     */
+    open func finish(animation: Animation) {
+        _ = then(animation: animation)
         perform()
     }
     
     /**
      Appends the passed `Animate` instance to the current animation and then performs it. The animation instance passed in is discarded to prevent memory leaks.
      ```
-     //syntax:
+     // syntax:
      
      let animation = Animate(duration: time) {
          // animation code
      }
      
      Animate(duration: time) {
-            // initial animation
+             // initial animation
          }
          .finish(animation: animation)
      ```
      
      - parameter animation: `Animate` instance to append.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func finish(animation: Animate) {
-        animations.append(animation.animations)
-        animation.decay()
+        _ = then(animation: animation)
         perform()
     }
     
     /**
      Dequeues the animation instance without performing any of the remaining animations.
-     
-     - warning: Not calling decay, finish or perform on an animation will result in a memory leak!
      */
     open func decay() {
-        animations.release()
+        operations.release()
     }
     
     // MARK: - Fileprivate
     
-    /// :nodoc:
-    fileprivate var animations = Queue<AnimateOperation>()
+    fileprivate var operations = Queue<[AnimateOperation]>()
     
-    // MARK: - Private
-    
-    // Below needed for backwards compatibility.
-    /// :nodoc:
-    private var resumeBlock: Resume?
-    /// :nodoc:
-    @objc internal func resumeBlock(_ sender: Timer) {
-        resumeBlock?()
-    }
 }
 
 extension Animate: NSCopying {
     
     /// Copies the current Animate instance.
+    /// - parameter zone: Optional `NSZone` to copy with. Default is `nil`. Does not have any effect when copying with `Animate`.
     /// - returns: A new instance with the same animations as the original.
     open func copy(with zone: NSZone? = nil) -> Any {
         let animation = Animate()
-        animation.animations = animations
+        animation.operations = operations.copy
         return animation
     }
     

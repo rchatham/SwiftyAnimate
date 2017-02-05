@@ -1,0 +1,10 @@
+  clean: true
+  author: Reid Chatham
+  author_url: https://reidchatham.com/
+  github_url: https://github.com/rchatham/SwiftyAnimate
+  xcodebuild_arguments: [
+    -project,SwiftyAnimate.xcodeproj,
+    -scheme,SwiftyAnimate
+  ]
+  swift_version: 3.0.2
+  output: docs/swift_output

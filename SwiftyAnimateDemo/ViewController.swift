@@ -11,10 +11,6 @@ import SwiftyAnimate
 
 class ViewController: UIViewController {
     
-    struct Constants {
-        static let defaultAnimationTime = 0.5
-    }
-    
     var liked: Bool = false {
         didSet {
             guard oldValue != liked else { return }
@@ -40,14 +36,14 @@ class ViewController: UIViewController {
     func tappedHeart(_ sender: UITapGestureRecognizer) {
         liked = !liked
         
-        heartView.goCrazy().perform()
-//
-//        switch liked {
-//        case true:
-//            heartView.bounce().perform()
-//        default:
-//            heartView.tilt(angle: -0.33).perform()
-//        }
+//        heartView.goCrazy().perform()
+
+        switch liked {
+        case true:
+            heartView.bounce().perform()
+        default:
+            heartView.tilt(angle: -0.33).perform()
+        }
     }
     
     
@@ -62,8 +58,6 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         Animate()
-            .then(animation: heartView.move(duration: 0.3, x: 10, y: 10))
-            .then(animation: heartView.move(duration: 0.3, x: -10, y: -10))
             .then(animation: heartView.tilt(angle: -30))
             .do { [unowned self] in
                 self.liked = !self.liked
@@ -72,8 +66,6 @@ class ViewController: UIViewController {
             .do { [unowned self] in
                 self.liked = !self.liked
             }
-            .then(animation: heartView.move(duration: 0.3, x: 10, y: 10))
-            .then(animation: heartView.move(duration: 0.3, x: -10, y: -10))
             .then(animation: heartView.tilt(angle: -30))
             .perform { [unowned self] in
                 self.heartView.isUserInteractionEnabled = true
@@ -124,13 +116,13 @@ protocol GoCrazy {
 extension UIView: GoCrazy {
     func goCrazy() -> Animate {
         return Animate()
-            .then(animation: transformed(duration: 0.3, transforms: [
+            .then(animation: transform(duration: 0.3, transforms: [
                 .rotate(angle: 180),
                 .scale(x: 1.5, y: 1.5),
                 .move(x: -10, y: -10),
             ]))
-            .wait(timeout: 0.2)
-            .then(animation: transformed(duration: 0.3, transforms: [
+            .wait(timeout: 0.3)
+            .then(animation: transform(duration: 0.3, transforms: [
                 .move(x: 10, y: 10),
                 .scale(x: 1.0, y: 1.0),
                 .rotate(angle: 0),

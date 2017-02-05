@@ -18,10 +18,10 @@ class SwiftyAnimateTests: XCTestCase {
             ("test_EmptyAnimate_Performed", test_EmptyAnimate_Performed),
             ("test_EmptyAnimate_PerformedWithCompletion", test_EmptyAnimate_PerformedWithCompletion),
             ("test_EmptyAnimate_PerformedDoBlock", test_EmptyAnimate_PerformedDoBlock),
-            ("test_EmptyAnimate_PerformedWaitBlock", test_EmptyAnimate_PerformedWaitBlock),
-            ("test_EmptyAnimate_Finished", test_EmptyAnimate_Finished),
-            ("test_EmptyAnimate_PerformedThenAnimation", test_EmptyAnimate_PerformedThenAnimation),
-            ("test_EmptyAnimate_PerformedThenAnimationWithCompletion", test_EmptyAnimate_PerformedThenAnimationWithCompletion),
+//            ("test_EmptyAnimate_PerformedWaitBlock", test_EmptyAnimate_PerformedWaitBlock),
+//            ("test_EmptyAnimate_Finished", test_EmptyAnimate_Finished),
+//            ("test_EmptyAnimate_PerformedThenAnimation", test_EmptyAnimate_PerformedThenAnimation),
+//            ("test_EmptyAnimate_PerformedThenAnimationWithCompletion", test_EmptyAnimate_PerformedThenAnimationWithCompletion),
         ]
     }
     
@@ -43,19 +43,16 @@ class SwiftyAnimateTests: XCTestCase {
     func test_Animate_PerformedWithCompletion() {
         
         var performedAnimation = false
-        var performedWithCompletion = false
         
         let animation = Animate(duration: 0.5) {
             performedAnimation = true
         }
         
         XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedWithCompletion)
         
         let expect = expectation(description: "Performed animation with completion")
         
         animation.perform {
-            performedWithCompletion = true
             expect.fulfill()
         }
         
@@ -63,37 +60,61 @@ class SwiftyAnimateTests: XCTestCase {
         
         waitForExpectations(timeout: 1.0) { error in
             if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedWithCompletion)
         }
     }
     
-    func test_Animate_PerformedThenAnimation() {
+    func test_EmptyAnimate_AndPerformed() {
         
         var performedAnimation = false
-        var performedThenAnimation = false
+        var performedAndAnimation = false
         
-        let animation = Animate(duration: 0.5) {
+        let expect = expectation(description: "Performed animation with completion")
+        
+        Animate(duration: 0.5) {
             performedAnimation = true
-        }.then(duration: 0.5) {
-            performedThenAnimation = true
         }
-        
-        XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        let expect = expectation(description: "Performed then animation with completion")
-        
-        animation.perform {
+        .and(duration: 0.5) {
+            performedAndAnimation = true
+        }
+        .perform {
             expect.fulfill()
         }
         
         XCTAssertTrue(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
+        XCTAssertTrue(performedAndAnimation)
         
-        waitForExpectations(timeout: 1.0) { error in
+        waitForExpectations(timeout: 0.6) { error in
             if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedThenAnimation)
         }
+        
+    }
+    
+    func test_EmptyAnimate_AndAnimation_Performed() {
+        
+        var performedAnimation = false
+        var performedAndAnimation = false
+        
+        let expect = expectation(description: "Performed animation with completion")
+        
+        let animation = Animate(duration: 0.5) {
+            performedAndAnimation = true
+        }
+        
+        Animate(duration: 0.5) {
+                performedAnimation = true
+            }
+            .and(animation: animation)
+            .perform {
+                expect.fulfill()
+            }
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertTrue(performedAndAnimation)
+        
+        waitForExpectations(timeout: 0.6) { error in
+            if error != nil { print(error!.localizedDescription) }
+        }
+        
     }
     
     func test_EmptyAnimate_Performed() {
@@ -198,7 +219,6 @@ class SwiftyAnimateTests: XCTestCase {
             }
             
             if #available(iOS 10.0, *) {
-                
                 Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] timer in
                     self?.resumeBlock?()
                 }
@@ -226,113 +246,30 @@ class SwiftyAnimateTests: XCTestCase {
         
         waitForExpectations(timeout: 2.0) { error in
             if error != nil { print(error!.localizedDescription) }
-            
-            XCTAssertFalse(performedWaitBlock)
-            XCTAssertTrue(performedDoBlock)
         }
     }
     
-    func test_EmptyAnimate_Finished() {
+    func test_EmptyAnimate_Wait_Timeout() {
         
-        var finishedAnimation = false
+        var performedDoBlock = false
         
-        let animation = Animate()
-        
-        XCTAssertFalse(finishedAnimation)
-        
-        animation.finish(duration: 0.5) {
-            finishedAnimation = true
+        let animation = Animate().wait(timeout: 1.0).do {
+                performedDoBlock = true
         }
         
-        XCTAssertTrue(finishedAnimation)
-    }
-    
-    func test_EmptyAnimate_Finished_Spring() {
+        XCTAssertFalse(performedDoBlock)
         
-        var finishedAnimation = false
-        
-        let animation = Animate()
-        
-        XCTAssertFalse(finishedAnimation)
-        
-        animation.finish(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            finishedAnimation = true
-        }
-        
-        XCTAssertTrue(finishedAnimation)
-    }
-    
-    func test_EmptyAnimate_Finished_Animation() {
-        
-        var finishedAnimation = false
-        
-        let animation = Animate(duration: 0.5) {
-            finishedAnimation = true
-        }
-        
-        XCTAssertFalse(finishedAnimation)
-        
-        Animate().finish(animation: animation)
-        
-        XCTAssertTrue(finishedAnimation)
-    }
-    
-    func test_EmptyAnimate_Finished_Keyframe() {
-        
-        var finishedAnimation = false
-        
-        let animation = Animate()
-        
-        XCTAssertFalse(finishedAnimation)
-        
-        animation.finish(keyframes: [
-                Keyframe(duration: 1.0) {
-                    finishedAnimation = true
-                }
-            ])
-        
-        XCTAssertTrue(finishedAnimation)
-    }
-    
-    func test_EmptyAnimate_PerformedThenAnimation() {
-        
-        var performedThenAnimation = false
-        
-        let animation = Animate().then(duration: 0.5) {
-            performedThenAnimation = true
-        }
-        
-        XCTAssertFalse(performedThenAnimation)
-        
-        animation.perform()
-        
-        XCTAssertTrue(performedThenAnimation)
-    }
-    
-    func test_EmptyAnimate_PerformedThenAnimationWithCompletion() {
-        
-        var performedThenAnimation = false
-        var performedWithCompletion = false
-        
-        let animation = Animate().then(duration: 0.5) {
-            performedThenAnimation = true
-        }
-        
-        XCTAssertFalse(performedThenAnimation)
-        XCTAssertFalse(performedWithCompletion)
-        
-        let expect = expectation(description: "Performed then animation with completion")
+        let expect = expectation(description: "Performed empty animation with completion")
         
         animation.perform {
-            performedWithCompletion = true
+            XCTAssertTrue(performedDoBlock)
             expect.fulfill()
         }
         
-        XCTAssertTrue(performedThenAnimation)
+        XCTAssertFalse(performedDoBlock)
         
-        waitForExpectations(timeout: 1.0) { error in
+        waitForExpectations(timeout: 2.0) { error in
             if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedWithCompletion)
         }
     }
     
@@ -388,180 +325,6 @@ class SwiftyAnimateTests: XCTestCase {
         
     }
     
-    func test_Animate_ThenAnimation() {
-        
-        var performedAnimation = false
-        var performedThenAnimation = false
-        
-        let thenAnimation = Animate(duration: 1.0) {
-            performedThenAnimation = true
-        }
-        
-        let animation = Animate(duration: 1.0) {
-            performedAnimation = true
-        }.then(animation: thenAnimation)
-        
-        XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        let expect = expectation(description: "Performed then animation")
-        
-        animation.perform {
-            XCTAssertTrue(performedAnimation)
-            XCTAssertTrue(performedThenAnimation)
-            expect.fulfill()
-        }
-        
-        XCTAssertTrue(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        waitForExpectations(timeout: 2.5) { error in
-            if error != nil { print(error!.localizedDescription) }
-        }
-    }
-    
-    func test_EmptyAnimate_ThenAnimation() {
-        
-        var performedThenAnimation = false
-        
-        let thenAnimation = Animate(duration: 1.0) {
-            performedThenAnimation = true
-        }
-        
-        let animation = Animate().then(animation: thenAnimation)
-        
-        XCTAssertFalse(performedThenAnimation)
-        
-        animation.perform {
-            XCTAssertTrue(performedThenAnimation)
-        }
-        
-        XCTAssertTrue(performedThenAnimation)
-    }
-    
-    func test_SpringAnimation_Performed() {
-        
-        var performedAnimation = false
-        
-        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            performedAnimation = true
-        }
-        
-        XCTAssertFalse(performedAnimation)
-        
-        animation.perform()
-        
-        XCTAssertTrue(performedAnimation)
-    }
-    
-    
-    func test_SpringAnimation_PerformedWithCompletion() {
-        
-        var performedAnimation = false
-        var performedWithCompletion = false
-        
-        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            performedAnimation = true
-        }
-        
-        XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedWithCompletion)
-        
-        let expect = expectation(description: "Performed animation with completion")
-        
-        animation.perform {
-            performedWithCompletion = true
-            expect.fulfill()
-        }
-        
-        XCTAssertTrue(performedAnimation)
-        
-        waitForExpectations(timeout: 1.0) { error in
-            if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedWithCompletion)
-        }
-    }
-    
-    func test_SpringAnimation_PerformedThenAnimation() {
-        
-        var performedAnimation = false
-        var performedThenAnimation = false
-        
-        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            performedAnimation = true
-        }.then(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
-            performedThenAnimation = true
-        }
-        
-        XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        let expect = expectation(description: "Performed then animation with completion")
-        
-        animation.perform {
-            expect.fulfill()
-        }
-        
-        XCTAssertTrue(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        waitForExpectations(timeout: 1.0) { error in
-            if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedThenAnimation)
-        }
-    }
-    
-    func test_KeyframeAnimation_Performed() {
-        
-        var performedAnimation = false
-        
-        let animation = Animate(keyframes: [
-                Keyframe(duration: 1.0) {
-                    performedAnimation = true
-                }
-            ])
-        
-        XCTAssertFalse(performedAnimation)
-        
-        animation.perform()
-        
-        XCTAssertTrue(performedAnimation)
-    }
-    
-    func test_KeyframeAnimation_PerformedThenAnimation() {
-        
-        var performedAnimation = false
-        var performedThenAnimation = false
-        
-        let animation = Animate(keyframes: [
-                Keyframe(duration: 1.0) {
-                    performedAnimation = true
-                }
-            ])
-            .then(keyframes: [
-                Keyframe(duration: 1.0) {
-                    performedThenAnimation = true
-                }
-            ])
-        
-        XCTAssertFalse(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        let expect = expectation(description: "Performed then animation with completion")
-        
-        animation.perform {
-            expect.fulfill()
-        }
-        
-        XCTAssertTrue(performedAnimation)
-        XCTAssertFalse(performedThenAnimation)
-        
-        waitForExpectations(timeout: 1.0) { error in
-            if error != nil { print(error!.localizedDescription) }
-            XCTAssertTrue(performedThenAnimation)
-        }
-    }
-    
     func test_Animate_Copy() {
         
         var performedAnimation = false
@@ -607,99 +370,7 @@ class SwiftyAnimateTests: XCTestCase {
         
     }
     
-    func test_Animate_Move() {
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        
-        XCTAssert(view.frame.origin.x == 0)
-        XCTAssert(view.frame.origin.y == 0)
-        
-        view.move(duration: 0.3, x: 10, y: 10).perform()
-        
-        XCTAssert(view.frame.origin.x == 10)
-        XCTAssert(view.frame.origin.y == 10)
-        
-    }
-    
-    func test_Animate_Rotate() {
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        
-        let transform = view.transform
-        
-        XCTAssert(transform == view.transform)
-        
-        view.rotate(duration: 0.3, angle: 30).perform()
-        
-        let rotatedTransform = CGAffineTransform(rotationAngle: 30 * CGFloat(M_PI / 180))
-        
-        XCTAssert(rotatedTransform == view.transform)
-        
-    }
-    
-    func test_Animate_Scale() {
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        
-        XCTAssert(view.frame.width == 10)
-        XCTAssert(view.frame.height == 10)
-        
-        view.scale(duration: 0.3, x: 2, y: 2).perform()
-        
-        XCTAssert(view.frame.width == 20)
-        XCTAssert(view.frame.height == 20)
-        
-    }
-    
-    func test_Animate_Corner() {
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        
-        XCTAssert(view.layer.cornerRadius == 0)
-        
-        view.corner(duration: 0.3, radius: 5).perform()
-        
-        XCTAssert(view.layer.cornerRadius == 5)
-        
-    }
-    
-    func test_Animate_Color() {
-        
-        let view = UIView()
-        view.backgroundColor = .white
-        
-        XCTAssert(view.backgroundColor == .white)
-        
-        view.color(duration: 0.3, value: .blue).perform()
-        
-        XCTAssert(view.backgroundColor == .blue)
-        
-    }
-
-    func test_Animate_Transformed() {
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        
-        var transform = view.transform
-        
-        XCTAssert(transform == view.transform)
-        
-        view.transformed(duration: 0.3, transforms: [
-                .rotate(angle: 90),
-                .scale(x: 1.5, y: 1.5),
-                .move(x: -10, y: -10),
-            ])
-            .perform()
-        
-        transform = CGAffineTransform(rotationAngle: 90 * CGFloat(M_PI / 180))
-            .scaledBy(x: 1.5, y: 1.5)
-            .translatedBy(x: -10, y: -10)
-        
-        XCTAssert(transform == view.transform)
-        
-    }
-    
-    private var resumeBlock: Resume?
+    private var resumeBlock: ResumeBlock?
     
     internal func resume(_ sender: Timer) {
         resumeBlock?()
