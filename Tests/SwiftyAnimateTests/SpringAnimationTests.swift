@@ -11,16 +11,6 @@ import XCTest
 
 class SpringAnimationTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
     func test_SpringAnimation_Performed() {
         
         var performedAnimation = false
@@ -96,4 +86,48 @@ class SpringAnimationTests: XCTestCase {
         }
     }
     
+    func test_SpringAnimation_PerformedAndAnimation() {
+        
+        var performedAnimation = false
+        var performedAndAnimation = false
+        
+        let animation = Animate(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
+                performedAnimation = true
+            }
+            .and(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
+                performedAndAnimation = true
+            }
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedAndAnimation)
+        
+        let expect = expectation(description: "Performed then animation with completion")
+        
+        animation.perform {
+            XCTAssertTrue(performedAndAnimation)
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertTrue(performedAndAnimation)
+        
+        waitForExpectations(timeout: 0.6) { error in
+            if error != nil { print(error!.localizedDescription) }
+        }
+    }
+    
+    func test_EmptyAnimate_Finished_Spring() {
+        
+        var finishedAnimation = false
+        
+        let animation = Animate()
+        
+        XCTAssertFalse(finishedAnimation)
+        
+        animation.finish(duration: 0.5, springDamping: 1.0, initialVelocity: 0.5) {
+            finishedAnimation = true
+        }
+        
+        XCTAssertTrue(finishedAnimation)
+    }
 }

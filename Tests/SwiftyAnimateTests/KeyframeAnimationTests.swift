@@ -11,33 +11,14 @@ import XCTest
 
 class KeyframeAnimationTests: XCTestCase {
     
-    var animation: Animate!
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        animation = Animate()
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-        
-        animation = nil
-    }
     
     func test_KeyframeAnimation_Performed() {
         
         var performedAnimation = false
         
-        let keyframe = keyframeAnimation(
-            keyframes: [
-                (1.0, ({ performedAnimation = true }))
-            ]
-        )
-        
-        _ = animation.then(keyframe: keyframe)
+        let animation = Animate(keyframes: [
+                Keyframe(duration: 1.0, animationBlock: { performedAnimation = true })
+            ])
         
         XCTAssertFalse(performedAnimation)
         
@@ -51,19 +32,12 @@ class KeyframeAnimationTests: XCTestCase {
         var performedAnimation = false
         var performedThenAnimation = false
         
-        let keyframe1 = keyframeAnimation(
-            keyframes: [
-                (1.0, ({ performedAnimation = true }))
-            ]
-        )
-        
-        let keyframe2 = keyframeAnimation(
-            keyframes: [
-                (1.0, ({ performedThenAnimation = true }))
-            ]
-        )
-        
-        _ = animation.then(keyframe: keyframe1).then(keyframe: keyframe2)
+        let animation = Animate().then(keyframes: [
+                Keyframe(duration: 1.0, animationBlock: { performedAnimation = true })
+            ])
+            .then(keyframes: [
+                Keyframe(duration: 1.0, animationBlock: { performedThenAnimation = true })
+            ])
         
         XCTAssertFalse(performedAnimation)
         XCTAssertFalse(performedThenAnimation)
@@ -81,6 +55,74 @@ class KeyframeAnimationTests: XCTestCase {
         waitForExpectations(timeout: 2.1) { error in
             if error != nil { print(error!.localizedDescription) }
         }
+    }
+    
+    func test_KeyframeAnimation_PerformedAndKeyframeAnimation() {
+        
+        var performedAnimation = false
+        var performedAndAnimation = false
+        
+        let animation = Animate().then(keyframes: [
+                Keyframe(duration: 1.0, animationBlock: { performedAnimation = true })
+            ])
+            .and(keyframes: [
+                Keyframe(duration: 1.0, animationBlock: { performedAndAnimation = true })
+            ])
+        
+        XCTAssertFalse(performedAnimation)
+        XCTAssertFalse(performedAndAnimation)
+        
+        let expect = expectation(description: "Performed then animation with completion")
+        
+        animation.perform {
+            XCTAssertTrue(performedAndAnimation)
+            expect.fulfill()
+        }
+        
+        XCTAssertTrue(performedAnimation)
+        XCTAssertTrue(performedAndAnimation)
+        
+        waitForExpectations(timeout: 1.1) { error in
+            if error != nil { print(error!.localizedDescription) }
+        }
+    }
+    
+    func test_SingleKeyframe_Animation() {
+        
+        var performedAnimation = false
+        
+        let animation = Animate(animation: Keyframe(duration: 1.0, animationBlock: { performedAnimation = true }))
+        
+        XCTAssertFalse(performedAnimation)
+        
+        animation.perform()
+        
+        XCTAssertTrue(performedAnimation)
+    }
+    
+    func test_timeInterval() {
+        
+        let keyframeAnimation = KeyframeAnimation(keyframes: [
+                Keyframe(duration: 1.0, animationBlock: { }),
+                Keyframe(duration: 1.5, animationBlock: { }),
+                Keyframe(duration: 0.75, delay: 1.0, animationBlock: { })
+            ])
+     
+        XCTAssert(keyframeAnimation.timeInterval == 0.75 + 1.0)
+        
+    }
+    
+    func test_EmptyAnimate_Finished_Keyframe() {
+        
+        var finishedAnimation = false
+        
+        let animation = Animate()
+        
+        XCTAssertFalse(finishedAnimation)
+        
+        animation.finish(keyframes: [Keyframe(duration: 1.0, animationBlock: { finishedAnimation = true })])
+        
+        XCTAssertTrue(finishedAnimation)
     }
     
     func keyframeAnimation(keyframes: [(TimeInterval,AnimationBlock)]) -> KeyframeAnimation {

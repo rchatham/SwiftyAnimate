@@ -88,7 +88,7 @@ public extension UIView {
      - returns: Animate instance.
      */
     public func corner(duration: TimeInterval, delay: TimeInterval = 0.0, radius: CGFloat, timing: Timing = .easeInOut) -> Animate {
-        return Animate(basicAnimation: .cornerRadius(view: self, duration: duration, delay: delay, radius: radius, timing: timing))
+        return Animate(animation: BasicAnimation.cornerRadius(view: self, duration: duration, delay: delay, radius: radius, timing: timing))
     }
     
     /**

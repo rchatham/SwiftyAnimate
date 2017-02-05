@@ -25,6 +25,8 @@
 		3053C00C1E2B074700672422 /* Timing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3053C00A1E2B074700672422 /* Timing.swift */; };
 		3053C00D1E2B074700672422 /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3053C00B1E2B074700672422 /* Transform.swift */; };
 		3054A8251DF445CE0071EBBE /* SwiftyAnimate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3002F98D1DB720C600FF2E53 /* SwiftyAnimate.framework */; };
+		30A541F71E46F1E300CCA8E3 /* ThenAnimationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A541F61E46F1E300CCA8E3 /* ThenAnimationTests.swift */; };
+		30A541F91E46F29900CCA8E3 /* FinishAnimationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A541F81E46F29900CCA8E3 /* FinishAnimationTests.swift */; };
 		30B282F31E1230C60072E0A2 /* KeyframeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B282F11E1230C60072E0A2 /* KeyframeAnimation.swift */; };
 		30B282F41E1230C60072E0A2 /* UIKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B282F21E1230C60072E0A2 /* UIKit+Extensions.swift */; };
 		30C2EDDF1E000D100003F918 /* AnimateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C2EDDE1E000D100003F918 /* AnimateOperation.swift */; };
@@ -62,6 +64,8 @@
 		3053C00A1E2B074700672422 /* Timing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Timing.swift; path = Sources/Timing.swift; sourceTree = "<group>"; };
 		3053C00B1E2B074700672422 /* Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Transform.swift; path = Sources/Transform.swift; sourceTree = "<group>"; };
 		3054A8201DF445CE0071EBBE /* SwiftyAnimateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyAnimateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		30A541F61E46F1E300CCA8E3 /* ThenAnimationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThenAnimationTests.swift; sourceTree = "<group>"; };
+		30A541F81E46F29900CCA8E3 /* FinishAnimationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinishAnimationTests.swift; sourceTree = "<group>"; };
 		30B282F11E1230C60072E0A2 /* KeyframeAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyframeAnimation.swift; path = Sources/KeyframeAnimation.swift; sourceTree = "<group>"; };
 		30B282F21E1230C60072E0A2 /* UIKit+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIKit+Extensions.swift"; path = "Sources/UIKit+Extensions.swift"; sourceTree = "<group>"; };
 		30C2EDDE1E000D100003F918 /* AnimateOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimateOperation.swift; path = Sources/AnimateOperation.swift; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 			children = (
 				30D4C4411DF51C27007DFC81 /* Info.plist */,
 				30D4C4421DF51C27007DFC81 /* SwiftyAnimateTests.swift */,
+				30A541F61E46F1E300CCA8E3 /* ThenAnimationTests.swift */,
+				30A541F81E46F29900CCA8E3 /* FinishAnimationTests.swift */,
 				302C45181E31DC2D004EF0AF /* UIView+ExtensionsTests.swift */,
 				302C451C1E32CBA2004EF0AF /* KeyframeAnimationTests.swift */,
 				302C451E1E32CF6E004EF0AF /* SpringAnimationTests.swift */,
@@ -280,7 +286,9 @@
 				302C45191E31DC2D004EF0AF /* UIView+ExtensionsTests.swift in Sources */,
 				302C451B1E32B7FF004EF0AF /* TimingTests.swift in Sources */,
 				302C45231E32F05F004EF0AF /* BasicAnimationTests.swift in Sources */,
+				30A541F91E46F29900CCA8E3 /* FinishAnimationTests.swift in Sources */,
 				302C451D1E32CBA2004EF0AF /* KeyframeAnimationTests.swift in Sources */,
+				30A541F71E46F1E300CCA8E3 /* ThenAnimationTests.swift in Sources */,
 				30D4C4461DF51C48007DFC81 /* SwiftyAnimateTests.swift in Sources */,
 				302C451F1E32CF6E004EF0AF /* SpringAnimationTests.swift in Sources */,
 			);

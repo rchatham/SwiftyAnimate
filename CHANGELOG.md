@@ -15,3 +15,5 @@
 * **1.0.1** Minor bug fixes
 
 * **1.2.0** Adds keyframe animation support as well as a number of UIView extensions to make working with this repository even easier!
+
+* **1.3.0** Adds a whole bunch of new animation functionality. Also marks a major milestone in breaking down the functionality of the framework into smaller pieces and following suit with testing as well.
