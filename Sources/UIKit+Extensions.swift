@@ -20,7 +20,7 @@ public extension UIView {
         for t in transforms {
             switch t {
             case .rotate(angle: let angle):
-                let angle = angle * CGFloat(M_PI / 180)
+                let angle: CGFloat = angle * .pi / 180
                 transform = transform?.rotated(by: angle) ?? CGAffineTransform(rotationAngle: angle)
             case .scale(x: let x, y: let y):
                 transform = transform?.scaledBy(x: x, y: y) ?? CGAffineTransform(scaleX: x, y: y)
