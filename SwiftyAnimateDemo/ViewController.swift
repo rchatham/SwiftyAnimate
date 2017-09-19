@@ -17,8 +17,10 @@ class ViewController: UIViewController {
             switch liked {
             case true:
                 heartView.image = #imageLiteral(resourceName: "RedHeart")
+                heartView.bounce().perform()
             case false:
                 heartView.image = #imageLiteral(resourceName: "Heart")
+                heartView.tilt(angle: -0.33).perform()
             }
         }
     }
@@ -35,15 +37,6 @@ class ViewController: UIViewController {
     
     func tappedHeart(_ sender: UITapGestureRecognizer) {
         liked = !liked
-        
-//        heartView.goCrazy().perform()
-
-        switch liked {
-        case true:
-            heartView.bounce().perform()
-        default:
-            heartView.tilt(angle: -0.33).perform()
-        }
     }
     
     
@@ -67,11 +60,42 @@ class ViewController: UIViewController {
                 self.liked = !self.liked
             }
             .then(animation: heartView.tilt(angle: -30))
+//            .then(animation: heartView.rotate360(duration: 3.0))
+//            .then(animation: heartView.moveUp(duration: 0.3))
+//            .then(animation: heartView.moveRight(duration: 0.3))
+//            .then(animation: heartView.moveDown(duration: 0.3))
+//            .then(animation: heartView.moveLeft(duration: 0.3))
             .perform { [unowned self] in
                 self.heartView.isUserInteractionEnabled = true
             }
     }
     
+}
+
+extension UIView {
+    func moveUp(duration: TimeInterval) -> Animate {
+        return Animate(duration: duration) {
+            self.frame.origin = CGPoint(x: self.frame.origin.x, y: self.frame.origin.y - 100)
+        }
+    }
+    
+    func moveRight(duration: TimeInterval) -> Animate {
+        return Animate(duration: duration) {
+            self.frame.origin = CGPoint(x: self.frame.origin.x + 100, y: self.frame.origin.y)
+        }
+    }
+    
+    func moveDown(duration: TimeInterval) -> Animate {
+        return Animate(duration: duration) {
+            self.frame.origin = CGPoint(x: self.frame.origin.x, y: self.frame.origin.y + 100)
+        }
+    }
+    
+    func moveLeft(duration: TimeInterval) -> Animate {
+        return Animate(duration: duration) {
+            self.frame.origin = CGPoint(x: self.frame.origin.x - 100, y: self.frame.origin.y)
+        }
+    }
 }
 
 /* 
@@ -84,6 +108,10 @@ protocol Bounceable {
 
 protocol Tiltable {
     func tilt(angle: CGFloat) -> Animate
+}
+
+protocol Rotateable {
+    func rotate360(duration: TimeInterval) -> Animate
 }
 
 extension UIView: Bounceable {
@@ -102,6 +130,14 @@ extension UIView: Tiltable {
             .then(animation: rotate(duration: 0.3, angle: angle))
             .wait(timeout: 0.5)
             .then(animation: rotate(duration: 0.3, angle: 0))
+    }
+}
+
+extension UIView: Rotateable {
+    func rotate360(duration: TimeInterval) -> Animate {
+        return Animate()
+            .then(animation: rotate(duration: duration/2, angle: 180, options: [.curveEaseIn]))
+            .then(animation: rotate(duration: duration/2, angle: 360, options: [.curveEaseOut]))
     }
 }
 

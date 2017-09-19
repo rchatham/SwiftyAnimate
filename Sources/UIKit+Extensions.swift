@@ -19,9 +19,14 @@ public extension UIView {
         var transform: CGAffineTransform?
         for t in transforms {
             switch t {
-            case .rotate(angle: let angle):
-                let angle: CGFloat = angle * .pi / 180
-                transform = transform?.rotated(by: angle) ?? CGAffineTransform(rotationAngle: angle)
+            case .rotate(angle: let degrees):
+//                let is360 = degrees.truncatingRemainder(dividingBy: 360) == 0
+                let radians: CGFloat = degrees * .pi / 180 //(is360 ? 180 : degrees) * .pi / 180
+                transform = transform?.rotated(by: radians) ?? CGAffineTransform(rotationAngle: radians)
+//                if is360 {
+//                    transform = transform?.rotated(by: radians) ?? CGAffineTransform(rotationAngle: radians)
+//                    transformed(by: [.rotate(angle: degrees - 360)])
+//                }
             case .scale(x: let x, y: let y):
                 transform = transform?.scaledBy(x: x, y: y) ?? CGAffineTransform(scaleX: x, y: y)
             case .move(x: let x, y: let y):
