@@ -31,7 +31,7 @@ class BasicAnimationTests: XCTestCase {
         
         
         
-        view.corner(duration: 1.0, delay: 1.0, radius: 5, timing: .easeInOut).perform()
+        view.cornerRadius(5, duration: 1.0, delay: 1.0, timing: .easeInOut).perform()
         
     }
     

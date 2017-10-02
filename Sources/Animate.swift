@@ -491,7 +491,7 @@ open class Animate {
      
      - parameter completion: Called after the final animation completes.
      */
-    open func perform(completion: @escaping (()->Void) = {_ in}) {
+    open func perform(completion: @escaping (()->Void) = {}) {
         
         guard let operationSet = operations.dequeue() else { return completion() }
         

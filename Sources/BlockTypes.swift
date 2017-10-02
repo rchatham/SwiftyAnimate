@@ -45,7 +45,7 @@ class Block: NSObject {
 
 class Wait: Block {
 
-    init(timeout: TimeInterval? = nil, _ completion: @escaping ()->Void = {_ in}) {
+    init(timeout: TimeInterval? = nil, _ completion: @escaping ()->Void = {}) {
         
         var timer: Timer?
         
