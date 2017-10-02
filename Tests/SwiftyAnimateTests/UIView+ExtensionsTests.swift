@@ -22,19 +22,21 @@ class UIView_ExtensionsTests: XCTestCase {
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
+        view = nil
         super.tearDown()
     }
     
-    func test_UIView_Rotate() {
+    func test_UIView_Rotated() {
         
         XCTAssert(view.transform == CGAffineTransform(rotationAngle: 0))
         
         view.rotate(duration: 0.3, angle: -60).perform()
         
-        XCTAssert(view.transform == CGAffineTransform(rotationAngle: CGFloat(-60.0 * M_PI / 180.0)))
+        XCTAssert(view.transform == CGAffineTransform(rotationAngle: CGFloat(-60.0 * .pi / 180.0)))
     }
     
-    func test_UIView_Scale() {
+    func test_UIView_Scaled() {
         
         XCTAssert(view.transform == CGAffineTransform(scaleX: 1.0, y: 1.0))
         
@@ -43,7 +45,7 @@ class UIView_ExtensionsTests: XCTestCase {
         XCTAssert(view.transform == CGAffineTransform(scaleX: 1.3, y: 1.3))
     }
     
-    func test_UIView_Move() {
+    func test_UIView_Translated() {
         
         XCTAssert(view.transform == CGAffineTransform(translationX: 0, y: 0))
         
@@ -62,7 +64,7 @@ class UIView_ExtensionsTests: XCTestCase {
                 .move(x: -10, y: -10),
             ]).perform()
         
-        XCTAssert(view.transform == CGAffineTransform(rotationAngle: 90 * CGFloat(M_PI / 180))
+        XCTAssert(view.transform == CGAffineTransform(rotationAngle: 90 * CGFloat(Double.pi / 180))
             .scaledBy(x: 1.5, y: 1.5)
             .translatedBy(x: -10, y: -10))
     }

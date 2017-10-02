@@ -72,32 +72,6 @@ class ViewController: UIViewController {
     
 }
 
-extension UIView {
-    func moveUp(duration: TimeInterval) -> Animate {
-        return Animate(duration: duration) {
-            self.frame.origin = CGPoint(x: self.frame.origin.x, y: self.frame.origin.y - 100)
-        }
-    }
-    
-    func moveRight(duration: TimeInterval) -> Animate {
-        return Animate(duration: duration) {
-            self.frame.origin = CGPoint(x: self.frame.origin.x + 100, y: self.frame.origin.y)
-        }
-    }
-    
-    func moveDown(duration: TimeInterval) -> Animate {
-        return Animate(duration: duration) {
-            self.frame.origin = CGPoint(x: self.frame.origin.x, y: self.frame.origin.y + 100)
-        }
-    }
-    
-    func moveLeft(duration: TimeInterval) -> Animate {
-        return Animate(duration: duration) {
-            self.frame.origin = CGPoint(x: self.frame.origin.x - 100, y: self.frame.origin.y)
-        }
-    }
-}
-
 /* 
  Writing custom animations is EASY!!!!!
  */
@@ -117,27 +91,27 @@ protocol Rotateable {
 extension UIView: Bounceable {
     func bounce() -> Animate {
         return Animate()
-            .then(animation: scale(duration: 0.3, x: 1.3, y: 1.3))
-            .then(animation: scale(duration: 0.3, x: 0.8, y: 0.8))
-            .then(animation: scale(duration: 0.3, x: 1.1, y: 1.1))
-            .then(animation: scale(duration: 0.3, x: 1.0, y: 1.0))
+            .then(animation: scaled(duration: 0.3, x: 1.3, y: 1.3))
+            .then(animation: scaled(duration: 0.3, x: 0.8, y: 0.8))
+            .then(animation: scaled(duration: 0.3, x: 1.1, y: 1.1))
+            .then(animation: scaled(duration: 0.3, x: 1.0, y: 1.0))
     }
 }
 
 extension UIView: Tiltable {
     func tilt(angle: CGFloat) -> Animate {
         return Animate()
-            .then(animation: rotate(duration: 0.3, angle: angle))
+            .then(animation: rotated(duration: 0.3, angle: angle))
             .wait(timeout: 0.5)
-            .then(animation: rotate(duration: 0.3, angle: 0))
+            .then(animation: rotated(duration: 0.3, angle: 0))
     }
 }
 
 extension UIView: Rotateable {
     func rotate360(duration: TimeInterval) -> Animate {
         return Animate()
-            .then(animation: rotate(duration: duration/2, angle: 180, options: [.curveEaseIn]))
-            .then(animation: rotate(duration: duration/2, angle: 360, options: [.curveEaseOut]))
+            .then(animation: rotated(duration: duration/2, angle: 180, options: [.curveEaseIn]))
+            .then(animation: rotated(duration: duration/2, angle: 360, options: [.curveEaseOut]))
     }
 }
 

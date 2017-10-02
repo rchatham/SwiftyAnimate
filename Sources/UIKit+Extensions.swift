@@ -20,13 +20,8 @@ public extension UIView {
         for t in transforms {
             switch t {
             case .rotate(angle: let degrees):
-//                let is360 = degrees.truncatingRemainder(dividingBy: 360) == 0
-                let radians: CGFloat = degrees * .pi / 180 //(is360 ? 180 : degrees) * .pi / 180
+                let radians: CGFloat = degrees * .pi / 180
                 transform = transform?.rotated(by: radians) ?? CGAffineTransform(rotationAngle: radians)
-//                if is360 {
-//                    transform = transform?.rotated(by: radians) ?? CGAffineTransform(rotationAngle: radians)
-//                    transformed(by: [.rotate(angle: degrees - 360)])
-//                }
             case .scale(x: let x, y: let y):
                 transform = transform?.scaledBy(x: x, y: y) ?? CGAffineTransform(scaleX: x, y: y)
             case .move(x: let x, y: let y):
@@ -92,8 +87,8 @@ public extension UIView {
      
      - returns: Animate instance.
      */
-    public func corner(duration: TimeInterval, delay: TimeInterval = 0.0, radius: CGFloat, timing: Timing = .easeInOut) -> Animate {
-        return Animate(animation: BasicAnimation.cornerRadius(view: self, duration: duration, delay: delay, radius: radius, timing: timing))
+    public func cornerRadius(_ radius: CGFloat, duration: TimeInterval, delay: TimeInterval = 0.0, timing: Timing = .easeInOut) -> Animate {
+        return Animate(animation: BasicAnimation.cornerRadius(view: self, radius: radius, duration: duration, delay: delay, timing: timing))
     }
     
     /**
@@ -123,7 +118,7 @@ public extension UIView {
      
      - returns: Animate instance.
      */
-    public func scale(duration: TimeInterval, delay: TimeInterval = 0.0, x: CGFloat, y: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
+    public func scaled(duration: TimeInterval, delay: TimeInterval = 0.0, x: CGFloat, y: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
         return Animate(duration: duration, delay: delay, options: options) { [weak self] in
             self?.scale(x: x, y: y)
         }
@@ -140,7 +135,7 @@ public extension UIView {
      
      - returns: Animate instance.
      */
-    public func rotate(duration: TimeInterval, delay: TimeInterval = 0.0, angle: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
+    public func rotated(duration: TimeInterval, delay: TimeInterval = 0.0, angle: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
         return Animate(duration: duration, delay: delay, options: options) { [weak self] in
             self?.rotate(angle: angle)
         }
@@ -157,7 +152,7 @@ public extension UIView {
      
      - returns: Animate instance.
      */
-    public func move(duration: TimeInterval, delay: TimeInterval = 0.0, x: CGFloat, y: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
+    public func translated(duration: TimeInterval, delay: TimeInterval = 0.0, x: CGFloat, y: CGFloat, options: UIViewAnimationOptions = []) -> Animate {
         return Animate(duration: duration, delay: delay, options: options) { [weak self] in
             self?.move(x: x, y: y)
         }
@@ -178,5 +173,39 @@ public extension UIView {
             self?.transformed(by: transforms)
         }
     }
+}
 
+
+extension UIView {
+    func moveUp(duration: TimeInterval) -> Animate {
+        return Animate(duration: duration) {
+            self.frame.origin = CGPoint(x: self.frame.origin.x, y: self.frame.origin.y - 100)
+        }
+    }
+    
+    func moveRight(duration: TimeInterval) -> Animate {
+        return Animate(duration: duration) {
+            self.frame.origin = CGPoint(x: self.frame.origin.x + 100, y: self.frame.origin.y)
+        }
+    }
+    
+    func moveDown(duration: TimeInterval) -> Animate {
+        return Animate(duration: duration) {
+            self.frame.origin = CGPoint(x: self.frame.origin.x, y: self.frame.origin.y + 100)
+        }
+    }
+    
+    func moveLeft(duration: TimeInterval) -> Animate {
+        return Animate(duration: duration) {
+            self.frame.origin = CGPoint(x: self.frame.origin.x - 100, y: self.frame.origin.y)
+        }
+    }
+}
+
+extension UIView {
+    func rotate360(duration: TimeInterval) -> Animate {
+        return Animate()
+            .then(animation: rotated(duration: duration/2, angle: 180, options: [.curveEaseIn]))
+            .then(animation: rotated(duration: duration/2, angle: 360, options: [.curveEaseOut]))
+    }
 }

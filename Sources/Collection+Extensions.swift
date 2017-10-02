@@ -31,7 +31,7 @@ import Foundation
 //    }
 //}
 
-extension Collection where Iterator.Element: Animation, SubSequence.Iterator.Element == Iterator.Element {
+extension Collection where Iterator.Element: Animation {
     
     var timeInterval: TimeInterval {
         var total = 0.0

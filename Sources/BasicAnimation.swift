@@ -19,7 +19,7 @@ public enum BasicAnimation {
      - parameter radius: The corner radius to animate to.
      - parameter timing: The animation timing function to use for the animation.
      */
-    case cornerRadius(view: UIView, duration: TimeInterval, delay: TimeInterval, radius: CGFloat, timing: Timing)
+    case cornerRadius(view: UIView, radius: CGFloat, duration: TimeInterval, delay: TimeInterval, timing: Timing)
     
 }
 
@@ -28,7 +28,7 @@ extension BasicAnimation: Animation {
     /// The duration over which to perform the animation.
     public var duration: TimeInterval {
         switch self {
-        case .cornerRadius(view: _, duration: let duration, delay: _, radius: _, timing: _):
+        case .cornerRadius(view: _, radius: _, duration: let duration, delay: _, timing: _):
             return duration
         }
     }
@@ -36,7 +36,7 @@ extension BasicAnimation: Animation {
     /// The delay after which to perform the animation.
     public var delay: TimeInterval {
         switch self {
-        case .cornerRadius(view: _, duration: _, delay: let delay, radius: _, timing: _):
+        case .cornerRadius(view: _, radius: _, duration: _, delay: let delay, timing: _):
             return delay
         }
     }
@@ -44,7 +44,7 @@ extension BasicAnimation: Animation {
     /// The animation block that gets performed.
     public var animationBlock: AnimationBlock {
         switch self {
-        case .cornerRadius(view: let view, duration: let duration, delay: _, radius: let radius, timing: let timing):
+        case .cornerRadius(view: let view, radius: let radius, duration: let duration, delay: _, timing: let timing):
             return {
                 let animation = CABasicAnimation(keyPath: "cornerRadius")
                 animation.timingFunction = timing.coreAnimationCurve

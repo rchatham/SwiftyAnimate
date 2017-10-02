@@ -9,16 +9,16 @@
 import Foundation
 
 /// Block containing standard animations to perform.
-public typealias AnimationBlock = (Void)->Void
+public typealias AnimationBlock = ()->Void
 
 /// Block to be called from a `WaitBlock` that tells the animation to resume execution. It is safe to use with a timeout and can only be called once.
-public typealias ResumeBlock = (Void)->Void
+public typealias ResumeBlock = ()->Void
 
 /// Block that contains code that an animation should be paused for. It gets passed a `ResumeBlock` that must be called to resume the animation.
 public typealias WaitBlock = (_ resume: @escaping ResumeBlock)->Void
 
 /// Block that gets called between animations.
-public typealias DoBlock = (Void)->Void
+public typealias DoBlock = ()->Void
 
 
 class Block: NSObject {
